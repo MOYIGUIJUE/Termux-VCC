@@ -2,6 +2,7 @@
 title VCC使用向导
 modes 70 15
 if "%~1"=="-" goto :tmpcmd
+if "%~1"=="-h" goto :help_main
 set used=%USERNAME%
 for %%i in (a b c d e f g h i j k l m n o p q r s t u v w x y z) do ( 
 	call set used=%%used:%%i=%%i%%
@@ -72,6 +73,7 @@ pause
 call :showcmd "mode 70,15"
 mode 70,15
 call :showcmd "cls"
+:help_main
 cls
 echos 0x0e [1]安装及确认安装环境
 echo;^> install -vcc [path]
