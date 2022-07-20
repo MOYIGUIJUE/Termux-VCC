@@ -16,7 +16,7 @@ for %%i in (a b c d e f g h i j k l m n o p q r s t u v w x y z) do (
 	call set used=%%used:%%i=%%i%%
 )
 title 
-path=%path%;%~dp0Compile\Compile-bin
+path=%~dp0Compile\Compile-bin;%path%
 modes 70 15
 for /f "delims=:" %%a in ('findstr /n "splitline.*$" %~fs0') do set "splitline=%%a"
 for /f "tokens=2,*" %%i in ('reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" /v "Desktop"') do set "Desk=%%j"

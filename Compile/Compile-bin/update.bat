@@ -1,7 +1,8 @@
 @echo off
 setlocal enabledelayedexpansion
 if "%~1"=="-v" (
-	for /f %%i in ('%VCC_HOME%\Compile\Compile-bin\vcc -v') do call :%%i
+	if "%~2"=="" echo;Î´Ñ¡ÔñÂ·¾¶&exit /b
+	copy /y "%~dp0*.bat" "%~2\Compile\Compile-bin"
 ) else if "%~1"=="-p" (
 	if exist "%~2" (
 		set "input=%~2"
@@ -15,7 +16,11 @@ if "%~1"=="-v" (
 		)
 	)
 	set "VCC_HOME=!input!"
-	for /f %%i in ('!VCC_HOME!\Compile\Compile-bin\vcc -v') do call :%%i
+	copy /y %~dp0* !VCC_HOME!\Compile\Compile-bin
+	copy /y "%~dp0Sourse Code\*" "!VCC_HOME!\Compile\Compile-bin\Sourse Code"
+	copy /y "%~dp0Sourse Com\*" "!VCC_HOME!\Compile\Compile-bin\Sourse Com"
+	copy /y %~dp0..\* !VCC_HOME!\Compile
+	exit /b
 ) else if "%~1"=="-all" (
 	if "%~2"=="" goto :default
 	if exist "%~2" (
@@ -71,26 +76,3 @@ echo;%date:~0,-3% %time:~0,-3% %~1 ^| %tal%.%mid%.%low%
 echo;:%tal%.%mid%.%low% >>"%~dp0update.bat"
 copy /y %~dp0update.bat %VCC_HOME%\Compile\Compile-bin
 goto :eof
-
-:1.0.0
-del %VCC_HOME%\Compile\cm.bat
-ren %VCC_HOME%\Compile\Compile-bin\desktop.bat install.bat
-:1.0.7
-REM copy /y %~dp0..\..\Termux.bat %VCC_HOME%
-:1.1.2
-:1.1.3
-copy /y %~dp0exec.bat %VCC_HOME%\Compile\Compile-bin
-:1.1.4
-:1.1.5 
-copy /y %~dp0vcc.bat %VCC_HOME%\Compile\Compile-bin
-:1.1.6  
-:1.2.6 
-:1.2.7 
-:1.2.8
-copy /y %~dp0helps.bat %VCC_HOME%\Compile\Compile-bin
-:1.2.9 
-:1.3.0 
-call :date_version update
-copy /y %~dp0backup.bat %VCC_HOME%\Compile\Compile-bin
-:1.3.1 
-:1.2.9 
