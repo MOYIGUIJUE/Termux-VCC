@@ -4,11 +4,12 @@ REM setlocal enabledelayedexpansion
 REM git init
 REM git remote add origin https://gitee.com/cctv3058084277/main.git
 REM git remote -v
+git status
+REM git diff
 git add *
 git commit -m "%~1"
 git push
 REM git push origin master
-REM git status
 REM git pull --rebase origin master
 REM 合并分支
 REM git merge temp
