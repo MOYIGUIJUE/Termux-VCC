@@ -17,9 +17,6 @@ for %%i in (a b c d e f g h i j k l m n o p q r s t u v w x y z) do (
 )
 title 
 path=%path%;%~dp0Compile\Compile-bin
-path=%path%;%~dp0Compile\Compile-bin\Sourse Lib\NODE
-path=%path%;D:\python\Scripts\;D:\python\
-path=%path%;C:\Program Files\MySQL\MySQL Server 8.0\bin
 modes 70 15
 for /f "delims=:" %%a in ('findstr /n "splitline.*$" %~fs0') do set "splitline=%%a"
 for /f "tokens=2,*" %%i in ('reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" /v "Desktop"') do set "Desk=%%j"
@@ -28,18 +25,19 @@ doskey cat=type $*
 doskey clear=echo off $t cls $t modes 70 15 $t title $t colors 0x70 $t more +%splitline% %0 $t colors 0x07 $t set .= ^& set /p ".=%used%@%COMPUTERNAME%[%%cd%%]$ " ^& call %%.%% ^& set .=^& echo on
 doskey cp=copy $*
 doskey mv=move $*
+doskey remove=move $1 %~dp0FILE^>nul
 doskey pwd=cd
-doskey remove=move $1 E:\Desktop_copy\History^>nul
 doskey ll=ls --color=auto $*
-doskey note=D:\Notepad++\notepad++.exe $*
+doskey note="%~dp0Compile\Compile-bin\Sourse Lib\Notepad++\notepad++.exe" $*
 doskey tcc="%~dp0Compile\Compile-bin\Sourse Lib\TCC\tcc.exe" $*
 doskey reboot=start cmd /c %0 $t exit
-doskey ip=printf 0x07 "%IPv4%" ^| clip ^& echos 0x03 --IPv4地址已复制至剪切板-- 
+doskey ip=printf 0x07 "%IPv4%" ^| clip ^& echos 0x03 --[%IPv4: =%]已复制至剪切板-- 
 call :random 
 more +%splitline% %0
 colors 0x07
 prompt %used%@%COMPUTERNAME%[$P]$$$S
 set h=& set s=
+set IPv4=
 set splitline=
 for /l %%i in (1,1,15) do set r%%i=
 cmd /k 
