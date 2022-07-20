@@ -12,8 +12,6 @@
 
 ### gcc 3.4.0
 
-（.\Compile\Compile-bin）
-
 >com 1.cpp
 >      1.cpp如不存在则会创建一个范例1.cpp
 >      然后再次输入 com 1.cpp 就会编译
@@ -23,7 +21,7 @@
 
 ### 文件命令
 
-
+（.\Compile\Compile-bin）
 
 >7z.exe         com.bat       length.exe     printf.exe     Server.exe
 >ARIA2C.bat     CS.exe        link.bat       printfs.exe    Space.exe
