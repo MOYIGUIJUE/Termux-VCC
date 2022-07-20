@@ -4,8 +4,10 @@ REM setlocal enabledelayedexpansion
 REM git init
 REM git remote add origin https://gitee.com/cctv3058084277/main.git
 REM git remote -v
-git status
-pause >nul
+if "%~1"=="" (
+	git status
+	exit /b
+)
 REM git diff
 git add *
 git commit -m "%~1"
