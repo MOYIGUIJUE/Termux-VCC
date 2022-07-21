@@ -14,7 +14,7 @@ if exist %1 (
 )
 title HKCR_REG
 cd /d %~dp0..\..
-modes 70,15
+mode 70,15
 if "%1"=="-r" goto :root
 :reg_choose
 set reg_choose=
