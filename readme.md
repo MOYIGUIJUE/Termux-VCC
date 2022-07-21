@@ -23,15 +23,16 @@
 
 （.\Compile\Compile-bin）
 
->7z.exe         com.bat       length.exe     printf.exe     Server.exe
->ARIA2C.bat     CS.exe        link.bat       printfs.exe    Space.exe
->backup.bat     Desk_API.exe  location.exe   printfw.exe    spy++.exe
->choose.bat     download.exe  locations.exe  ResHacker.exe  table.exe
->chooses.bat    echos.exe     ls.exe         rm.exe         TopMost.exe
->Client.exe     exec.bat      modes.exe      rmdir.exe      TrayS.exe
->cmatrix.exe    gotoxy.exe    msg.exe        runtime.bat    update.bat
->colors.exe     Helps.bat     namefile.exe   scc.exe        vcc.bat
->colortype.bat  install.bat   new.bat        select.exe     vim.bat
+>7z.exe         CS.exe        location.exe   printfw.exe    table.exe
+>ARIA2C.bat     Desk_API.exe  locations.exe  ResHacker.exe  TopMost.exe
+>backup.bat     download.exe  ls.exe         rm.exe         TrayS.exe
+>choose.bat     echos.exe     modes.exe      rmdir.exe      update.bat
+>chooses.bat    exec.bat      msg.exe        runtime.bat    vcc.bat
+>Client.exe     gotoxy.exe    namefile.exe   scc.exe        vim.bat
+>cmatrix.exe    Helps.bat     new.bat        select.exe
+>colors.exe     install.bat   paths.bat      Server.exe
+>colortype.bat  length.exe    printf.exe     Space.exe
+>com.bat        link.bat      printfs.exe    spy++.exe
 
 ### 宏命令
 
@@ -43,7 +44,6 @@ doskey clear=echo off $t cls $t modes 70 15 $t title $t colors 0x70 $t more +%sp
 doskey cp=copy $*
 doskey mv=move $*
 doskey pwd=cd
-doskey remove=move $1 E:\Desktop_copy\History^>nul
 doskey ll=ls --color=auto $*
 doskey note=D:\Notepad++\notepad++.exe $*
 doskey tcc="%~dp0Compile\Compile-bin\Sourse Lib\TCC\tcc.exe" $*

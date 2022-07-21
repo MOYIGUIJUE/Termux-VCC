@@ -14,22 +14,7 @@ if exist %1 (
 )
 title HKCR_REG
 cd /d %~dp0..\..
-path=%~dp0;%path%
-modes 70 15
-set LANG=zh_CN
-doskey cat=type $*
-doskey clear=echo off $t cls $t modes 70 15 $t title $t set .= ^& set /p ".=root@%COMPUTERNAME%[%%cd%%]# " ^& call %%.%% ^& set .=^& echo on
-doskey cp=copy $*
-doskey mv=move $*
-doskey pwd=cd
-doskey ll=ls --color=auto $*
-doskey note="%~dp0..\Compile-bin\Sourse Lib\Notepad++\notepad++.exe" $*
-doskey tcc="%~dp0Compile\Compile-bin\Sourse Lib\TCC\tcc.exe" $*
-doskey ip=printf 0x07 "%IPv4: =%" ^| clip ^& echos 0x03 --IPv4地址已复制至剪切板-- 
-set cds=%cd%
-cd..
-if "%cd%"=="%cds%" set cds=%cds:\=%
-cd %~dp0..\..
+modes 70,15
 if "%1"=="-r" goto :root
 :reg_choose
 set reg_choose=
@@ -66,8 +51,8 @@ if /i "%reg_choose%"=="all" (
 )
 echo;
 :root
-prompt root@%COMPUTERNAME%[$P]#$S
-cmd /k
+cls
+call %~dp0..\..\termux.bat
 cls
 goto :reg_choose
 

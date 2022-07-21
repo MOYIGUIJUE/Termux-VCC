@@ -1,6 +1,6 @@
 @echo off
 if /i "%~1"=="-h" (
-	cd /d %~dp0..\home
+	cd /d %~dp0..\..
 ) else if /i "%~1"=="-" ( 
 	cd /d %~dp0 
 ) else if /i "%~1"=="-d" ( 
@@ -9,17 +9,17 @@ if /i "%~1"=="-h" (
 	cd /d E:\MAIN\CCTV_History
 ) else if /i "%~1"=="-v" (
 	goto :version
-) else if /i "%~1"=="-f" (
-	cd /d %~dp0..\..\FILE 
+) else if /i "%~1"=="-t" (
+	cd /d %~dp0..\home
 ) else if /i "%~1"=="-g" (
 	cd /d %~dp0..\Compile-include\bin 
 ) else (
-	echo;Usage: vcc [arguments] -h	跳转Home目录
+	echo;Usage: vcc [arguments] -h	跳转VCC_HOME目录
 	echo;   or: vcc [arguments] -	跳转vcc外部扩展命令目录
 	echo;   or: vcc [arguments] -d	跳转桌面目录并且复制桌面路径到剪切板
 	echo;   or: vcc [arguments] -l	跳转备份文件目录
 	echo;   or: vcc [arguments] -g	跳转gcc编译器bin目录
-	echo;   or: vcc [arguments] -f	跳转FILE目录
+	echo;   or: vcc [arguments] -t	跳转home测试目录
 	echo;   or: vcc [arguments] -v	查看版本信息
 	echo;   or: vcc 其他都显示帮助信息
 	echo;&echo;If time could stop at the moment when we first met
