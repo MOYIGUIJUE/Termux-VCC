@@ -6,7 +6,7 @@ if "%~1"=="" (
 	echo;       -r直接进入控制台
 	exit /b
 )
-%2start mshta vbscript:createobject("shell.application").shellexecute("""%~dpnx0""","%~1 ::",,"runas",1)(window.close)&exit /b
+%2mshta vbscript:createobject("shell.application").shellexecute("""%~dpnx0""","%~1 ::",,"runas",1)(window.close)&exit /b
 if exist %1 (
 	for /l %%i in (1 1 3) do call :number%%i %1
 	setx /M VCC_HOME %1
@@ -14,8 +14,12 @@ if exist %1 (
 )
 title HKCR_REG
 cd /d %~dp0..\..
-mode 70,15
+set cds=%cd%
+cd..
+if "%cd%"=="%cds%" set cds=%cds:\=%
+cd %~dp0..\..
 if "%1"=="-r" goto :root
+mode 60,15
 :reg_choose
 set reg_choose=
 reg query "HKCR\gccbinpath" 1>nul 2>nul && echo;[1][HKCR\gccbinpath] || echo;[1][NO][HKCR\gccbinpath]
