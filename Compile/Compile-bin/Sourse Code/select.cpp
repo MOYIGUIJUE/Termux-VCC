@@ -65,7 +65,7 @@ int main(int argc, char * argv[]){
 	//把标题写入数组
 	int tmp=0;
 	string ttt="\\titles.tl";
-	string t_sorce = argv[1]+ttt;
+	string t_sorce = argv[3]+ttt;
 	ifstream in(t_sorce.c_str()); //a.txt是指定的文本文件
 	for(string str; getline(in,str);){
 		tmp++;
@@ -151,7 +151,7 @@ int main(int argc, char * argv[]){
 }
  
 void listFiles(string dir) {
-	//在目录后面加上"\\*.*"进行第一次搜索
+	//在目录后面加上"\\*.tb"进行第一次搜索
 	string newDir = dir + "\\*.tb";
 	//用于查找的句柄
 	intptr_t handle;

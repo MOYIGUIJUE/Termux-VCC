@@ -1,14 +1,12 @@
 @echo off & setlocal enabledelayedexpansion
 path=%path%;..\Compile-bin
-modes 99 50
-locations 40 40
+modes 120 9
 set /a MAX_NUM_X = 0
 set /a MAX_NUM_Y = 0
 set /a Y=0
 set "paths=%~dp0table"
 rem -----------外部实现------------
 table.exe "%paths%"
-
 if "%date:~12,1%" == "六" (
 	select time,星期一 from "%paths%"
 ) else if "%date:~12,1%" == "日" (
@@ -24,6 +22,7 @@ for %%j in ("%paths%\*.tb") do (
 	for /f "usebackq tokens=* delims=" %%i in ("%%j") do (
 		set /a X+=1
 		set "arr[!X!][!Y!]=%%i"
+			REM echo;arr[!X!][!Y!]=%%i
 	)
 	if !X! GEQ !MAX_NUM_X! set MAX_NUM_X=!X!
 )
@@ -35,6 +34,7 @@ for /l %%j in (1,1,%MAX_NUM_Y%) do (
 	for /l %%i in (1,1,%MAX_NUM_X%) do (
 		call length "!arr[%%i][%%j]!"
 		if !errorlevel! GEQ !arr_len[%%j]! set /a arr_len[%%j] = !errorlevel!
+			REM echo;arr_len[%%j]=!arr_len[%%j]!
 	)
 )
 
@@ -64,7 +64,7 @@ for /l %%i in (1,1,%MAX_NUM_Y%) do (
 	printf 0x07 "!t_arr[%%i]! "
 	call length "!t_arr[%%i]!"
 	set /a tmp=!arr_len[%%i]!-!errorlevel!
-	printfs "0x07" "!tmp!" " "
+	printf -n "0x07" "!tmp!" " "
 )
 echo;^|
 rem ---------------打印表格--------------
@@ -75,7 +75,7 @@ for /l %%j in (1,1,%MAX_NUM_X%) do (
 		printf 0x07 "!arr[%%j][%%i]! "
 		call length "!arr[%%j][%%i]!"
 		set /a tmp=!arr_len[%%i]!-!errorlevel!
-		printfs "0x07" "!tmp!" " "
+		printf -n "0x07" "!tmp!" " "
 	)
 	echo;^|
 )
@@ -113,24 +113,24 @@ if %date_x% GTR 5 set /a date_x=1 && set /a date_y=1
 
 set /a date_x+=1
 for /l %%i in (%date_y%,1,%MAX_NUM_X%) do (
-	printf 0x07 "+" &printfs "0x07" 20 "-" 
-	printf 0x07 "+" &printfs "0x07" 20 "-" &echo;+
+	printf 0x07 "+" &printf -n "0x07" 20 "-" 
+	printf 0x07 "+" &printf -n "0x07" 20 "-" &echo;+
 	printf 0x07 "| "
 	printf 0x07 "!arr[%%i][1]! "
 	call length "!arr[%%i][1]!"
 	set /a tmp=18-!errorlevel!
-	printfs "0x07" "!tmp!" " "
+	printf -n "0x07" "!tmp!" " "
 	
 	printf 0x07 "| "
 	printf 0x07 "!arr[%%i][%date_x%]! "
 	call length "!arr[%%i][%date_x%]!"
 	set /a tmp=18-!errorlevel!
-	printfs "0x07" "!tmp!" " "
+	printf -n "0x07" "!tmp!" " "
 	
 	echo;^|
 )
-printf 0x07 "+" &printfs "0x07" 20 "-"
-printf 0x07 "+" &printfs "0x07" 20 "-" &echo;+
+printf 0x07 "+" &printf -n "0x07" 20 "-"
+printf 0x07 "+" &printf -n "0x07" 20 "-" &echo;+
 pause>nul
 exit /b
 
@@ -138,7 +138,7 @@ exit /b
 for /l %%j in (1,1,%MAX_NUM_Y%) do (
 	printf 0x07 "+"
 	set /a len=!arr_len[%%j]!+2
-	printfs "0x07" "!len!" "-"
+	printf -n "0x07" "!len!" "-"
 )
 echo;+
 goto :eof
