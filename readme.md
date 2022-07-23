@@ -23,7 +23,7 @@
 
 ![1658591667591](https://gitee.com/cctv3058084277/main/raw/master/image/1658591667591.png)
 
-![1658591709398](.\image\1658591709398.png)
+![1658591709398](https://gitee.com/cctv3058084277/main/raw/master/image/1658591709398.png)
 
 ### 文件命令
 
@@ -33,7 +33,7 @@
 
 > (.\Compile\Compile-include\tables.bat)
 
-![1658592015776](.\image\1658592015776.png)
+![1658592015776](https://gitee.com/cctv3058084277/main/raw/master/image/1658592015776.png)
 
 >\> vim82 (这里不做宏命令主要是想在文件里记录一些vim的命令)
 
