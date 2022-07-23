@@ -21,7 +21,7 @@
 >      后面添加文件名,如果不存在也会创建
 >      不添加,将会有一个控制台界面可供选择
 
-![1658591667591](.\image\1658591667591.png)
+![1658591667591](https://gitee.com/cctv3058084277/main/raw/master/image/1658591667591.png)
 
 ![1658591709398](.\image\1658591709398.png)
 
@@ -29,7 +29,7 @@
 
 > （.\Compile\Compile-bin）
 
-![1658591825618](.\image\1658591825618.png)
+![1658591825618](https://gitee.com/cctv3058084277/main/raw/master/image/1658591825618.png)
 
 > (.\Compile\Compile-include\tables.bat)
 
@@ -37,7 +37,7 @@
 
 >\> vim82 (这里不做宏命令主要是想在文件里记录一些vim的命令)
 
-![1658592460727](.\image\1658592460727.png)
+![1658592460727](https://gitee.com/cctv3058084277/main/raw/master/image/1658592460727.png)
 
 ### 宏命令
 
@@ -57,7 +57,7 @@ doskey reboot=start cmd /c %0 $t exit
 
 >\> note宏命令
 
-![1658592552448](.\image\1658592552448.png)
+![1658592552448](https://gitee.com/cctv3058084277/main/raw/master/image/1658592552448.png)
 
 >剩余的自己去探索吧
 
