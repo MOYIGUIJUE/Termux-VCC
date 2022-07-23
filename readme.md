@@ -10,6 +10,8 @@
 >      后面添加安装路径,这里包含3个注册项
 >      gccpath、右键notepad++、右键termux
 
+![1658592295777](.\image\1658592295777.png)
+
 ### gcc 3.4.0
 
 >com 1.cpp
@@ -19,20 +21,23 @@
 >      后面添加文件名,如果不存在也会创建
 >      不添加,将会有一个控制台界面可供选择
 
+![1658591667591](.\image\1658591667591.png)
+
+![1658591709398](.\image\1658591709398.png)
+
 ### 文件命令
 
-（.\Compile\Compile-bin）
+> （.\Compile\Compile-bin）
 
->7z.exe         CS.exe        location.exe   printfw.exe    table.exe
->ARIA2C.bat     Desk_API.exe  locations.exe  ResHacker.exe  TopMost.exe
->backup.bat     download.exe  ls.exe         rm.exe         TrayS.exe
->choose.bat     echos.exe     modes.exe      rmdir.exe      update.bat
->chooses.bat    exec.bat      msg.exe        runtime.bat    vcc.bat
->Client.exe     gotoxy.exe    namefile.exe   scc.exe        vim.bat
->cmatrix.exe    Helps.bat     new.bat        select.exe
->colors.exe     install.bat   paths.bat      Server.exe
->colortype.bat  length.exe    printf.exe     Space.exe
->com.bat        link.bat      printfs.exe    spy++.exe
+![1658591825618](.\image\1658591825618.png)
+
+> (.\Compile\Compile-include\tables.bat)
+
+![1658592015776](.\image\1658592015776.png)
+
+>\> vim82 (这里不做宏命令主要是想在文件里记录一些vim的命令)
+
+![1658592460727](.\image\1658592460727.png)
 
 ### 宏命令
 
@@ -49,6 +54,12 @@ doskey note=D:\Notepad++\notepad++.exe $*
 doskey tcc="%~dp0Compile\Compile-bin\Sourse Lib\TCC\tcc.exe" $*
 doskey reboot=start cmd /c %0 $t exit
 ```
+
+>\> note宏命令
+
+![1658592552448](.\image\1658592552448.png)
+
+>剩余的自己去探索吧
 
 ### 联系我们
 
