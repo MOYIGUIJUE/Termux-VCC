@@ -10,7 +10,7 @@
 >      后面添加安装路径,这里包含3个注册项
 >      gccpath、右键notepad++、右键termux
 
-![1658592295777](image\1658592295777.png)
+![1658592295777](https://gitee.com/cctv3058084277/main/raw/master/image/1658591667591.png)
 
 ### gcc 3.4.0
 
