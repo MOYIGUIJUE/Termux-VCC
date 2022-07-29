@@ -37,19 +37,24 @@ if "%~1"=="-v" (
 	)	
 	set "VCC_HOME=!input!"
 	:default
-	copy /y %~dp0* !VCC_HOME!\Compile\Compile-bin
-	copy /y "%~dp0Sourse Code\*" "!VCC_HOME!\Compile\Compile-bin\Sourse Code"
-	copy /y "%~dp0Sourse Com\*" "!VCC_HOME!\Compile\Compile-bin\Sourse Com"
-	copy /y "%~dp0Sourse Lib\_vimrc" "!VCC_HOME!\Compile\Compile-bin\Sourse Lib"
-	copy /y %~dp0..\..\Termux.bat !VCC_HOME!
-	copy /y %~dp0..\* !VCC_HOME!\Compile
+	pushd %~dp0..\..
+	xcopy .\Compile\ "!VCC_HOME!\Compile\" /e /y /h /r
+	copy Termux.bat "!VCC_HOME!"
+	popd
 ) else (
 	echo;Usage: update [arguments] {[-p][-all]} [path]
-	echo;   or: update [arguments] {[-v]}
+	echo;   or: update [arguments] {[-v]} [path] 没有路径选项框
 	echo;&echo;Arguments:
-	echo;   -all		完全更新
-	echo;   -p		指定路径更新,如:E:\VCC 后面没有\
 	echo;   -v		默认更新
+	echo;		[!VCC_HOME!\Compile\Compile-bin\*.bat]
+	echo;   -p		指定路径更新,如:E:\VCC,后面没有\
+	echo;		[!VCC_HOME!\Compile\Compile-bin\*]
+	echo;		[!VCC_HOME!\Compile\Compile-bin\Sourse Code\*]
+	echo;		[!VCC_HOME!\Compile\Compile-bin\Sourse Com\*]
+	echo;		[!VCC_HOME!\Compile\*]
+	echo;   -all	完全更新
+	echo;		[!VCC_HOME!\Compile]
+	echo;		[!VCC_HOME!\Termux.bat]
 )
 exit /b
 
@@ -76,3 +81,4 @@ echo;%date:~0,-3% %time:~0,-3% %~1 ^| %tal%.%mid%.%low%
 echo;:%tal%.%mid%.%low% >>"%~dp0update.bat"
 copy /y %~dp0update.bat %VCC_HOME%\Compile\Compile-bin
 goto :eof
+:1.3.0 

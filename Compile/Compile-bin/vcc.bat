@@ -14,7 +14,7 @@ if /i "%~1"=="-h" (
 ) else if /i "%~1"=="-g" (
 	cd /d %~dp0..\Compile-include\bin 
 ) else (
-	echo;Usage: vcc [arguments] -h	跳转VCC_HOME目录
+	echo;Usage: vcc [arguments] -h	跳转vcc_home目录
 	echo;   or: vcc [arguments] -	跳转vcc外部扩展命令目录
 	echo;   or: vcc [arguments] -d	跳转桌面目录并且复制桌面路径到剪切板
 	echo;   or: vcc [arguments] -l	跳转备份文件目录
@@ -85,7 +85,5 @@ REM aria2c.exe --conf-path=aria2.conf
 2022/06/23 21:19:16 test | 1.2.6 
 2022/06/23 21:21:07 test | 1.2.7 
 2022/06/23 21:32:27 test | 1.2.8 
-2022/06/23 21:34:12 update | 1.2.9 
-2022/06/25 16:38:52 update | 1.3.0 
-2022/06/25 16:41:22 update | 1.3.1 
 2022/07/19 17:42:28 2022-07-19.7z | 1.2.9 
+2022/07/29 12:54:52 2022-07-29helpme.7z | 1.3.0 
