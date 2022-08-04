@@ -23,6 +23,8 @@ call :showcmd "com"
 call com
 call :showcmd "com 1.cpp"
 call com 1.cpp
+call :showcmd "com -c 1.cpp"
+call com -c 1.cpp
 call :showcmd "type 1.cpp"
 type 1.cpp
 call :showcmd "com 1.cpp"
