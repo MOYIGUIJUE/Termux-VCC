@@ -3,7 +3,7 @@ setlocal enabledelayedexpansion
 if "%~1"=="" goto :help
 if exist "%~1" echo;该文件已存在&exit /b
 if /i "%~x1" == ".bat" (
-	echo;@echo off ^& title >>%~dpnx1
+	echo;@echo off ^& title >%~dpnx1
 	echo;rem mode 70,15>>%~dpnx1
 	echo;setlocal enabledelayedexpansion>>%~dpnx1
 	echo;echo;hello world>>%~dpnx1
@@ -42,8 +42,9 @@ if /i "%~x1" == ".bat" (
 	echo;	}>>%1
 	echo;}>>%1
 ) Else (
-	goto :help
+	cd.>%1
 )
+REM powershell.exe -command "dir *.txt -R|foreach-object{(Get-Content $_.FullName -Encoding Default) | Set-Content $_.FullName -Encoding ANSI }"
 exit /b
 :help
 	echo;Usage: new [name] 文件全名
@@ -53,5 +54,5 @@ exit /b
 	echo;   or: new [name][.cpp]
 	echo;   or: new [name][.c]
 	echo;   or: new [name][.java]
-	echo;   or: new 其他都显示帮助信息
+	echo;   or: new 无参宿显示帮助信息
 goto :eof

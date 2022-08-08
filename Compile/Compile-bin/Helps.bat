@@ -1,5 +1,5 @@
 @echo off
-title VCC使用向导
+title 【最重要的是自己添加自己想要的功能】
 modes 70 15
 if "%~1"=="-" goto :tmpcmd
 if "%~1"=="-h" goto :help_main
@@ -8,7 +8,6 @@ for %%i in (a b c d e f g h i j k l m n o p q r s t u v w x y z) do (
 	call set used=%%used:%%i=%%i%%
 )
 cls
-
 echos 0x0e [0]演示环节
 echo;
 call :showcmd "topmost"
@@ -72,8 +71,6 @@ REM call :showcmd "start explorer.exe"
 REM start explorer.exe
 call :showcmd "pause"
 pause
-call :showcmd "mode 70,15"
-mode 70,15
 call :showcmd "cls"
 :help_main
 cls

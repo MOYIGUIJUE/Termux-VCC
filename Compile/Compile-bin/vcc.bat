@@ -3,6 +3,8 @@ if /i "%~1"=="-h" (
 	cd /d %~dp0..\..
 ) else if /i "%~1"=="-" ( 
 	cd /d %~dp0 
+) else if /i "%~1"=="-c" ( 
+	cd /d %~dp0Sourse Code
 ) else if /i "%~1"=="-d" ( 
 	cd /d %Desk%
 ) else if /i "%~1"=="-l" (
@@ -16,6 +18,7 @@ if /i "%~1"=="-h" (
 ) else (
 	echo;Usage: vcc [arguments] -h	跳转vcc_home目录
 	echo;   or: vcc [arguments] -	跳转vcc外部扩展命令目录
+	echo;   or: vcc [arguments] -c	跳转vcc外部扩展命令源码目录
 	echo;   or: vcc [arguments] -d	跳转桌面目录并且复制桌面路径到剪切板
 	echo;   or: vcc [arguments] -l	跳转备份文件目录
 	echo;   or: vcc [arguments] -g	跳转gcc编译器bin目录

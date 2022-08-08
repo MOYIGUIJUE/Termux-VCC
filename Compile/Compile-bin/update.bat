@@ -1,8 +1,23 @@
 @echo off
 setlocal enabledelayedexpansion
 if "%~1"=="-v" (
+	if exist "%~2" (
+		set "input=%~2"
+	) else (
+		set input=
+		echos 0x03 请选择更新目录
+		call chooses input
+		if "!input!"=="" (
+			echos 0x0c 未选择更新目录
+			exit /b
+		)
+	)
+	set "VCC_HOME=!input!"
+	copy /y "%~dp0*.bat" "!VCC_HOME!\Compile\Compile-bin"
+) else if "%~1"=="-c" (
 	if "%~2"=="" echo;未选择路径&exit /b
-	copy /y "%~dp0*.bat" "%~2\Compile\Compile-bin"
+	if "%~3"=="" echo;未选择文件&exit /b
+	copy /y "%~3" "%~2\Compile\Compile-bin"
 ) else if "%~1"=="-p" (
 	if exist "%~2" (
 		set "input=%~2"
@@ -43,11 +58,14 @@ if "%~1"=="-v" (
 	popd
 ) else (
 	echo;Usage: update [arguments] {[-p][-all]} [path]
-	echo;   or: update [arguments] {[-v]} [path] 没有路径选项框
+	echo;   or: update [arguments] {[-v]} [path]
+	echo;   or: update [arguments] {[-c]} [%%1]
 	echo;&echo;Arguments:
-	echo;   -v		默认更新
+	echo;   -v	默认更新
 	echo;		[!VCC_HOME!\Compile\Compile-bin\*.bat]
-	echo;   -p		指定路径更新,如:E:\VCC,后面没有\
+	echo;   -c	指定更新
+	echo;		[!VCC_HOME!\Compile\Compile-bin\%%1]
+	echo;   -p	指定路径更新,如:E:\VCC,后面没有\
 	echo;		[!VCC_HOME!\Compile\Compile-bin\*]
 	echo;		[!VCC_HOME!\Compile\Compile-bin\Sourse Code\*]
 	echo;		[!VCC_HOME!\Compile\Compile-bin\Sourse Com\*]
