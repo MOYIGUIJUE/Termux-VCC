@@ -1,81 +1,71 @@
 @echo off
 setlocal enabledelayedexpansion
 if "%~1"=="-v" (
-	if exist "%~2" (
-		set "input=%~2"
-	) else (
-		set input=
-		echos 0x03 请选择更新目录
-		call chooses input
-		if "!input!"=="" (
-			echos 0x0c 未选择更新目录
-			exit /b
-		)
-	)
-	set "VCC_HOME=!input!"
-	copy /y "%~dp0*.bat" "!VCC_HOME!\Compile\Compile-bin"
+	call :exists %2
+	copy /y "%~dp0*.bat" "!input!\Compile\Compile-bin"
 ) else if "%~1"=="-c" (
-	if "%~2"=="" echo;未选择路径&exit /b
-	if "%~3"=="" echo;未选择文件&exit /b
-	copy /y "%~3" "%~2\Compile\Compile-bin"
-) else if "%~1"=="-p" (
 	if exist "%~2" (
-		set "input=%~2"
+		set "file=%~2"
 	) else (
-		set input=
-		echos 0x03 请选择更新目录
-		call chooses input
-		if "!input!"=="" (
-			echos 0x0c 未选择更新目录
-			exit /b
+		set file=
+		echos 0x03 请选择更新文件
+		call choose file
+		if "!file!"=="" (
+			echos 0x0c 未选择更新文件
+			goto :end
 		)
 	)
-	set "VCC_HOME=!input!"
-	copy /y %~dp0* !VCC_HOME!\Compile\Compile-bin
-	copy /y "%~dp0Sourse Code\*" "!VCC_HOME!\Compile\Compile-bin\Sourse Code"
-	copy /y "%~dp0Sourse Com\*" "!VCC_HOME!\Compile\Compile-bin\Sourse Com"
-	copy /y %~dp0..\* !VCC_HOME!\Compile
-	exit /b
+	call :exists %3
+	copy /y "!file!" "!input!\Compile\Compile-bin"
+) else if "%~1"=="-p" (
+	call :exists %2
+	copy /y %~dp0* !input!\Compile\Compile-bin
+	copy /y "%~dp0Sourse Code\*" "!input!\Compile\Compile-bin\Sourse Code"
+	copy /y "%~dp0Sourse Com\*" "!input!\Compile\Compile-bin\Sourse Com"
+	copy /y %~dp0..\* "!input!\Compile"
 ) else if "%~1"=="-all" (
-	if "%~2"=="" goto :default
-	if exist "%~2" (
-		set "input=%~2"
-	) else (
-		set input=
-		echos 0x03 请选择更新目录
-		call chooses input
-		if "!input!"=="" (
-			echos 0x0c 未选择更新目录
-			exit /b
-		)
-		set "input=%~2"
-	)	
-	set "VCC_HOME=!input!"
-	:default
-	pushd %~dp0..\..
-	xcopy .\Compile\ "!VCC_HOME!\Compile\" /e /y /h /r
-	copy Termux.bat "!VCC_HOME!"
-	popd
+	call :exists %2
+	xcopy .\Compile\ "!input!\Compile\" /e /y /h /r
+	copy Termux.bat "!input!"
 ) else (
 	echo;Usage: update [arguments] {[-p][-all]} [path]
 	echo;   or: update [arguments] {[-v]} [path]
-	echo;   or: update [arguments] {[-c]} [%%1]
+	echo;   or: update [arguments] {[-c]} [file] [path]
 	echo;&echo;Arguments:
 	echo;   -v	默认更新
-	echo;		[!VCC_HOME!\Compile\Compile-bin\*.bat]
+	echo;		[Compile\Compile-bin\*.bat]
 	echo;   -c	指定更新
-	echo;		[!VCC_HOME!\Compile\Compile-bin\%%1]
+	echo;		[Compile\Compile-bin\%%1]
 	echo;   -p	指定路径更新,如:E:\VCC,后面没有\
-	echo;		[!VCC_HOME!\Compile\Compile-bin\*]
-	echo;		[!VCC_HOME!\Compile\Compile-bin\Sourse Code\*]
-	echo;		[!VCC_HOME!\Compile\Compile-bin\Sourse Com\*]
-	echo;		[!VCC_HOME!\Compile\*]
+	echo;		[Compile\Compile-bin\*]
+	echo;		[Compile\Compile-bin\Sourse Code\*]
+	echo;		[Compile\Compile-bin\Sourse Com\*]
+	echo;		[Compile\*]
 	echo;   -all	完全更新
-	echo;		[!VCC_HOME!\Compile]
-	echo;		[!VCC_HOME!\Termux.bat]
+	echo;		[Compile]
+	echo;		[Termux.bat]
 )
+:end
+set input=
+set file=
 exit /b
 
+:exists
+	if exist "%~1" (
+		set "input=%~1"
+	) else (
+		set input=
+		echos 0x03 请选择更新目录
+		call chooses input
+		if "!input!"=="" (
+			echos 0x0c 未选择更新目录
+			goto :end
+		)
+	)
+	echo;[%1]
+exit /b
+
+REM -------------------------------------
 :date_version
 for /f "tokens=1,2,3 delims=." %%i in ('%VCC_HOME%\Compile\Compile-bin\vcc -v') do (
 	set /a tal=%%i
