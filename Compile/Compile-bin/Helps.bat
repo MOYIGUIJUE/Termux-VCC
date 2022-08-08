@@ -12,6 +12,10 @@ echos 0x0e [0]演示环节
 echo;
 call :showcmd "topmost"
 topmost.exe
+call :showcmd "paths"
+call paths
+call :showcmd "start %vcc_home%\Compile\Compile-include\tables"
+start %vcc_home%\Compile\Compile-include\tables
 call :showcmd "vcc"
 call vcc
 call :showcmd "vcc -d"
@@ -126,35 +130,39 @@ echo;	最上层的termux.bat内还有一些宏命令
 echo;	第三阶段就是DIY这个集合了
 	call :command
 	if errorlevel 404 ( cls ) else pause >nul &cls
-echos 0x0e [7]SHOW TIME
-echo;^> helps -
-echo;	运用copy con %tmp%\temp_cmd.bat
-echo;	可以简单快速写一点批处理当场执行
-echo;	ctrl+z回车保存
-echo;	下面是模仿mysql里面的输入模式,检测到;结束
-echo;
-set /p "tmpcmd=vcc_cmd> "
-if "%tmpcmd%"=="" (
-	set tmpcmd=
-	set used=
-	exit /b
-)
-echo;%tmpcmd% >>%tmp%\temp_cmd.bat
-
-:vcc_cmd_home
-printf 0x07 "      "
-set /p "tmpcmd=-> "
-echo;%tmpcmd% >>%tmp%\temp_cmd.bat
-echo;%tmpcmd%|findstr ";" >nul && (
-	call %tmp%\temp_cmd.bat
-	del /f /q %tmp%\temp_cmd.bat
-	set tmpcmd=
-	set used=
-	exit /b
-)
-goto :vcc_cmd_home
-
+echos 0x0e [7]Clear刷新
+echo;^> Clear
+echo;	宏命令,回到初始界面
+echo;	刚clear后不能马上clear,bug未修复
+echo;[输入命令]
 exit /b
+REM echo;^> helps -
+REM echo;	运用copy con %tmp%\temp_cmd.bat
+REM echo;	可以简单快速写一点批处理当场执行
+REM echo;	ctrl+z回车保存
+REM echo;	下面是模仿mysql里面的输入模式,检测到;结束
+REM echo;
+REM set /p "tmpcmd=vcc_cmd> "
+REM if "%tmpcmd%"=="" (
+	REM set tmpcmd=
+	REM set used=
+	REM exit /b
+REM )
+REM echo;%tmpcmd% >>%tmp%\temp_cmd.bat
+
+REM :vcc_cmd_home
+REM printf 0x07 "      "
+REM set /p "tmpcmd=-> "
+REM echo;%tmpcmd% >>%tmp%\temp_cmd.bat
+REM echo;%tmpcmd%|findstr ";" >nul && (
+	REM call %tmp%\temp_cmd.bat
+	REM del /f /q %tmp%\temp_cmd.bat
+	REM set tmpcmd=
+	REM set used=
+	REM exit /b
+REM )
+REM goto :vcc_cmd_home
+
 :command
 	echos 0x06 [输入命令]
 	printf 0x0a %used%@%COMPUTERNAME%

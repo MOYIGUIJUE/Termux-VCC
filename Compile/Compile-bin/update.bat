@@ -2,10 +2,11 @@
 setlocal enabledelayedexpansion
 if "%~1"=="-v" (
 	call :exists %2
+	echo;[%~dp0*.bat]--^>[!input!\Compile\Compile-bin]
 	copy /y "%~dp0*.bat" "!input!\Compile\Compile-bin"
 ) else if "%~1"=="-c" (
-	if exist "%~2" (
-		set "file=%~2"
+	if exist "%~dp0%~2" (
+		set "file=%~dp0%~2"
 	) else (
 		set file=
 		echos 0x03 请选择更新文件
@@ -16,15 +17,18 @@ if "%~1"=="-v" (
 		)
 	)
 	call :exists %3
+	echo;[!file!]--^>[!input!\Compile\Compile-bin]
 	copy /y "!file!" "!input!\Compile\Compile-bin"
 ) else if "%~1"=="-p" (
 	call :exists %2
+	echo;[%~dp0..\..]--^>[!input!\Compile\Compile-bin]
 	copy /y %~dp0* !input!\Compile\Compile-bin
 	copy /y "%~dp0Sourse Code\*" "!input!\Compile\Compile-bin\Sourse Code"
 	copy /y "%~dp0Sourse Com\*" "!input!\Compile\Compile-bin\Sourse Com"
 	copy /y %~dp0..\* "!input!\Compile"
 ) else if "%~1"=="-all" (
 	call :exists %2
+	echo;[%~dp0..\..]--^>[!input!\Compile\Compile-bin]
 	xcopy .\Compile\ "!input!\Compile\" /e /y /h /r
 	copy Termux.bat "!input!"
 ) else (
@@ -62,7 +66,6 @@ exit /b
 			goto :end
 		)
 	)
-	echo;[%1]
 exit /b
 
 REM -------------------------------------
