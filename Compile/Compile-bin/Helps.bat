@@ -12,6 +12,8 @@ echos 0x0e [0]演示环节
 echo;
 call :showcmd "topmost"
 topmost.exe
+call :showcmd "modes 89 22"
+modes 89 22
 call :showcmd "paths"
 call paths
 call :showcmd "start %vcc_home%\Compile\Compile-include\tables"
@@ -51,8 +53,6 @@ call :showcmd "taskkill -f -im mshta.exe"
 taskkill -f -im mshta.exe
 call :showcmd "start cmd /c server 1234"
 start cmd /c server 1234
-call :showcmd "modes 85 15"
-modes 85 15
 call :showcmd "start cmd /c client %IPv4% 1234 1号客户"
 start cmd /c client %IPv4% 1234 1号客户
 call :showcmd "start cmd /c client %IPv4% 1234 2号客户"
@@ -78,7 +78,7 @@ pause
 call :showcmd "cls"
 :help_main
 cls
-echos 0x0e [1]安装及确认安装环境
+echos 0x0e [1]安装及确认安装环境(helps -h可以直接跳到这里)
 echo;^> install -vcc [path]
 echo;	后面添加安装路径,或不添加弹出文件夹选择框
 echo;	初次安装在弹出的管理员黑框中输入all,回车,关闭
@@ -131,10 +131,11 @@ echo;	第三阶段就是DIY这个集合了
 	call :command
 	if errorlevel 404 ( cls ) else pause >nul &cls
 echos 0x0e [7]Clear刷新
-echo;^> Clear
+echo;^> clear
 echo;	宏命令,回到初始界面
 echo;	刚clear后不能马上clear,bug未修复
-echo;[输入命令]
+echo;
+printf 0x07 [输入命令]
 exit /b
 REM echo;^> helps -
 REM echo;	运用copy con %tmp%\temp_cmd.bat
