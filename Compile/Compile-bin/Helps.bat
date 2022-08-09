@@ -140,6 +140,8 @@ echos 0x0e [7]Clear刷新
 echo;^> clear
 echo;	宏命令,回到初始界面
 echo;	刚clear后不能马上clear,bug未修复
+echo;^> start https://gitee.com/cctv3058084277/main 
+echo;	查看并下载最新版本
 echo;
 printf 0x07 [输入命令]
 exit /b
