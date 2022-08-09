@@ -16,14 +16,14 @@ call :showcmd "modes 89 22"
 modes 89 22
 call :showcmd "paths"
 call paths
-call :showcmd "start %vcc_home%\Compile\Compile-include\tables"
-start %vcc_home%\Compile\Compile-include\tables
 call :showcmd "vcc"
 call vcc
-call :showcmd "vcc -d"
-call vcc -d
+call :showcmd "vcc -h"
+call vcc -h
 call :showcmd "vcc -v"
 call vcc -v
+call :showcmd "start .\Compile\Compile-include\tables"
+start .\Compile\Compile-include\tables
 call :showcmd "com"
 call com
 call :showcmd "com 1.cpp"
