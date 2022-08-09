@@ -1,12 +1,18 @@
 @echo off
 title 【最重要的是自己添加自己想要的功能】
-modes 70 15
 if "%~1"=="-" goto :tmpcmd
 if "%~1"=="-h" goto :help_main
 set used=%USERNAME%
 for %%i in (a b c d e f g h i j k l m n o p q r s t u v w x y z) do ( 
 	call set used=%%used:%%i=%%i%%
 )
+echo;------------------------------------------------
+printf 0x07 开源地址:[
+printf 0x03 https://gitee.com/cctv3058084277/main
+echo;]
+echo;------------------------------------------------
+echo;			     按任意键开始演示...
+pause >nul
 cls
 echos 0x0e [0]演示环节
 echo;
