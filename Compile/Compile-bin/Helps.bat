@@ -24,12 +24,14 @@ call :showcmd "paths"
 call paths
 call :showcmd "vcc"
 call vcc
-call :showcmd "vcc -h"
-call vcc -h
 call :showcmd "vcc -v"
 call vcc -v
+call :showcmd "vcc -h"
+call vcc -h
 call :showcmd "start .\Compile\Compile-include\tables"
 start .\Compile\Compile-include\tables
+call :showcmd "vcc -d"
+call vcc -d
 call :showcmd "com"
 call com
 call :showcmd "com 1.cpp"
