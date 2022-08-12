@@ -53,8 +53,6 @@ call colortype
 echo;
 call :showcmd "start cmatrix"
 start cmatrix
-call :showcmd "taskkill -f -im cmatrix.exe"
-taskkill -f -im cmatrix.exe
 call :showcmd "start doodle.hta"
 start doodle.hta
 call :showcmd "taskkill -f -im mshta.exe"
@@ -138,12 +136,13 @@ echo;	最上层的termux.bat内还有一些宏命令
 echo;	第三阶段就是DIY这个集合了
 	call :command
 	if errorlevel 404 ( cls ) else pause >nul &cls
+	title 
 echos 0x0e [7]Clear刷新
+echo;^> start https://gitee.com/cctv3058084277/main 
+echo;	查看并下载最新版本
 echo;^> clear
 echo;	宏命令,回到初始界面
 echo;	刚clear后不能马上clear,bug未修复
-echo;^> start https://gitee.com/cctv3058084277/main 
-echo;	查看并下载最新版本
 echo;
 printf 0x07 [输入命令]
 exit /b
