@@ -14,12 +14,20 @@ for /f "usebackq tokens=1,2,3,*" %%i in ("%~1") do (
 exit /b
 
 :new_file
-if /i "%~x1" == ".java" (
+if exist "%~1.java" (
+	echo;java "%~1.java" [.java]
+	java "%~1.java"
+) else if exist "%~1.class" (
+	echo;java %1 [.class]
+	java %1
+) else if /i "%~x1" == ".java" (
 	echo;public class %~n1 { >%1
 	echo;	public static void main^(String[] args^){ >>%1
 	echo;		System.out.println^("hello world"^);>>%1
 	echo;	}>>%1
 	echo;}>>%1
+) else (
+	echo;文件名不正确
 )
 exit /b
 
@@ -27,16 +35,22 @@ exit /b
 set break=
 DIR >&0 2>NUL
 
-:strcmp
-set "str1=%~1"
-set "str2=%~2"
-if "!str1:%str2%=!"=="%str1%" (exit /b 0) else exit /b 1
+REM :strcmp
+REM set "str1=%~1"
+REM set "str2=%~2"
+REM if "!str1:%str2%=!"=="%str1%" (exit /b 0) else exit /b 1
 
 :ren_public
 if not "%~n2"=="%~1" ren %~2 %~1.java
 REM echo;java %~dp2%1.java
 REM java -cp jar包; 文件
-java %~dp2%1.java
+if exist "%~dpn2.class" (
+	echo;java %~n2 [class]
+	java %~n2
+) else (
+	echo;java %~dp2%1.java [java]
+	java %~dp2%1.java
+)
 set /a break=404
 goto :eof
 
