@@ -6,13 +6,19 @@ if /i "%~x1" == ".bat" (
 	echo;@echo off ^& title >%~dpnx1
 	echo;rem mode 70,15>>%~dpnx1
 	echo;setlocal enabledelayedexpansion>>%~dpnx1
+	echo;for /r "%%~dp0" %%%%j in ^(*.txt^) do ^(>>%~dpnx1
+	echo;	REM for /f "delims=" %%%%i in ^('type "%%%%~j"'^) do ^(>>%~dpnx1
+	echo;	for /f "usebackq eol=; skip=1 tokens=* " %%%%i in ^("%%%%~j"^) do ^(>>%~dpnx1
+	echo;		echo;%%%%i >>%~dpnx1
+	echo;	^)>>%~dpnx1
+	echo;^)>>%~dpnx1
+	echo;set /p.=Œﬁªª––œ‘ æ^<nul >>%~dpnx1
 	echo;echo;hello world>>%~dpnx1
 	echo;pause>>%~dpnx1
 ) Else if /i "%~x1" == ".cmd" (
-	echo;@echo off ^& title >>%1
-	echo;rem mode con:cols=70 lines=15>>%1
+	echo;@echo off >>%1
 	echo;setlocal enabledelayedexpansion>>%1
-	echo;echo;hello world>>%1
+	echo;>>%1
 	echo;pause>>%1
 ) Else if /i "%~x1" == ".vbs" (
 	echo;msgbox^("hello world"^)>>%1
@@ -42,7 +48,8 @@ if /i "%~x1" == ".bat" (
 	echo;	}>>%1
 	echo;}>>%1
 ) Else (
-	cd.>%1
+	cd. >%1
+	ren "%~1" "%*" 2>nul >nul
 )
 REM powershell.exe -command "dir *.txt -R|foreach-object{(Get-Content $_.FullName -Encoding Default) | Set-Content $_.FullName -Encoding ANSI }"
 exit /b

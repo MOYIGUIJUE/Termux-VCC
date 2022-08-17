@@ -1,6 +1,9 @@
 @echo off
 setlocal enabledelayedexpansion
 set num=0
+if "%~1"=="-" call :sourse
+if "%~1"=="-c" goto :sourse_change
+
 for /f "delims=" %%i in ('path') do (
 	set "paths=%%i"
 	set paths=!paths:;=" "!
@@ -20,6 +23,13 @@ exit /b
 	shift
 goto :loop
 
+:sourse
+for /f "tokens=3* delims= " %%i in ('reg query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v path') do (
+	path=%%i%%j
+)
+exit /b
 
-
-
+:sourse_change
+for /f "tokens=3* delims= " %%i in ('reg query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v path') do (
+	cmd /k path=%%i%%j
+)

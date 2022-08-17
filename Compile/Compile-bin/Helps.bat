@@ -1,6 +1,5 @@
 @echo off
 title 【最重要的是自己添加自己想要的功能】
-if "%~1"=="-" goto :tmpcmd
 if "%~1"=="-h" goto :help_main
 set used=%USERNAME%
 for %%i in (a b c d e f g h i j k l m n o p q r s t u v w x y z) do ( 
@@ -194,8 +193,3 @@ timeout 1 >nul
 echo;
 exit /b
 
-:tmpcmd
-copy con %tmp%\temp_cmd.bat >nul
-call %tmp%\temp_cmd.bat
-del /f /q %tmp%\temp_cmd.bat
-exit /b
