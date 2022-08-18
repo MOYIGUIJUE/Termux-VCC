@@ -29,7 +29,6 @@
     </FileBrowser>
     <History nbMaxFile="10" inSubMenu="no" customLength="-1">
         <File filename="E:\Console.bat" />
-        <File filename="E:\Termux.bat" />
         <File filename="G:\Compile\Compile-bin\exec.bat" />
         <File filename="G:\Compile\Compile-bin\helps.bat" />
         <File filename="G:\Compile\Compile-bin\update.log" />
@@ -38,6 +37,7 @@
         <File filename="E:\Compile\Compile-bin\vcc.bat" />
         <File filename="E:\Compile\Compile-bin\update.bat" />
         <File filename="G:\Compile\Compile-bin\update.bat" />
+        <File filename="E:\termux.bat" />
     </History>
     <ProjectPanels>
         <ProjectPanel id="0" workSpaceFile="" />
@@ -51,10 +51,10 @@
         <GUIConfig name="ScintillaViewsSplitter">vertical</GUIConfig>
         <GUIConfig name="UserDefineDlg" position="undocked">hide</GUIConfig>
         <GUIConfig name="TabSetting" replaceBySpace="no" size="4" />
-        <GUIConfig name="AppPosition" x="801" y="402" width="1089" height="509" isMaximized="no" />
+        <GUIConfig name="AppPosition" x="1433" y="619" width="1089" height="509" isMaximized="no" />
         <GUIConfig name="FindWindowPosition" left="885" top="473" right="1474" bottom="837" />
         <GUIConfig name="FinderConfig" wrappedLines="no" purgeBeforeEverySearch="no" />
-        <GUIConfig name="noUpdate" intervalDays="15" nextUpdateDate="20220708">no</GUIConfig>
+        <GUIConfig name="noUpdate" intervalDays="15" nextUpdateDate="20220902">no</GUIConfig>
         <GUIConfig name="Auto-detection">yes</GUIConfig>
         <GUIConfig name="CheckHistoryFiles">no</GUIConfig>
         <GUIConfig name="TrayIcon">no</GUIConfig>
@@ -81,7 +81,7 @@
         <GUIConfig name="ScintillaGlobalSettings" enableMultiSelection="no" />
         <GUIConfig name="openSaveDir" value="0" defaultDirPath="" />
         <GUIConfig name="titleBar" short="no" />
-        <GUIConfig name="stylerTheme" path="G:\Compile\Compile-bin\Sourse Lib\Notepad++\themes\VS2012-Dark.xml" />
+        <GUIConfig name="stylerTheme" path="E:\MAIN\U-MAIN\MAIN\CT\Compile\Compile-bin\Sourse Lib\Notepad++\stylers.xml" />
         <GUIConfig name="wordCharList" useDefault="yes" charsAdded="" />
         <GUIConfig name="delimiterSelection" leftmostDelimiter="40" rightmostDelimiter="41" delimiterSelectionOnEntireDocument="no" />
         <GUIConfig name="multiInst" setting="0" />
