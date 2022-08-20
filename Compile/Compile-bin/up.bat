@@ -32,9 +32,9 @@ if "%~1"=="-v" (
 	xcopy .\Compile\ "!input!\Compile\" /e /y /h /r
 	copy Termux.bat "!input!"
 ) else (
-	echo;Usage: update [arguments] {[-p][-all]} [path]
-	echo;   or: update [arguments] {[-v]} [path]
-	echo;   or: update [arguments] {[-c]} [file] [path]
+	echo;Usage: up [arguments] {[-p][-all]} [path]
+	echo;   or: up [arguments] {[-v]} [path]
+	echo;   or: up [arguments] {[-c]} [file] [path]
 	echo;&echo;Arguments:
 	echo;   -v	Ä¬ÈÏ¸üÐÂ
 	echo;		[Compile\Compile-bin\*.bat]
