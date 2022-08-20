@@ -34,7 +34,7 @@ doskey ll=ls --color=auto $*
 doskey note="%~dp0Compile\Compile-bin\Sourse Lib\Notepad++\notepad++.exe" $*
 doskey tcc="%~dp0Compile\Compile-bin\Sourse Lib\TCC\tcc.exe" $*
 doskey ip=printf 0x07 "%IPv4%" ^| clip ^& echos 0x03 --[%IPv4%]“—∏¥÷∆÷¡ºÙ«–∞Â-- 
-doskey ca=set /a ca_result=$* ^& echo;%ca_result%
+doskey ca=set /a ca_result=$*
 call :random 
 more +%splitline% %~dpnx0
 colors 0x07
