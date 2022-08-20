@@ -30,6 +30,7 @@ REM doskey clear=echo off $t cls $t title $t modes 68 15 $t colors 0x70 $t more 
 doskey cp=copy $*
 doskey mv=move $*
 doskey pwd=cd
+doskey up=update
 doskey ll=ls --color=auto $*
 doskey note="%~dp0Compile\Compile-bin\Sourse Lib\Notepad++\notepad++.exe" $*
 doskey tcc="%~dp0Compile\Compile-bin\Sourse Lib\TCC\tcc.exe" $*

@@ -33,7 +33,8 @@ exit /b
 for /f "delims=:" %%a in ('findstr /n "splitline.*$" %~fs0') do set "split=%%a"
 for /f "tokens=2 delims=|" %%i in ('more +%split% %~dpnx0') do set version=%%i
 set "version=%version: =%"
-echo;vcc version %version% [%~dp0, gcc 3.4.0, notepad++ 8.1.0, vim 8.2.2824]
+echo;vcc version %version% 
+echo;[%~dp0 ^| gcc 3.4.0 ^| notepad++ 8.1.0 ^| vim 8.2.2824]
 set split=
 set version=
 exit /b
