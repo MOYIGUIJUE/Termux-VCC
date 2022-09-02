@@ -20,12 +20,14 @@ printf 0x07 "  - Gitee: "
 printf 0x03 https://gitee.com/cctv3058084277/main
 echo;
 printf 0x07 "  - Github: "
-printf 0x03 https://gitee.com/cctv3058084277/main
+printf 0x03 https://github.com/MOYIGUIJUE/cctv
 echo;
 echo;
 printf 0x07 "  Press any key to show or run "
 printf 0x03 "helps -h"
 echo; to accelerate.
+set /p "choice=  "
+if "%choice%"=="helps -h" goto :help_main
 pause >nul
 cls
 echos 0x0e [0]演示环节
@@ -175,7 +177,10 @@ pause >nul
 echo;
 echo;2. He never saw a saw saw a saw。
 echo;	他从来没见过一把锯子锯另一把锯子。
-echo;	第一个saw是动词see的过去时，第二和第四个saw带有不定冠词\"a\"在前，是名词\"锯子\",第三个saw是动词\"锯\"。
+echo;	第一个saw是动词see的过去时，第二和第四个saw带有不定冠词\"a\"在前
+echo;	是名词\"锯子\",第三个saw是动词\"锯\"。
+echo;  - ----
+ls %~dp0
 exit /b
 REM echo;^> helps -
 REM echo;	运用copy con %tmp%\temp_cmd.bat
