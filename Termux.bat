@@ -15,11 +15,6 @@ set used=%USERNAME%
 for %%i in (a b c d e f g h i j k l m n o p q r s t u v w x y z) do ( 
 	call set used=%%used:%%i=%%i%%
 )
-for /f "tokens=3* delims= " %%i in ('reg query HKCU\Environment /v path') do (
-	for /f "tokens=3* delims= " %%a in ('reg query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v path') do (
-		path=%%a%%b%%i%%j
-	)
-)
 path=%~dp0Compile\Compile-bin;%path%
 modes 68 15
 for /f "delims=:" %%a in ('findstr /n "splitline.*$" %~fs0') do set "splitline=%%a"
@@ -30,6 +25,7 @@ REM doskey clear=echo off $t cls $t title $t modes 68 15 $t colors 0x70 $t more 
 doskey cp=copy $*
 doskey mv=move $*
 doskey pwd=cd
+doskey cds=cd /d $*
 doskey ll=ls --color=auto $*
 doskey note="%~dp0Compile\Compile-bin\Sourse Lib\Notepad++\notepad++.exe" $*
 doskey tcc="%~dp0Compile\Compile-bin\Sourse Lib\TCC\tcc.exe" $*
@@ -44,6 +40,7 @@ set h=& set s=
 set splitline=
 for /l %%i in (1,1,15) do set r%%i=
 cmd /k 
+call :showcmd
 exit /b
 :random
 FOR %%i IN (0 1 2 3 4 5 6 8 9 a b c d e f) DO (SET /A h+=1 & SET r!h!=%%i)
@@ -51,6 +48,14 @@ FOR %%i IN (0 1 2 3 4 5 6 8 9 a b c d e f) DO (SET /A h+=1 & SET r!h!=%%i)
 rem ECHO %s%:!r%s%!
 	colors 0x7!r%s%!
 exit /b 
+:showcmd
+printf 0x0a %used%@%COMPUTERNAME%
+printf 0x09 [%cd%]
+printf 0x07 "$ "
+set /p.=
+call %.%
+set.=
+goto :showcmd
 ::::splitline:::::
 .
                  ______                                               

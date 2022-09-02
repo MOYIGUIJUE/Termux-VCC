@@ -1,16 +1,31 @@
 @echo off
-title 【最重要的是自己添加自己想要的功能】
 if "%~1"=="-h" goto :help_main
 set used=%USERNAME%
 for %%i in (a b c d e f g h i j k l m n o p q r s t u v w x y z) do ( 
 	call set used=%%used:%%i=%%i%%
 )
-echo;------------------------------------------------
-printf 0x07 开源地址:[
+cls
+echo;
+echo;^> gcc@3.4.0 serve
+echo;
+printf 0x10 " INFO "
+echos 0x0b " Starting development server..."
+printf 0x20 " DONE "
+echos 0x02 " Already update in version 1.3.0"
+echo;
+
+echo;
+echo;  Open sourse at:
+printf 0x07 "  - Gitee: "
 printf 0x03 https://gitee.com/cctv3058084277/main
-echo;]
-echo;------------------------------------------------
-echo;			     按任意键开始演示...
+echo;
+printf 0x07 "  - Github: "
+printf 0x03 https://gitee.com/cctv3058084277/main
+echo;
+echo;
+printf 0x07 "  Press any key to show or run "
+printf 0x03 "helps -h"
+echo; to accelerate.
 pause >nul
 cls
 echos 0x0e [0]演示环节
@@ -135,15 +150,32 @@ echo;	最上层的termux.bat内还有一些宏命令
 echo;	第三阶段就是DIY这个集合了
 	call :command
 	if errorlevel 404 ( cls ) else pause >nul &cls
-	title 
 echos 0x0e [7]Clear刷新
 echo;^> start https://gitee.com/cctv3058084277/main 
 echo;	查看并下载最新版本
 echo;^> clear
-echo;	宏命令,回到初始界面
-echo;	刚clear后不能马上clear,bug未修复
+echo;	回到初始界面
+echo;^> exit /b	或者	^> exit
+echo;	你发现此教程结束后,提示符又没有颜色了
+echo;	你可以输入以上命令解锁它
+echos 0x0e [8]到这里就基本结束了,下面的填词可以试一试,按ESC结束
+echo;[翻译]麻烦没来找你，就别去自找麻烦。
+words "1. Never trouble trouble" "till" "trouble troubles you。"
+echo;	                 ----
+echo;	第一、四个trouble是动词，第二、三个trouble是名词。
+echo;[单词释意]till
+echo;	v.耕作；犁地
+echo;	prep.直到…为止；直到…才…；在…前(不…)
+echo;	conj.直到…为止；在…之前
+echo;	n.收银台；（现金出纳机的）放钱的抽屉
+echo;	网络直到……为止；爱的誓言；耕种
+echo;	第三人称单数：tills  现在分词：tilling  过去式：tilled  
+echo;			--^> press any key to continue
+pause >nul
 echo;
-printf 0x07 [输入命令]
+echo;2. He never saw a saw saw a saw。
+echo;	他从来没见过一把锯子锯另一把锯子。
+echo;	第一个saw是动词see的过去时，第二和第四个saw带有不定冠词\"a\"在前，是名词\"锯子\",第三个saw是动词\"锯\"。
 exit /b
 REM echo;^> helps -
 REM echo;	运用copy con %tmp%\temp_cmd.bat

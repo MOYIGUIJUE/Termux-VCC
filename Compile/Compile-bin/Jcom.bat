@@ -1,10 +1,12 @@
 @echo off & setlocal enabledelayedexpansion
 path=E:\Compile\Compile-bin;%path%
-REM for %%i in (%upp_low:~0,1%:) do if %upp_low%:==%%~di (echo UPPER) else set "upp_low=%%~di"
 if "%~1"=="" (
 	echo;JCOM [drive:][path][filename]
 	exit /b
 )
+REM echo;[判断是否为配置%%JAVA_HOME%%]
+call :judge_java_home
+if %errorlevel% equ 404 exit /b
 if not exist "%~1" goto :new_file
 set break=0
 for /f "usebackq tokens=1,2,3,*" %%i in ("%~1") do (
@@ -64,20 +66,42 @@ java -classpath e:/jdom.jar; test1
 	REM path=%path%;%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin
 	REM path=%path%;E:\MAIN\U-MAIN\MAIN\TOOL\apache-maven-3.8.4\bin
 
-    
-                                                               
-             ,---._                                            
-           .-- -.' \    ,---,                     ,---,        
-           |    |   :  '  .' \            ,---.  '  .' \       
-           :    ;   | /  ;    '.         /__./| /  ;    '.     
-           :        |:  :       \   ,---.;  ; |:  :       \    
-           |    :   ::  |   /\   \ /___/ \  | |:  |   /\   \   
-           :         |  :  ' ;.   :\   ;  \ ' ||  :  ' ;.   :  
-           |    ;   ||  |  ;/  \   \\   \  \: ||  |  ;/  \   \ 
-       ___ l         '  :  | \  \ ,' ;   \  ' .'  :  | \  \ ,' 
-     /    /\    J   :|  |  '  '--'    \   \   '|  |  '  '--'   
-    /  ../  `..-    ,|  :  :           \   `  ;|  :  :         
-    \    \         ; |  | ,'            :   \ ||  | ,'         
-     \    \      ,'  `--''               '---" `--''           
-      "---....--'                                              
-                                                              
+:judge_java_home
+IF "%JAVA_HOME%"=="" (
+	echo;  - 你未配置了 %%JAVA_HOME%% 环境变量
+	choice /N /M "--> 是否配置[Y,N]?"
+	if !errorlevel! equ 1 goto :add_environment_variable
+	if !errorlevel! equ 2 exit /b 404
+	pause >nul
+)
+exit /b
+
+:error
+echo;  - 当前不是 JAVA_HOME 目录
+echo;  - -^> 请 cd 到 JAVA_HOME 目录下
+echo;  - 例如 cd /d C:\Program Files\Java\jdk1.8.0_131
+pause >nul
+exit /b 404
+
+:add_environment_variable
+echo;
+if exist "%cd%\bin\java.exe" ( echo;  + %cd%\bin\java.exe ) else ( goto :error )
+if exist "%cd%\bin\javac.exe" ( echo;  + %cd%\bin\javac.exe ) else ( goto :error )
+if exist "%cd%\lib" ( echo;  + %cd%\lib ) else ( goto :error )
+if exist "%cd%\jre\bin\java.exe" (
+	echo;  - %cd%\jre\bin\java.exe & set "JRE_PATH=%%JAVA_HOME%%\jre\bin;" 
+) else ( echo;  - JRE 虚拟机目录不在此目录下 )
+echo;
+set "JAVA_HOME=%cd%"
+setx /M JAVA_HOME "%cd%" >nul && echo;  + JAVA_HOME 添加成功
+setx /M CLASSPATH ".;%%JAVA_HOME%%\lib" >nul && echo;  + CLASSPATH 添加成功
+call :sourse_s
+setx /M PATH "%paths%%%JAVA_HOME%%\bin;%JRE_PATH%" >nul && echo;  + PATH 添加成功
+echo;
+exit /b 404
+
+:sourse_s
+for /f "tokens=3* delims= " %%i in ('reg query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v path') do (
+	if "%%j"=="" ( set "paths=%%i" ) else set "paths=%%i %%j"
+	exit /b
+)
