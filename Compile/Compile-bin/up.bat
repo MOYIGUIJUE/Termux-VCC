@@ -92,4 +92,3 @@ echo;%date:~0,-3% %time:~0,-3% %~1 ^| %tal%.%mid%.%low%
 echo;:%tal%.%mid%.%low% >>"%~dp0update.bat"
 copy /y %~dp0update.bat %VCC_HOME%\Compile\Compile-bin
 goto :eof
-:1.3.0 

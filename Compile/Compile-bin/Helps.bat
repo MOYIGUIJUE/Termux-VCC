@@ -4,13 +4,12 @@ set used=%USERNAME%
 for %%i in (a b c d e f g h i j k l m n o p q r s t u v w x y z) do ( 
 	call set used=%%used:%%i=%%i%%
 )
-cls
 for /f %%i in ('CWnd find /!') do (
 	CWnd Disable %%i min
 	CWnd Disable %%i max
 	CWnd Disable %%i close
 )
-cmdow @ /DIS
+cls
 echo;
 echo;^> gcc@3.4.0 serve
 echo;
@@ -36,6 +35,7 @@ echo;
 printf 0x0e "  - "
 set /p "choices="
 if "%choices%"=="helps -h" goto :help_main
+cmdow @ /DIS
 cls
 echos 0x0e [0]演示环节
 echo;
@@ -188,7 +188,6 @@ echo;	他从来没见过一把锯子锯另一把锯子。
 echo;	第一个saw是动词see的过去时，第二和第四个saw带有不定冠词\"a\"在前
 echo;	是名词\"锯子\",第三个saw是动词\"锯\"。
 echo;
-
 cmdow @ /ENA
 cmdow @ /NOT
 for /f %%i in ('CWnd find /!') do (

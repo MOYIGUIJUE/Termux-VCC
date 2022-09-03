@@ -58,7 +58,5 @@ if %low% GTR 9 set /a mid+=1 & set low=0
 if %mid% GTR 9 set /a tal+=1 & set mid=0
 echo;%dates% %time:~0,-3% %~1 ^| %tal%.%mid%.%low% >> "%choose_path%\vcc.log"
 echo;%dates% %time:~0,-3% %~1 ^| %tal%.%mid%.%low% >> "%~dp0vcc.bat"
-echo;%dates% %time:~0,-3% %~1 ^| %tal%.%mid%.%low%
-echo;:%tal%.%mid%.%low% >> "%~dp0update.bat"
 set vcc_version=
 goto :eof

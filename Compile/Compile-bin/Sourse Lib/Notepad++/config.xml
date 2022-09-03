@@ -28,7 +28,6 @@
         <root foldername="E:\MAIN\U-MAIN\MAIN\CMD\&#x7ECF;&#x5178;&#x6279;&#x5904;&#x7406;\&#x5927;&#x578B;&amp;&#x7EFC;&#x5408;&#x6027;&#x811A;&#x672C;\&#x6587;&#x4EF6;&#x5F52;&#x7C7B;&#x6574;&#x7406;&#x5668;" />
     </FileBrowser>
     <History nbMaxFile="10" inSubMenu="no" customLength="-1">
-        <File filename="G:\Compile\Compile-bin\vcc.bat" />
         <File filename="E:\MAIN\U-MAIN\MAIN\CT\Compile\Compile-bin\vcc.bat" />
         <File filename="E:\Compile\Compile-bin\vcc.bat" />
         <File filename="E:\Compile\Compile-bin\update.bat" />
@@ -36,8 +35,9 @@
         <File filename="E:\termux.bat" />
         <File filename="E:\MAIN\U-MAIN\MAIN\CT\Compile\Compile-bin\new.bat" />
         <File filename="E:\Compile\Compile-bin\cn.bat" />
-        <File filename="E:\MAIN\U-MAIN\MAIN\CT\Compile\Compile-bin\update.bat" />
         <File filename="E:\MAIN\U-MAIN\MAIN\CT\Termux.bat" />
+        <File filename="E:\MAIN\U-MAIN\MAIN\CT\Compile\Compile-bin\up.bat" />
+        <File filename="E:\MAIN\U-MAIN\MAIN\CT\Compile\Compile-bin\backup.bat" />
     </History>
     <ProjectPanels>
         <ProjectPanel id="0" workSpaceFile="" />
@@ -51,10 +51,10 @@
         <GUIConfig name="ScintillaViewsSplitter">vertical</GUIConfig>
         <GUIConfig name="UserDefineDlg" position="undocked">hide</GUIConfig>
         <GUIConfig name="TabSetting" replaceBySpace="no" size="4" />
-        <GUIConfig name="AppPosition" x="873" y="1113" width="1089" height="509" isMaximized="no" />
+        <GUIConfig name="AppPosition" x="728" y="495" width="1089" height="509" isMaximized="no" />
         <GUIConfig name="FindWindowPosition" left="885" top="473" right="1474" bottom="837" />
         <GUIConfig name="FinderConfig" wrappedLines="no" purgeBeforeEverySearch="no" />
-        <GUIConfig name="noUpdate" intervalDays="15" nextUpdateDate="20220902">no</GUIConfig>
+        <GUIConfig name="noUpdate" intervalDays="15" nextUpdateDate="20220918">no</GUIConfig>
         <GUIConfig name="Auto-detection">yes</GUIConfig>
         <GUIConfig name="CheckHistoryFiles">no</GUIConfig>
         <GUIConfig name="TrayIcon">no</GUIConfig>
