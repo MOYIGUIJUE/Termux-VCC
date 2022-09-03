@@ -25,6 +25,7 @@ doskey cat=type $*
 REM doskey clear=echo off $t cls $t title $t modes 68 15 $t colors 0x70 $t more +%splitline% %0 $t colors 0x07 $t modes 70 15 $t set .= ^& set /p ".=%used%@%COMPUTERNAME%[%%cd%%]$ " ^& call %%.%% ^& set .=^& echo on
 doskey cp=copy $*
 doskey mv=move $*
+doskey rv=recycle $*
 doskey pwd=cd
 doskey cds=cd /d $*
 doskey ll=ls --color=auto $*

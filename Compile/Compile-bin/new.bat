@@ -52,6 +52,7 @@ if /i "%~x1" == ".bat" (
 	ren "%~1" "%*" 2>nul >nul
 )
 REM powershell.exe -command "dir *.txt -R|foreach-object{(Get-Content $_.FullName -Encoding Default) | Set-Content $_.FullName -Encoding ANSI }"
+
 exit /b
 :help
 	echo;Usage: new [name] 文件全名

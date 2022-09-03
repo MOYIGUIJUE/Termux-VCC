@@ -9,7 +9,8 @@ if "%~1"=="-a" call :sourse
 :paths
 if "%paths%"=="" set "paths=%path%"
 
-REM echo;%paths% | sed "s/;/\n/g" | sed "/^$/d"
+REM 外部实现
+REM echo;%paths% | sed "s/;/\n/g" | sed "/^$/d" | nl
 
 set num=0
 
