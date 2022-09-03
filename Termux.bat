@@ -16,13 +16,12 @@ for %%i in (a b c d e f g h i j k l m n o p q r s t u v w x y z) do (
 	call set used=%%used:%%i=%%i%%
 )
 path=%~dp0Compile\Compile-bin;%path%
-nircmd.exe win trans ititle "Termux_vcc" 192
+nircmd.exe win trans ititle "Termux_vcc" 180
 modes 68 15
 for /f "delims=:" %%a in ('findstr /n "splitline.*$" %~fs0') do set "splitline=%%a"
 for /f "tokens=2,*" %%i in ('reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" /v "Desktop"') do set "Desk=%%j"
 set LANG=zh_CN
 doskey cat=type $*
-REM doskey clear=echo off $t cls $t title $t modes 68 15 $t colors 0x70 $t more +%splitline% %0 $t colors 0x07 $t modes 70 15 $t set .= ^& set /p ".=%used%@%COMPUTERNAME%[%%cd%%]$ " ^& call %%.%% ^& set .=^& echo on
 doskey cp=copy $*
 doskey mv=move $*
 doskey rv=recycle $*
@@ -47,7 +46,6 @@ exit /b
 :random
 FOR %%i IN (0 1 2 3 4 5 6 8 9 a b c d e f) DO (SET /A h+=1 & SET r!h!=%%i)
 ¡¡¡¡SET /A s=%RANDOM%%%%h%+1
-rem ECHO %s%:!r%s%!
 	colors 0x7!r%s%!
 exit /b 
 :showcmd

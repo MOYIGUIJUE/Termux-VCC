@@ -2,14 +2,14 @@
 set m=0 
 set n=0
 setlocal enabledelayedexpansion
-for /f "delims=" %%a in ('dir /b *.txt') do (
-set /a m+=1
-for /f "delims=" %%i in (%%a) do (
-set /a n+=1
-if !n! EQU 1 set aa=%%i
-if !n! GTR 1 set aa=!aa! %%i
+cd. >2.txt
+for /f "delims=" %%i in (1.txt) do (
+	set /p.= %%i <nul >>2.txt
 )
-echo.!aa!>%%a
- if !m! equ 1 set "aa="&& set m=0
-)
+	
+REM for /f "delims=" %%i in (1.txt) do (
+	REM set aa=!aa! %%i
+REM )
+REM echo.!aa!>%%a
+
 ::pause >nul 2>nul

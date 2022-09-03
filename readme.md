@@ -1,4 +1,4 @@
-### 程序集合
+### 第三方命令程序集合
 
 >详细输入helps
 >会有演示和帮助信息
@@ -27,10 +27,6 @@
 
 ### 文件命令
 
-> （.\Compile\Compile-bin）
-
-![1658592015776](https://gitee.com/cctv3058084277/main/raw/master/image/1658591825618.png)
-
 > (.\Compile\Compile-include\tables.bat)
 
 ![1658592015776](https://gitee.com/cctv3058084277/main/raw/master/image/1658592015776.png)
@@ -45,14 +41,16 @@
 
 ```shell
 doskey cat=type $*
-doskey clear=echo off $t cls $t modes 70 15 $t title $t colors 0x70 $t more +%splitline% %0 $t colors 0x07 $t set .= ^& set /p ".=%used%@%COMPUTERNAME%[%%cd%%]$ " ^& call %%.%% ^& set .=^& echo on
 doskey cp=copy $*
 doskey mv=move $*
+doskey rv=recycle $*
 doskey pwd=cd
+doskey cds=cd /d $*
 doskey ll=ls --color=auto $*
-doskey note=D:\Notepad++\notepad++.exe $*
+doskey note="%~dp0Compile\Compile-bin\Sourse Lib\Notepad++\notepad++.exe" $*
 doskey tcc="%~dp0Compile\Compile-bin\Sourse Lib\TCC\tcc.exe" $*
-doskey reboot=start cmd /c %0 $t exit
+doskey ip=printf 0x07 "%IPv4%" ^| clip ^& echos 0x03 --[%IPv4%]已复制至剪切板-- 
+doskey ca=set /a ca_result=$*
 ```
 
 >\> note宏命令
