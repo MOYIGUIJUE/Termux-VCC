@@ -1,7 +1,6 @@
 @echo off & setlocal enabledelayedexpansion
-path=%~dp0..\Compile-bin;%path%
-path=%~dp0..\Compile-include\bin;%path%
-if "%1"=="-c" start cmd /c "%~dp0..\Com" %2 %3 &exit /b
+path=%~dp0..\..\FILE\bin;%path%
+if "%1"=="-c" start cmd /c "%~dp0..\Com.bat" %2 %3 &exit /b
 if "%1"=="time_seconds_ms" goto :%1
 for %%i in ("%1") do ( if /i "%%~xi" == ".exe" call :time_seconds_ms 1 %%~ni &exit /b)
 set "time_start=%~dpnx0"

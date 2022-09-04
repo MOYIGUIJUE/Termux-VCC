@@ -1,31 +1,63 @@
 @echo off
+setlocal enabledelayedexpansion
+if "%~1"=="-c" (
+	call :exists %3
+	if exist "!input!\Compile\Compile-bin\%~2" (
+		set "file=!input!\Compile\Compile-bin\%~2"
+	) else (
+		set file=
+		echos 0x03 请选择要同步的文件
+		call choose file
+		if "!file!"=="" (
+			echos 0x0c 未选择要同步文件
+			goto :end
+		)
+	)
+	echo;[!file!]--^>[%~dp0]
+	copy /y "!file!" "%~dp0"
+) else (
+	echo;Usage: cn 查看磁盘信息
+	echo;   or: cn [arguments] {[-c]} [file] [path]
+	echo;
+	call :disk
+)
 
-if "%~1"=="-" goto :tmpcmd
->DiskCalc1.vbs echo WSCript.Echo "盘符" ^& Chr(9) ^& "总容量(GB)" ^& Chr(9) ^& "已用空间(GB)" ^& Chr(9) ^& "剩余空间(GB)" ^& Chr(9) ^& "使用率"
->DiskCalc2.vbs echo DeviceID = Wscript.Arguments(0)
->>DiskCalc2.vbs echo SizeAvail = Wscript.Arguments(1) / (1024 * 1024 * 1024)
->>DiskCalc2.vbs echo SizeTotal = Wscript.Arguments(2) / (1024 * 1024 * 1024)
->>DiskCalc2.vbs echo SizeUsed = SizeTotal - SizeAvail
->>DiskCalc2.vbs echo SizeRate = SizeUsed / SizeTotal * 100
->>DiskCalc2.vbs echo WSCript.Echo DeviceID ^& Chr(9) ^& Round(SizeTotal,1) ^& Chr(9) ^& Chr(9) ^& Round(SizeUsed,1) ^& Chr(9) ^& Chr(9) ^& _
->>DiskCalc2.vbs echo Round(SizeAvail,1) ^& Chr(9) ^& Chr(9) ^& Round(SizeRate,1) ^& "%%"
-cscript //nologo DiskCalc1.vbs
-(for /f "tokens=1-3" %%a in ('wmic LogicalDisk get DeviceID ^, Size ^, FreeSpace ^| findstr ":"') do (
-	set /a num+=1
-    cscript //nologo DiskCalc2.vbs %%a %%b %%c
-))
-del DiskCalc*.vbs
+:end
+popd
+set input=
+set file=
 exit /b
 
-:tmpcmd
-set tmp=%date:~8,2%-%time:~3,2%
-call new %tmp%.bat
-call start D:\Notepad++\notepad++.exe %tmp%.bat
-REM call start "%~dp0Sourse Lib\Notepad++\notepad++.exe" %tmp%.bat
-set tmp=
+:exists
+	if exist "%~1" (
+		set "input=%~1"
+	) else (
+		set input=
+		echos 0x03 请选择更新目录
+		call chooses input
+		if "!input!"=="" (
+			echos 0x0c 未选择更新目录
+			goto :end
+		)
+	)
 exit /b
 
-
+:disk
+	>DiskCalc1.vbs echo WSCript.Echo "盘符" ^& Chr(9) ^& "总容量(GB)" ^& Chr(9) ^& "已用空间(GB)" ^& Chr(9) ^& "剩余空间(GB)" ^& Chr(9) ^& "使用率"
+	>DiskCalc2.vbs echo DeviceID = Wscript.Arguments(0)
+	>>DiskCalc2.vbs echo SizeAvail = Wscript.Arguments(1) / (1024 * 1024 * 1024)
+	>>DiskCalc2.vbs echo SizeTotal = Wscript.Arguments(2) / (1024 * 1024 * 1024)
+	>>DiskCalc2.vbs echo SizeUsed = SizeTotal - SizeAvail
+	>>DiskCalc2.vbs echo SizeRate = SizeUsed / SizeTotal * 100
+	>>DiskCalc2.vbs echo WSCript.Echo DeviceID ^& Chr(9) ^& Round(SizeTotal,1) ^& Chr(9) ^& Chr(9) ^& Round(SizeUsed,1) ^& Chr(9) ^& Chr(9) ^& _
+	>>DiskCalc2.vbs echo Round(SizeAvail,1) ^& Chr(9) ^& Chr(9) ^& Round(SizeRate,1) ^& "%%"
+	cscript //nologo DiskCalc1.vbs
+	(for /f "tokens=1-3" %%a in ('wmic LogicalDisk get DeviceID ^, Size ^, FreeSpace ^| findstr ":"') do (
+		set /a num+=1
+		cscript //nologo DiskCalc2.vbs %%a %%b %%c
+	))
+	del DiskCalc*.vbs
+exit /b
 REM wmic LogicalDisk where "DeviceID='H:'" get DeviceID ^, Size ^, FreeSpace ^| findstr ":"
 REM wmic LogicalDisk get DeviceID , Size , FreeSpace | findstr ":"
 

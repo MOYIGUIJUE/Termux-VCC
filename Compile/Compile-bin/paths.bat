@@ -77,6 +77,8 @@ set choose=0
 set environment=
 exit /b
 
+REM echo;%paths% | sed "s/;/\n/g" | sed "/^$/d" | nl
+
 :loop_p
 	set a=%1
 	if not defined a goto :eof

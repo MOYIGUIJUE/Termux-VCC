@@ -2,7 +2,11 @@
 path=E:\Compile\Compile-bin;%path%
 if "%~1"=="" (
 	echo;JCOM [drive:][path][filename]
+	echo;JCOM -p [drive:][path] 配置环境变量
 	exit /b
+)
+if "%~1"=="-p" (
+	call :add_environment_variable %2
 )
 REM echo;[判断是否为配置%%JAVA_HOME%%]
 call :judge_java_home
@@ -80,24 +84,27 @@ exit /b
 echo;  - 当前不是 JAVA_HOME 目录
 echo;  - -^> 请 cd 到 JAVA_HOME 目录下
 echo;  - 例如 cd /d C:\Program Files\Java\jdk1.8.0_131
-pause >nul
 exit /b 404
 
-:add_environment_variable
+:add_environment_variable 
+if "%~1"=="" ( set "java_path=%cd%" ) else set "java_path=%~1"
 echo;
-if exist "%cd%\bin\java.exe" ( echo;  + %cd%\bin\java.exe ) else ( goto :error )
-if exist "%cd%\bin\javac.exe" ( echo;  + %cd%\bin\javac.exe ) else ( goto :error )
-if exist "%cd%\lib" ( echo;  + %cd%\lib ) else ( goto :error )
-if exist "%cd%\jre\bin\java.exe" (
-	echo;  - %cd%\jre\bin\java.exe & set "JRE_PATH=%%JAVA_HOME%%\jre\bin;" 
+if exist "%java_path%\bin\java.exe" ( echo;  + %java_path%\bin\java.exe ) else ( goto :error )
+if exist "%java_path%\bin\javac.exe" ( echo;  + %java_path%\bin\javac.exe ) else ( goto :error )
+if exist "%java_path%\lib" ( echo;  + %java_path%\lib ) else ( goto :error )
+if exist "%java_path%\jre\bin\java.exe" (
+	echo;  - %java_path%\jre\bin\java.exe & set "JRE_PATH=%%JAVA_HOME%%\jre\bin;" 
 ) else ( echo;  - JRE 虚拟机目录不在此目录下 )
 echo;
-set "JAVA_HOME=%cd%"
-setx /M JAVA_HOME "%cd%" >nul && echo;  + JAVA_HOME 添加成功
+set "JAVA_HOME=%java_path%"
+setx /M JAVA_HOME "%java_path%" >nul && echo;  + JAVA_HOME 添加成功
 setx /M CLASSPATH ".;%%JAVA_HOME%%\lib" >nul && echo;  + CLASSPATH 添加成功
 call :sourse_s
 setx /M PATH "%paths%%%JAVA_HOME%%\bin;%JRE_PATH%" >nul && echo;  + PATH 添加成功
 echo;
+echo;  - 系统PATH:
+echo;
+echo;%paths% | sed "s/;/\n/g" | sed "/^$/d"
 exit /b 404
 
 :sourse_s

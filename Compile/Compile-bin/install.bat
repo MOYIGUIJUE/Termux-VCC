@@ -3,9 +3,9 @@ setlocal enabledelayedexpansion
 if "%~1" == "-vcc" goto :vcc
 for /f "tokens=2,*" %%i in ('reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" /v "Desktop"') do Set Desk_path=%%j
 if "%~1" == "-32" (
-	call 7z x "%~dp0Sourse Lib\Notepad32.7z" "-o%Desk_path%\Notepad++"
+	call 7z x "%~dp0..\..\FILE\Notepad32.7z" "-o%Desk_path%\Notepad++"
 ) else if "%~1" == "-64" (
-	call 7z x "%~dp0Sourse Lib\Notepad++.7z" "-o%Desk_path%\Notepad++"
+	call 7z x "%~dp0..\..\FILE\Sourse Lib\Notepad++.7z" "-o%Desk_path%\Notepad++"
 ) else (
 	echo;Usage: install [arguments] {[-32][-64]}
 	echo;   or: install [arguments] {[-vcc]} [path]
@@ -16,8 +16,8 @@ if "%~1" == "-32" (
 	echo;      		其余显示帮助信息
 	exit /b
 )
-call 7z x "%~dp0Sourse Lib\studentmain.7z" "-o%Desk_path%\studentmain"
-call 7z x "%~dp0Sourse Lib\CHFS.7z" "-o%Desk_path%\CHFS"
+call 7z x "%~dp0..\..\FILE\studentmain.7z" "-o%Desk_path%\studentmain"
+call 7z x "%~dp0..\..\FILE\CHFS.7z" "-o%Desk_path%\CHFS"
 pushd %Desk_path%
 start studentmain\JiYuTrainer.exe
 doskey note="%Desk_path%\Notepad++\notepad++.exe" $*

@@ -7,22 +7,22 @@ for /f "usebackq tokens=1,2 delims=|" %%a in ("%choose_path%\vcc.log") do set "v
 if "%vcc_version%"=="" set vcc_version=0.0.0
 if "%~1" == "to" (
 	echos 0x03 %dates:/=-%.zip
-	7z a "%~3\%dates:/=-%.%2" Compile\ Termux.bat -xr"!Compile\Compile-bin\Sourse Lib\"
+	7z a "%~3\%dates:/=-%.%2" "%~dp0..\..\Compile\" "%~dp0..\..\Termux.bat"
 ) else if "%~1" == "for" (
 	echos 0x03 %dates:/=-%-%~n2.zip
 	7z a "%choose_path%\%dates:/=-%-%~n3.%2" %3
 ) else if "%~1" == "-all" (
 	call :vcc_version_add "All-%dates:/=-%%~2.7z"
 	echos 0x03 All-%dates:/=-%%~2.7z
-	7z a "%choose_path%\All-%dates:/=-%%~2.7z" Compile\ Termux.bat
+	7z a "%choose_path%\All-%dates:/=-%%~2.7z" "%~dp0..\..\Compile\" "%~dp0..\..\Termux.bat"
 ) else if "%~1" == "-7z" (
 	call :vcc_version_add "%dates:/=-%%~2.7z"
 	echos 0x03 %dates:/=-%%~2.7z
-	7z a "%choose_path%\%dates:/=-%%~2.7z" Compile\ Termux.bat -xr"!Compile\Compile-bin\Sourse Lib\"
+	7z a "%choose_path%\%dates:/=-%%~2.7z" "%~dp0..\..\Compile\" "%~dp0..\..\Termux.bat"
 ) else if "%~1" == "-zip" (
 	call :vcc_version_add "%dates:/=-%%~2.zip"
 	echos 0x03 %dates:/=-%%~2.zip
-	7z a "%choose_path%\%dates:/=-%%~2.zip" Compile\ Termux.bat -xr"!Compile\Compile-bin\Sourse Lib\"
+	7z a "%choose_path%\%dates:/=-%%~2.zip" "%~dp0..\..\Compile\" "%~dp0..\..\Termux.bat"
 	REM 7z a -tzip "E:\MAIN\CCTV_History\%dates:/=-%.zip" "SQL Server\" Compile\ Termux.bat -xr!File-ZIP\
 ) else if "%~1" == "-dir" (
 	ls %choose_path% &echo;

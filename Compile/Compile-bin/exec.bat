@@ -7,19 +7,21 @@ if "%~1"=="" (
 	exit /b
 )
 %2mshta vbscript:createobject("shell.application").shellexecute("""%~dpnx0""","%~1 ::",,"runas",1)(window.close)&exit /b
+if "%1"=="-r" goto :root
+echo;  - 是否添加环境
+pause >nul
 if exist %1 (
 	for /l %%i in (1 1 3) do call :number%%i %1
 	setx /M VCC_HOME %1
 	pause >nul
 )
+cls
 title HKCR_REG
 cd /d %~dp0..\..
 set cds=%cd%
 cd..
 if "%cd%"=="%cds%" set cds=%cds:\=%
 cd %~dp0..\..
-if "%1"=="-r" goto :root
-mode 60,15
 :reg_choose
 set reg_choose=
 reg query "HKCR\gccbinpath" 1>nul 2>nul && echo;[1][HKCR\gccbinpath] || echo;[1][NO][HKCR\gccbinpath]
@@ -64,8 +66,8 @@ goto :reg_choose
 echo;[HKCR\gccbinpath]
 reg query "HKCR\gccbinpath" 1>nul 2>nul
 if errorlevel 1 (
-	echo;添加gccbinpath中... [%~1\Compile\Compile-include\bin]
-	REG ADD HKCR\gccbinpath /t REG_SZ /d "%~1\Compile\Compile-include\bin" /f > nul
+	echo;添加gccbinpath中... [%~1\FILE\bin]
+	REG ADD HKCR\gccbinpath /t REG_SZ /d "%~1\FILE\bin" /f > nul
 ) else if errorlevel 0 (
 	echo;删除gccbinpath中...
 	reg delete HKCR\gccbinpath /f >nul
@@ -91,9 +93,9 @@ rem --------------
 echo;&echo;[HKLM\Software\Classes\*\Shell\Notepad++]
 reg query "HKLM\Software\Classes\*\Shell\Notepad++" 1>nul 2>nul
 if errorlevel 1 (
-	echo;添加Notepad++中... [\Command][%~1\Compile\Compile-bin\Sourse Lib\Notepad++\notepad++.exe "%%1"]
+	echo;添加Notepad++中... [\Command][%~1\FILE\Notepad++\notepad++.exe "%%1"]
 	REG ADD HKLM\Software\Classes\*\Shell\Notepad++ /t REG_SZ /d "Notepad++" /f > nul
-	REG ADD HKLM\Software\Classes\*\Shell\Notepad++\Command /t REG_SZ /d "%~1\Compile\Compile-bin\Sourse Lib\Notepad++\notepad++.exe \"%%1\"" /f > nul
+	REG ADD HKLM\Software\Classes\*\Shell\Notepad++\Command /t REG_SZ /d "%~1\FILE\Notepad++\notepad++.exe \"%%1\"" /f > nul
 	REM REG ADD HKLM\Software\Classes\*\Shell\Notepad++ /t REG_SZ /d "%Desk_path%\Notepad++\notepad++.ico" /f > nul
 ) else (
 	echo;删除Notepad++中...

@@ -1,9 +1,11 @@
 @echo off
 setlocal enabledelayedexpansion
+pushd %~dp0..\..
 if "%~1"=="-v" (
 	call :exists %2
-	echo;[%~dp0*.bat]--^>[!input!\Compile\Compile-bin]
-	copy /y "%~dp0*.bat" "!input!\Compile\Compile-bin"
+	echo;[%~dp0*]--^>[!input!\Compile\Compile-bin]
+	del "!input!\Compile\Compile-bin\*" /q /f
+	copy /y "%~dp0*" "!input!\Compile\Compile-bin"
 ) else if "%~1"=="-c" (
 	if exist "%~dp0%~2" (
 		set "file=%~dp0%~2"
@@ -20,36 +22,55 @@ if "%~1"=="-v" (
 	echo;[!file!]--^>[!input!\Compile\Compile-bin]
 	copy /y "!file!" "!input!\Compile\Compile-bin"
 ) else if "%~1"=="-p" (
-	call :exists %2
-	echo;[%~dp0..\..]--^>[!input!\Compile\Compile-bin]
-	copy /y %~dp0* !input!\Compile\Compile-bin
-	copy /y "%~dp0Sourse Code\*" "!input!\Compile\Compile-bin\Sourse Code"
-	copy /y "%~dp0Sourse Com\*" "!input!\Compile\Compile-bin\Sourse Com"
-	copy /y %~dp0..\* "!input!\Compile"
+	call :exists %3
+	if "%~2"=="-a" (
+		echo;[%cd%\Compile\*]--^>[!input!\Compile]
+		del "!input!\Compile\*" /q /f
+		copy /y .\Compile\* "!input!\Compile"
+	) else if "%~2"=="-i" (
+		echo;[%cd%\Compile\Compile-include\*]--^>[!input!\Compile\Compile-include]
+		del "!input!\Compile\Compile-include\*" /q /f
+		xcopy /y .\Compile\Compile-include\* "!input!\Compile\Compile-include"
+	) else if "%~2"=="-g" (
+		echo;[%~dp0Sourse Com\*]--^>[!input!\Compile\Compile-bin\Sourse Com]
+		del "!input!\Compile\Compile-bin\Sourse Com\*" /q /f
+		copy /y "%~dp0Sourse Com\*" "!input!\Compile\Compile-bin\Sourse Com"
+	) else if "%~2"=="-c" (
+		echo;[%~dp0Sourse Code\*]--^>[!input!\Compile\Compile-bin\Sourse Code]
+		del "!input!\Compile\Compile-bin\Sourse Code\*" /q /f
+		copy /y "%~dp0Sourse Code\*" "!input!\Compile\Compile-bin\Sourse Code"
+	) else echo;  - 参数错误
 ) else if "%~1"=="-all" (
 	call :exists %2
-	echo;[%~dp0..\..]--^>[!input!\Compile\Compile-bin]
+	echo;[%cd%\Compile\]--^>[!input!\Compile\Compile-bin]
 	xcopy .\Compile\ "!input!\Compile\" /e /y /h /r
 	copy Termux.bat "!input!"
+) else if "%~1"=="-f" (
+	call :exists %2
+	echo;[%cd%\FILE\]--^>[!input!\FILE\]
+	xcopy .\FILE\ "!input!\FILE\" /e /y /h /r
 ) else (
-	echo;Usage: up [arguments] {[-p][-all]} [path]
-	echo;   or: up [arguments] {[-v]} [path]
+	echo;Usage: up [arguments] {[-v][-p][-all][-f]} [path]
+	echo;   or: up [arguments] {[-p]} {[-a][-i][-g][-c]} [path]
 	echo;   or: up [arguments] {[-c]} [file] [path]
 	echo;&echo;Arguments:
 	echo;   -v	默认更新
-	echo;		[Compile\Compile-bin\*.bat]
+	echo;		[Compile\Compile-bin\*][D]
 	echo;   -c	指定更新
 	echo;		[Compile\Compile-bin\%%1]
 	echo;   -p	指定路径更新,如:E:\VCC,后面没有\
-	echo;		[Compile\Compile-bin\*]
-	echo;		[Compile\Compile-bin\Sourse Code\*]
-	echo;		[Compile\Compile-bin\Sourse Com\*]
-	echo;		[Compile\*]
+	echo;		[-a][Compile\*][D]
+	echo;		[-i][Compile\Compile-include\][D]
+	echo;		[-g][Compile\Compile-bin\Sourse Com\*][D]
+	echo;		[-c][Compile\Compile-bin\Sourse Code\*][D]
+	echo;   -f	固定文件
+	echo;		[FILE]
 	echo;   -all	完全更新
 	echo;		[Compile]
 	echo;		[Termux.bat]
 )
 :end
+popd
 set input=
 set file=
 exit /b
