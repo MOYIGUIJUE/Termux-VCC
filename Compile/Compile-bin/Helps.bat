@@ -168,7 +168,7 @@ echo;	回到初始界面
 echo;^> exit /b	或者	^> exit
 echo;	你发现此教程结束后,提示符又没有颜色了
 echo;	你可以输入以上命令解锁它
-echos 0x0e [8]到这里就基本结束了,下面的填词可以试一试,按ESC跳过
+echos 0x0e [8]到这里就基本结束了,下面的填词可以试一试,按ESC结束
 echo;[翻译]麻烦没来找你，就别去自找麻烦。
 words "1. Never trouble trouble" "till" "trouble troubles you。"
 echo;	                 ----
@@ -188,9 +188,6 @@ echo;	他从来没见过一把锯子锯另一把锯子。
 echo;	第一个saw是动词see的过去时，第二和第四个saw带有不定冠词\"a\"在前
 echo;	是名词\"锯子\",第三个saw是动词\"锯\"。
 echo;
-printf 0x07 "  - "
-printf 0x70 "最重要的是配置属于自己的控制台"
-echo; -
 cmdow @ /ENA
 cmdow @ /NOT
 for /f %%i in ('CWnd find /!') do (

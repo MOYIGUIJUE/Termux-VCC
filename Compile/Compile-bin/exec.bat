@@ -15,13 +15,13 @@ if exist %1 (
 	setx /M VCC_HOME %1
 	pause >nul
 )
-cls
 title HKCR_REG
 cd /d %~dp0..\..
 set cds=%cd%
 cd..
 if "%cd%"=="%cds%" set cds=%cds:\=%
 cd %~dp0..\..
+mode 60,15
 :reg_choose
 set reg_choose=
 reg query "HKCR\gccbinpath" 1>nul 2>nul && echo;[1][HKCR\gccbinpath] || echo;[1][NO][HKCR\gccbinpath]

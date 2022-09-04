@@ -1,5 +1,5 @@
 @echo off & setlocal enabledelayedexpansion
-path=%path%;.\Compile-bin
+path=%~dp0Compile-bin;%path%
 modes 70 15
 title 
 if "%~1"=="" (

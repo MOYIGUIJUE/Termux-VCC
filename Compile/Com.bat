@@ -4,7 +4,7 @@ path=%~dp0Compile-bin\Sourse Com;%path%
 path=%~dp0Compile-bin;%path%
 set LANG=zh_CN
 set path_tmp=%path%
-set "gcc-v=%~dp0Compile-include\bin"
+set "gcc-v=%~dp0..\..\FILE\bin"
 path=%gcc-v%;%path%
 
 modes 55 9
@@ -37,9 +37,9 @@ if not "%~1" == "" (
 	call compile %1
 	echo. & shift & goto loop
 ) else (
-	cd /d %~dp0\Home
+	cd /d %~dp0Home
 	:input
-	cls
+	REM cls
 	printf 0x0a vcc@COM-FIRST
 	printf 0x09 [!cd!]
 	echo;$ ll !cd!

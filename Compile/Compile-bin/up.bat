@@ -55,14 +55,14 @@ if "%~1"=="-v" (
 	echo;   or: up [arguments] {[-c]} [file] [path]
 	echo;&echo;Arguments:
 	echo;   -v	默认更新
-	echo;		[Compile\Compile-bin\*][D]
+	echo;		[Compile\Compile-bin\*]
 	echo;   -c	指定更新
 	echo;		[Compile\Compile-bin\%%1]
 	echo;   -p	指定路径更新,如:E:\VCC,后面没有\
-	echo;		[-a][Compile\*][D]
-	echo;		[-i][Compile\Compile-include\][D]
-	echo;		[-g][Compile\Compile-bin\Sourse Com\*][D]
-	echo;		[-c][Compile\Compile-bin\Sourse Code\*][D]
+	echo;		[-a][Compile\*]
+	echo;		[-i][Compile\Compile-include\]
+	echo;		[-g][Compile\Compile-bin\Sourse Com\*]
+	echo;		[-c][Compile\Compile-bin\Sourse Code\*]
 	echo;   -f	固定文件
 	echo;		[FILE]
 	echo;   -all	完全更新
