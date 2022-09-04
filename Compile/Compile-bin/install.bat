@@ -20,21 +20,22 @@ if "%~1" == "-vcc" (
 		exit /b
 	)	
 	set num=1
-	for /f "delims=" %%i in ('curl https://gitee.com/cctv3058084277/cctvpage1/releases/tag/TERMUX-VCC 2^>nul ^
+	for /f "delims=" %%i in ('curl https://gitee.com/cctv3058084277/main/releases/tag/TERMUX-VCC 2^>nul ^
 	 ^| sed "s/}/\n/g" ^| find /i "download_url" ^|sed "s/:/\n/g;s/,/\n/g" ^| sed -n "4p;6p"') do (
 		set "var!num!=%%~i"
 		set /a num+=1
 	)
 	call vcc -v >nul
-	echo;    TERMUX-VCC-%version%.exe == %var2%
+	echo;  [TERMUX-VCC-%version%.exe] == [%var2%]
 	if "TERMUX-VCC-%version%.exe"=="%var2%" ( 
-		echo;当前是最新版本 %version% 
+		echo;  - 当前是最新版本 %version% 
 	) else (
 		echo;  - 检测到当前不是最新版本,是否下载最新版本
-		pause >nul
 		start https://gitee.com/cctv3058084277/main/releases/tag/TERMUX-VCC
+		pause >nul
 		pushd %~dp0..\..
-		echo;down https://gitee.com%var1% - !cd!
+			echo;  - down https://gitee.com... - !cd!
+			down https://gitee.com%var1%
 		popd
 	)
 exit /b

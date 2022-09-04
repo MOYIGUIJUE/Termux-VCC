@@ -8,4 +8,5 @@ reg delete HKCR\gccbinpath /f >nul
 ( reg delete HKCR\Directory\Background\shell\Termux /f >nul ) && rd /s /q Compile
 ( reg delete HKLM\Software\Classes\*\Shell\Notepad++ /f >nul ) && rd /s /q FILE
 echo;  -- Ð¶ÔØVCC³É¹¦ --
+del %0
 pause >nul
