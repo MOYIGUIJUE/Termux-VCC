@@ -26,9 +26,15 @@ if "%~1" == "-vcc" (
 		set /a num+=1
 	)
 	call vcc -v >nul
-	echo;  [TERMUX-VCC-%version%.exe] == [%var2%]
+	echo;
+	printf 0x10 " GITEE "
+	echos 0x07 " %var2%"
+	printf 0x20 " LOCAL "
+	echos 0x03 " TERMUX-VCC-%version%.exe"
+	echo;
 	if "TERMUX-VCC-%version%.exe"=="%var2%" ( 
-		echo;  - 当前是最新版本 %version% 
+		printf 0x07 "  - 当前是最新版本 "
+		echos 0x0b %version% 
 	) else (
 		echo;  - 检测到当前不是最新版本,是否下载最新版本
 		start https://gitee.com/cctv3058084277/main/releases/tag/TERMUX-VCC
