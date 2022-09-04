@@ -1,4 +1,4 @@
-@echo off &title TERMUX-VCC&cls
+@echo off &title TERMUX-VCC
 if not "%~1" == "" (
 	if "%~1" == "/c" goto :termux
 	:loop
@@ -31,7 +31,7 @@ doskey pwd=cd
 doskey cds=cd /d $*
 doskey ll=ls --color=auto $*
 doskey note="%~dp0FILE\Notepad++\notepad++.exe" $*
-doskey tcc="%~dp0FILE\TCC\tcc.exe" $*
+doskey tcc="%~dp0Compile\Compile-include\tcc.exe" $*
 doskey ip=printf 0x07 "%IPv4%" ^| clip ^& echos 0x03 --[%IPv4%]“—∏¥÷∆÷¡ºÙ«–∞Â-- 
 doskey ca=set /a ca_result=$*
 call :random 

@@ -30,7 +30,7 @@ if "%~1"=="-v" (
 	) else if "%~2"=="-i" (
 		echo;[%cd%\Compile\Compile-include\*]--^>[!input!\Compile\Compile-include]
 		del "!input!\Compile\Compile-include\*" /q /f
-		xcopy /y .\Compile\Compile-include\* "!input!\Compile\Compile-include"
+		xcopy /e /y /h /r .\Compile\Compile-include\* "!input!\Compile\Compile-include"
 	) else if "%~2"=="-g" (
 		echo;[%~dp0Sourse Com\*]--^>[!input!\Compile\Compile-bin\Sourse Com]
 		del "!input!\Compile\Compile-bin\Sourse Com\*" /q /f
