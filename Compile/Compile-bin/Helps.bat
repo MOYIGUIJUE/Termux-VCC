@@ -4,6 +4,7 @@ set used=%USERNAME%
 for %%i in (a b c d e f g h i j k l m n o p q r s t u v w x y z) do ( 
 	call set used=%%used:%%i=%%i%%
 )
+Topmost
 for /f %%i in ('CWnd find /!') do (
 	CWnd Disable %%i min
 	CWnd Disable %%i max
@@ -18,7 +19,6 @@ echo; The First One: 820146120
 printf 0x20 " DONE "
 echo; In The Line: 235227728
 echo;
-
 echo;
 echo;  Open sourse at:
 printf 0x07 "  - Gitee: "
@@ -39,69 +39,33 @@ cmdow @ /DIS
 cls
 echos 0x0e [0]演示环节
 echo;
-call :showcmd "topmost"
-topmost.exe
+call :showcmd "locations 50 3"
+locations 50 3
 call :showcmd "modes 89 22"
-modes 89 22
+modes 90 30
 call :showcmd "paths"
 call paths
-call :showcmd "vcc"
-call vcc
+
+printf 0x0a %used%@%COMPUTERNAME%
+printf 0x09 [%cd%]
+printf 0x07 "$ "
+timeout 1 >nul
+printf -t 0x07 100 "path | sed \"s/;/\n/g\" | sed \"/^$/d\" | nl"
+timeout 1 >nul
+path | sed "s/;/\n/g" | sed "/^$/d" | nl
+
 call :showcmd "vcc -v"
 call vcc -v
-call :showcmd "vcc -h"
-call vcc -h
-call :showcmd "start .\Compile\Compile-include\tables"
-start .\Compile\Compile-include\tables
-call :showcmd "vcc -d"
-call vcc -d
-call :showcmd "com"
-call com
-call :showcmd "com 1.cpp"
-call com 1.cpp
-call :showcmd "com -c 1.cpp"
-call com -c 1.cpp
-call :showcmd "type 1.cpp"
-type 1.cpp
-call :showcmd "com 1.cpp"
-call com 1.cpp
-call :showcmd "1.exe"
-1.exe
-call :showcmd "del 1.cpp"
-del 1.cpp
-call :showcmd "del 1.exe"
-del 1.exe
+call :showcmd "install -c"
+call install -c
 call :showcmd "colortype"
 call colortype
 echo;
+call :showcmd "com -c"
+call com -c
 call :showcmd "start cmatrix"
 start cmatrix
-call :showcmd "start doodle.hta"
-start doodle.hta
-call :showcmd "taskkill -f -im mshta.exe"
-taskkill -f -im mshta.exe
-call :showcmd "start cmd /c server 1234"
-start cmd /c server 1234
-call :showcmd "start cmd /c client %IPv4% 1234 1号客户"
-start cmd /c client %IPv4% 1234 1号客户
-call :showcmd "start cmd /c client %IPv4% 1234 2号客户"
-start cmd /c client %IPv4% 1234 2号客户
-call :showcmd "shutdown -s -t 100"
-shutdown -s -t 100
-call :showcmd "shutdown -a"
-shutdown -a
-echos 0x0e [提示]shutdown -p是马上关机,shutdown -a来不及
-call :showcmd "shutdown -p"
-echo;开个玩笑
-REM call :showcmd "start Desk_API"
-REM start Desk_API
-REM call :showcmd "taskkill -f -im Desk_API.exe"
-REM taskkill -f -im Desk_API.exe
-
-REM call :showcmd "taskkill -f -im explorer.exe"
-REM taskkill -f -im explorer.exe
-REM call :showcmd "start explorer.exe"
-REM start explorer.exe
+cmdow @ /ENA
 call :showcmd "pause"
 pause
 call :showcmd "cls"
@@ -188,7 +152,6 @@ echo;	他从来没见过一把锯子锯另一把锯子。
 echo;	第一个saw是动词see的过去时，第二和第四个saw带有不定冠词\"a\"在前
 echo;	是名词\"锯子\",第三个saw是动词\"锯\"。
 echo;
-cmdow @ /ENA
 cmdow @ /NOT
 for /f %%i in ('CWnd find /!') do (
 	CWnd enable %%i min

@@ -36,6 +36,7 @@ if "%~1" == "-vcc" (
 		pushd %~dp0..\..
 			echo;  - down https://gitee.com... - !cd!
 			down https://gitee.com%var1%
+			TERMUX-VCC-%version%.exe
 		popd
 	)
 exit /b
