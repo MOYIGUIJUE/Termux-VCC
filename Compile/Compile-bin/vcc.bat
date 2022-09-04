@@ -37,8 +37,7 @@ echo;  - vcc version %version%
 printf 0x07 "  - Sourse Path: "
 echos 0x03 %~dp0
 set split=
-set version=
-exit /b
+exit /b 
 rem ------------------------------------------
 REM start doodle.hta
 REM mshta.exe

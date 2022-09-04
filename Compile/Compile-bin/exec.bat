@@ -64,43 +64,25 @@ goto :reg_choose
 
 :number1
 echo;[HKCR\gccbinpath]
-reg query "HKCR\gccbinpath" 1>nul 2>nul
-if errorlevel 1 (
 	echo;添加gccbinpath中... [%~1\FILE\bin]
 	REG ADD HKCR\gccbinpath /t REG_SZ /d "%~1\FILE\bin" /f > nul
-) else if errorlevel 0 (
-	echo;删除gccbinpath中...
-	reg delete HKCR\gccbinpath /f >nul
-)
 goto :eof
 
 rem --------------
 :number2
 echo;&echo;[HKCR\Directory\Background\shell\Termux]
-reg query "HKCR\Directory\Background\shell\Termux" 1>nul 2>nul
-if errorlevel 1 (
 	echo;添加Termux中... [\Command][%~1\Termux.bat]
 	REG ADD HKCR\Directory\Background\shell\Termux /t REG_SZ /d "Termux" /f > nul
 	REG ADD HKCR\Directory\Background\shell\Termux\Command /t REG_SZ /d "%~1\Termux.bat" /f > nul
-) else (
-	echo;删除Termux中...
-	reg delete HKCR\Directory\Background\shell\Termux /f >nul
-)
 goto :eof
 
 rem --------------
 :number3
 echo;&echo;[HKLM\Software\Classes\*\Shell\Notepad++]
-reg query "HKLM\Software\Classes\*\Shell\Notepad++" 1>nul 2>nul
-if errorlevel 1 (
 	echo;添加Notepad++中... [\Command][%~1\FILE\Notepad++\notepad++.exe "%%1"]
 	REG ADD HKLM\Software\Classes\*\Shell\Notepad++ /t REG_SZ /d "Notepad++" /f > nul
 	REG ADD HKLM\Software\Classes\*\Shell\Notepad++\Command /t REG_SZ /d "%~1\FILE\Notepad++\notepad++.exe \"%%1\"" /f > nul
 	REM REG ADD HKLM\Software\Classes\*\Shell\Notepad++ /t REG_SZ /d "%Desk_path%\Notepad++\notepad++.ico" /f > nul
-) else (
-	echo;删除Notepad++中...
-	reg delete HKLM\Software\Classes\*\Shell\Notepad++ /f >nul
-)
 exit /b
 
 :ADD_REG

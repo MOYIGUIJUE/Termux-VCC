@@ -15,10 +15,12 @@ if "%~1"=="-c" (
 	)
 	echo;[!file!]--^>[%~dp0]
 	copy /y "!file!" "%~dp0"
+) else if "%~1"=="-u" (
+	goto :check_update
 ) else (
-	echo;Usage: cn 查看磁盘信息
-	echo;   or: cn [arguments] {[-c]} [file] [path]
-	echo;
+	echo;Usage: cn [arguments] {} 查看此信息
+	echo;   or: cn [arguments] {[-c]} [file] [path] 同步文件
+	echo;        
 	call :disk
 )
 
@@ -58,10 +60,10 @@ exit /b
 	))
 	del DiskCalc*.vbs
 exit /b
+
+
 REM wmic LogicalDisk where "DeviceID='H:'" get DeviceID ^, Size ^, FreeSpace ^| findstr ":"
 REM wmic LogicalDisk get DeviceID , Size , FreeSpace | findstr ":"
-
-
 REM 1.查看磁盘信息：freedisk 可以查看每一个盘的剩余空间
 wmic diskdrive >查看磁盘信息
 REM 可以看出来牌子和大小.
