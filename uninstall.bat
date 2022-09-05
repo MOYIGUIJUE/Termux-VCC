@@ -12,6 +12,5 @@ reg delete HKCR\gccbinpath /f >nul
 reg delete HKCR\Directory\Background\shell\Termux /f >nul 
 reg delete HKLM\Software\Classes\*\Shell\Notepad++ /f >nul
 echo;  -- Ð¶ÔØVCC³É¹¦ --
-pause >nul
 del %0 & pause >nul
 
