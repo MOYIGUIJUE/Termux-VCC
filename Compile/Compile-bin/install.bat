@@ -15,10 +15,12 @@ if "%~1" == "-vcc" (
 )
 
 :check_update
+	echo;
 	curl www.baidu.com 2>nul>nul || (
-		echo;网络错误
+		printf 0xc0 " ERROR "
+		echo; 未连接网络
 		exit /b
-	)	
+	)
 	set num=1
 	for /f "delims=" %%i in ('curl https://gitee.com/cctv3058084277/main/releases/tag/TERMUX-VCC 2^>nul ^
 	 ^| sed "s/}/\n/g" ^| find /i "download_url" ^|sed "s/:/\n/g;s/,/\n/g" ^| sed -n "4p;6p"') do (
@@ -26,25 +28,17 @@ if "%~1" == "-vcc" (
 		set /a num+=1
 	)
 	call vcc -v >nul
-	echo;
 	printf 0x10 " GITEE "
-	echos 0x07 " %var2%"
+	echo; %var2:~0,-4%
 	printf 0x20 " LOCAL "
-	echos 0x03 " TERMUX-VCC-%version%.exe"
+	echo; SOURSE PATH IS [%VCC_HOME%]
 	echo;
-	if "TERMUX-VCC-%version%.exe"=="%var2%" ( 
-		printf 0x07 "  - 当前是最新版本 "
-		echos 0x0b %version% 
-		echo;  - https://gitee.com%var1%
+	if "TERMUX-VCC-%version%.exe"=="%var2%" (
+		echo;  - 当前版本: %version%
 	) else (
-		echo;  - 检测到当前不是最新版本,是否下载最新版本
-		start https://gitee.com/cctv3058084277/main/releases/tag/TERMUX-VCC
-		pause >nul
-		pushd %~dp0..\..
-			echo;  - down https://gitee.com... - !cd!
-			down https://gitee.com%var1%
-			TERMUX-VCC-%version%.exe
-		popd
+		echo;  - 检测到当前不是最新版本,请下载最新版本
+		echo;  - https://gitee.com/cctv3058084277/main/releases/tag/TERMUX-VCC
+		echo;  - download url: https://gitee.com%var1%
 	)
 exit /b
 

@@ -20,11 +20,11 @@ for %%i in (a b c d e f g h i j k l m n o p q r s t u v w x y z) do (
 path=%~dp0Compile\Compile-bin;%path%
 nircmd.exe win trans title "TERMUX-VCC" 180
 modes 68 15
-for /f "delims=:" %%a in ('findstr /n "splitline.*$" %~fs0') do set "splitline=%%a"
 for /f "tokens=2,*" %%i in ('reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" /v "Desktop"') do set "Desk=%%j"
 set LANG=zh_CN
 doskey cat=type $*
 doskey cp=copy $*
+doskey clear=cls
 doskey mv=move $*
 doskey rv=recycle $*
 doskey pwd=cd
@@ -34,21 +34,20 @@ doskey note="%~dp0FILE\Notepad++\notepad++.exe" $*
 doskey tcc="%~dp0Compile\Compile-include\tcc.exe" $*
 doskey ip=printf 0x07 "%IPv4%" ^| clip ^& echos 0x03 --[%IPv4%]ÒÑ¸´ÖÆÖÁ¼ôÇÐ°å-- 
 doskey ca=set /a ca_result=$*
-call :random 
-more +%splitline% %~dpnx0
-colors 0x07
+call install -c
+echo;
+echo;  Open sourse at:
+printf 0x07 "  - Gitee: "
+printf 0x03 https://gitee.com/cctv3058084277/main
+echo;
+printf 0x07 "  - Github: "
+printf 0x03 https://github.com/MOYIGUIJUE/cctv
+echo;
+echo;
 modes 70 15
 prompt %used%@%COMPUTERNAME%[$P]$$$S
-set h=& set s=
-set splitline=
-for /l %%i in (1,1,15) do set r%%i=
 cmd /k %2
 call :showcmd
-exit /b
-:random
-FOR %%i IN (0 1 2 3 4 5 6 8 9 a b c d e f) DO (SET /A h+=1 & SET r!h!=%%i)
-¡¡¡¡SET /A s=%RANDOM%%%%h%+1
-	colors 0x7!r%s%!
 exit /b 
 :showcmd
 printf 0x0a %used%@%COMPUTERNAME%
@@ -58,12 +57,3 @@ set /p.=
 call %.%
 set.=
 goto :showcmd
-::::splitline:::::
-.
-                 ______                                               
-                /_  __/__  _________ ___  __  ___  __                 
-                 / / / _ \/ ___/ __ `__ \/ / / / |/_/                 
-                / / /  __/ /  / / / / / / /_/ />  <                   
-               /_/  \___/_/  /_/ /_/ /_/\__,_/_/|_|                   
-.                                                                     
-.                                                                     
