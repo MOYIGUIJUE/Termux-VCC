@@ -15,10 +15,18 @@ git push
 REM git push origin master
 REM git pull --rebase origin master
 REM 合并分支
-REM git merge temp
+REM 使用git log命令，查看分支提交历史，确认需要回退的版本
+REM 使用git reset --hard commit_id命令，进行版本回退
+REM 使用git push origin命令，推送至远程分支
+REM 快捷命令：
+
+REM 回退上个版本：git reset --hard HEAD^ 
+REM 【注：HEAD是指向当前版本的指针，HEAD^表示上个版本,HEAD^^表示上上个版本】
 
 REM 更新远程分支列表
 REM git remote update origin --prune
+
+REM git reset --hard HEAD
 
 REM 查看所有分支
 REM git branch -a

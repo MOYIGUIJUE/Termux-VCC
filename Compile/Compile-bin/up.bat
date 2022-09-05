@@ -43,6 +43,7 @@ if "%~1"=="-v" (
 ) else if "%~1"=="-all" (
 	call :exists %2
 	echo;[%cd%\Compile\]--^>[!input!\Compile\Compile-bin]
+	rd /s /q "!input!\Compile\"
 	xcopy .\Compile\ "!input!\Compile\" /e /y /h /r
 	copy Termux.bat "!input!"
 ) else if "%~1"=="-f" (
