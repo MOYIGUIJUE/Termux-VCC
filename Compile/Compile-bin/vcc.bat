@@ -13,15 +13,12 @@ if /i "%~1"=="-h" (
 	goto :version
 ) else if /i "%~1"=="-t" (
 	cd /d %~dp0..\home
-) else if /i "%~1"=="-g" (
-	cd /d %~dp0..\Compile-include\bin 
 ) else (
 	echo;Usage: vcc [arguments] -h	跳转vcc_home目录
 	echo;   or: vcc [arguments] -	跳转vcc外部扩展命令目录
 	echo;   or: vcc [arguments] -c	跳转vcc外部扩展命令源码目录
 	echo;   or: vcc [arguments] -d	跳转桌面目录并且复制桌面路径到剪切板
 	echo;   or: vcc [arguments] -l	跳转备份文件目录
-	echo;   or: vcc [arguments] -g	跳转gcc编译器bin目录
 	echo;   or: vcc [arguments] -t	跳转home测试目录
 	echo;   or: vcc [arguments] -v	查看版本信息
 	echo;   or: vcc 其他都显示帮助信息
@@ -39,8 +36,6 @@ echos 0x03 %~dp0
 set split=
 exit /b 
 rem ------------------------------------------
-REM start doodle.hta
-REM mshta.exe
 REM C:\WINDOWS\system32\drivers\etc\hosts
 REM thisisunsafe 跳过证书
 REM 192.168.111.222(网关，DNS服务器)

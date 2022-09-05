@@ -1,5 +1,5 @@
 @echo off
-"%~dp0Sourse Lib\vim82\vim.exe" %*
+"%~dp0..\..\FILE\vim82\vim.exe" %*
 exit /b
 
 1.¸´ÖÆÕ³Ìù
