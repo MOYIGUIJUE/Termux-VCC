@@ -26,7 +26,8 @@ exit /b
 		goto :loop
 	)
 	set /a num+=1
-	echo;  [%num%]	%~1	
+	echo;  [%num%]	%~1
+	if not exist "%~1" echo;  - %~1 [ERROR]
 	shift
 goto :loop
 

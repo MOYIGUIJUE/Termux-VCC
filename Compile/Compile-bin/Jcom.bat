@@ -1,16 +1,13 @@
 @echo off & setlocal enabledelayedexpansion
-path=E:\Compile\Compile-bin;%path%
 if "%~1"=="" (
 	echo;JCOM [drive:][path][filename]
 	echo;JCOM -p [drive:][path] 配置环境变量
 	exit /b
 )
 if "%~1"=="-p" (
-	call :add_environment_variable %2
+	call :judge_java_home %2
+	exit /b
 )
-REM echo;[判断是否为配置%%JAVA_HOME%%]
-call :judge_java_home
-if %errorlevel% equ 404 exit /b
 if not exist "%~1" goto :new_file
 set break=0
 for /f "usebackq tokens=1,2,3,*" %%i in ("%~1") do (
@@ -71,44 +68,61 @@ java -classpath e:/jdom.jar; test1
 	REM path=%path%;E:\MAIN\U-MAIN\MAIN\TOOL\apache-maven-3.8.4\bin
 
 :judge_java_home
-IF "%JAVA_HOME%"=="" (
-	echo;  - 你未配置了 %%JAVA_HOME%% 环境变量
-	choice /N /M "--> 是否配置[Y,N]?"
-	if !errorlevel! equ 1 goto :add_environment_variable
-	if !errorlevel! equ 2 exit /b 404
-	pause >nul
+if exist "%~1" set "cd=%~1"
+if exist "%cd%\bin\java.exe" ( echo;  + %cd%\bin\java.exe ) else ( goto :error )
+if exist "%cd%\bin\javac.exe" ( echo;  + %cd%\bin\javac.exe ) else ( goto :error )
+if exist "%cd%\lib" ( echo;  + %cd%\lib ) else ( goto :error )
+if exist "%cd%\jre\bin\java.exe" (
+	echo;  + %cd%\jre\bin\java.exe & set "JRE_PATH=%%JAVA_HOME%%\jre\bin;" 
+) else ( echo;  - %cd%\jre\bin\java.exe )
+echo;
+IF "%JAVA_HOME%"=="%cd%" (
+	echo;  - 你已经配置了 %%JAVA_HOME%% 环境变量: %JAVA_HOME% 
+	choice /N /M "--> 是否回车覆盖配置[Y,N]?"
+	if !errorlevel! equ 2 goto :show
 )
-exit /b
+
+:add_environment_variable
+echo;
+
+for /f "tokens=3* delims= " %%i in ('reg query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v path') do (
+	if "%%j"=="" ( echo;%%i >path.tmp ) else echo;%%i %%j >path.tmp
+)
+
+type path.tmp | sed "s/\(.*\)\(.\)/\1\n/g" | sed "s/;/\n/g" | sed "/^$/d" >paths.tmp
+timeout 1 >nul
+for /f "delims=" %%i in (paths.tmp) do (
+	echo;%%~i | find /i "%JAVA_HOME%">nul || set /p.=%%~i;<nul>>pathr.tmp
+	if exist "%%~i" ( echo;  - %%i ) else echo;  - %%i [ERROR]
+)
+timeout 1 >nul
+echo;
+for /f "delims=" %%i in (pathr.tmp) do setx /M PATH "%%i%%JAVA_HOME%%\bin;%JRE_PATH%" >nul && echo;  + PATH 添加成功
+del path*.tmp
+set "JAVA_HOME=%cd%"
+setx /M JAVA_HOME "%cd%" >nul && echo;  + JAVA_HOME 添加成功
+setx /M CLASSPATH ".;%%JAVA_HOME%%\lib" >nul && echo;  + CLASSPATH 添加成功
+echo;
+
+:show
+echo;  - JAVA_HOME:	%JAVA_HOME%
+echo;  - CLASSPATH:	%CLASSPATH%
+echo;&echo;^> javac -version
+javac -version
+echo;&echo;^> java -version
+java -version
+echo;
+exit /b 404
 
 :error
-echo;  - 当前不是 JAVA_HOME 目录
-echo;  - -^> 请 cd 到 JAVA_HOME 目录下
-echo;  - 例如 cd /d C:\Program Files\Java\jdk1.8.0_131
-exit /b 404
-
-:add_environment_variable 
-if "%~1"=="" ( set "java_path=%cd%" ) else set "java_path=%~1"
-echo;
-if exist "%java_path%\bin\java.exe" ( echo;  + %java_path%\bin\java.exe ) else ( goto :error )
-if exist "%java_path%\bin\javac.exe" ( echo;  + %java_path%\bin\javac.exe ) else ( goto :error )
-if exist "%java_path%\lib" ( echo;  + %java_path%\lib ) else ( goto :error )
-if exist "%java_path%\jre\bin\java.exe" (
-	echo;  - %java_path%\jre\bin\java.exe & set "JRE_PATH=%%JAVA_HOME%%\jre\bin;" 
-) else ( echo;  - JRE 虚拟机目录不在此目录下 )
-echo;
-set "JAVA_HOME=%java_path%"
-setx /M JAVA_HOME "%java_path%" >nul && echo;  + JAVA_HOME 添加成功
-setx /M CLASSPATH ".;%%JAVA_HOME%%\lib" >nul && echo;  + CLASSPATH 添加成功
-call :sourse_s
-setx /M PATH "%paths%%%JAVA_HOME%%\bin;%JRE_PATH%" >nul && echo;  + PATH 添加成功
-echo;
-echo;  - 系统PATH:
-echo;
-echo;%paths% | sed "s/;/\n/g" | sed "/^$/d"
-exit /b 404
-
-:sourse_s
-for /f "tokens=3* delims= " %%i in ('reg query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v path') do (
-	if "%%j"=="" ( set "paths=%%i" ) else set "paths=%%i %%j"
-	exit /b
-)
+echo;  - [%cd%] 不是 JAVA_HOME 目录
+echo;  - Download: https://download.oracle.com/java/18/latest/jdk-18_windows-x64_bin.exe
+echo;  - 例如 C:\Program Files\Java\jdk1.8.0_131
+echo;  - 输入 JAVA_HOME 地址 或者 把此文件放到 JAVA_HOME 目录下
+:cds
+set /p "cds=--> 地址: "
+if "%cds%"=="" exit /b 404
+if exist "%cds%" ( cd /d %cds% ) else (  echo;  - [%cds%] 路径不存在 & goto :cds )
+set cds=
+cls
+goto :judge_java_home

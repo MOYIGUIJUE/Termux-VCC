@@ -7,6 +7,7 @@ if "%~1"=="" (
 	exit /b
 )
 %2mshta vbscript:createobject("shell.application").shellexecute("""%~dpnx0""","%~1 ::",,"runas",1)(window.close)&exit /b
+cd /d %~dp0..\..
 if "%1"=="-r" goto :root
 echo;  - 是否添加环境
 pause >nul
@@ -16,8 +17,7 @@ if exist %1 (
 	pause >nul
 )
 title HKCR_REG
-cd /d %~dp0..\..
-set cds=%cd%
+set "cds=%cd%"
 cd..
 if "%cd%"=="%cds%" set cds=%cds:\=%
 cd %~dp0..\..

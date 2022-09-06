@@ -38,7 +38,6 @@ if "%~1" == "-vcc" (
 	) else (
 		echo;  - 检测到当前不是最新版本,请下载最新版本
 		echo;  - https://gitee.com/cctv3058084277/main/releases/tag/TERMUX-VCC
-		echo;  - download url: https://gitee.com%var1%
 	)
 exit /b
 

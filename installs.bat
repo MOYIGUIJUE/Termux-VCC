@@ -7,4 +7,3 @@ echo;%local_path%\Compile\Compile-bin\exec.bat %local_path%
 start cmd /c "termux /c helps"
 start cmd /c "termux FILE"
 del %0
-exit /b
