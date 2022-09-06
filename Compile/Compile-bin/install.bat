@@ -5,7 +5,7 @@ if "%~1" == "-vcc" (
 ) else if "%~1" == "-c" (
 	goto :check_update
 ) else (
-	echo;Usage: install [arguments] {[-c]} {[-v][-d]}
+	echo;Usage: install [arguments] {[-c]} 
 	echo;   or: install [arguments] {[-vcc]} [path]
 	echo;&echo;Arguments:
 	echo;   -c: 	检查更新
@@ -60,8 +60,10 @@ exit /b
 	:input
 	echo;安装目录:%input%
 	xcopy .\Compile\ "%input%\Compile\" /e /y /h /r
+	xcopy .\Compile\ "%input%\FILE\" /e /y /h /r
 	copy Termux.bat "%input%"
-	exec.bat %input%
+	call exec.bat %input%
+	start cmd /c "termux FILE"
 	popd
 exit /b
 ::/E 复制目录和子目录，包括空的。/Y 取消提示以确认要覆盖现有目标文件 。/H 也复制隐藏和系统文件。/R 改写只读文件。 /Q 复制时不显示文件名。

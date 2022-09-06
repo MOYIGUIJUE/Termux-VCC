@@ -14,7 +14,7 @@ REM echo;%paths% | sed "s/;/\n/g" | sed "/^$/d" | nl
 
 set num=0
 
-set paths=%paths:;=" "%
+set "paths=%paths:;=" "%"
 call :loop "%paths%"
 exit /b
 
