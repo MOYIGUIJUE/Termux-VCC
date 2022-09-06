@@ -73,8 +73,8 @@ if exist "%cd%\bin\java.exe" ( echo;  + %cd%\bin\java.exe ) else ( goto :error )
 if exist "%cd%\bin\javac.exe" ( echo;  + %cd%\bin\javac.exe ) else ( goto :error )
 if exist "%cd%\lib" ( echo;  + %cd%\lib ) else ( goto :error )
 if exist "%cd%\jre\bin\java.exe" (
-	echo;  + %cd%\jre\bin\java.exe & set "JRE_PATH=%%JAVA_HOME%%\jre\bin;" 
-) else ( echo;  - %cd%\jre\bin\java.exe )
+	echo;  + %cd%\jre\bin\java.exe & set "JRE_PATH=%%JAVA_HOME%%\jre\bin;"
+) else ( echo;  - %cd%\bin\jlink.exe --module-path jmods --add-modules java.desktop --output jre  )
 echo;
 IF "%JAVA_HOME%"=="%cd%" (
 	echo;  - 你已经配置了 %%JAVA_HOME%% 环境变量: %JAVA_HOME% 
