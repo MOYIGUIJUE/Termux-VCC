@@ -120,9 +120,9 @@ echo;  - Download: https://download.oracle.com/java/18/latest/jdk-18_windows-x64
 echo;  - 例如 C:\Program Files\Java\jdk1.8.0_131
 echo;  - 输入 JAVA_HOME 地址 或者 把此文件放到 JAVA_HOME 目录下
 :cds
+set cds=
 set /p "cds=--> 地址: "
 if "%cds%"=="" exit /b 404
 if exist "%cds%" ( cd /d %cds% ) else (  echo;  - [%cds%] 路径不存在 & goto :cds )
-set cds=
 cls
 goto :judge_java_home
