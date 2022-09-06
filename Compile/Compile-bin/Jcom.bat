@@ -68,7 +68,7 @@ java -classpath e:/jdom.jar; test1
 	REM path=%path%;E:\MAIN\U-MAIN\MAIN\TOOL\apache-maven-3.8.4\bin
 
 :judge_java_home
-if exist "%~1" set "cd=%~1"
+if exist "%~1" ( set "cd=%~1" )
 if exist "%cd%\bin\java.exe" ( echo;  + %cd%\bin\java.exe ) else ( goto :error )
 if exist "%cd%\bin\javac.exe" ( echo;  + %cd%\bin\javac.exe ) else ( goto :error )
 if exist "%cd%\lib" ( echo;  + %cd%\lib ) else ( goto :error )

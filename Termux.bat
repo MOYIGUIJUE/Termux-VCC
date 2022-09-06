@@ -34,7 +34,7 @@ doskey note="%~dp0FILE\Notepad++\notepad++.exe" $*
 doskey tcc="%~dp0Compile\Compile-include\tcc.exe" $*
 doskey es="%~dp0Compile\Compile-include\es.exe" $*
 doskey Everything="%~dp0Compile\Compile-include\Everything.exe" $*
-doskey NeatDM="%~dp0Compile\Compile-include\NeatDM.exe" $*
+doskey Gdown="%~dp0Compile\Compile-include\NeatDM.exe" $*
 doskey ip=printf 0x07 "%IPv4%" ^| clip ^& echos 0x03 --[%IPv4%]“—∏¥÷∆÷¡ºÙ«–∞Â-- 
 doskey ca=set /a ca_result=$*
 call install -c
