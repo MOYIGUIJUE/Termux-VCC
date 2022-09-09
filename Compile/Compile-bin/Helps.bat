@@ -15,18 +15,18 @@ echo;
 call vcc -v
 echo;
 printf 0x10 " INFO "
-echo; The First One: 820146120
+echo; To start: 820146120
 printf 0x20 " DONE "
-echo; In The Line: 235227728
+echo; On line: 235227728
 echo;
 echo;
 echo;  Open sourse at:
 printf 0x07 "  - Gitee: "
-printf 0x0b https://gitee.com/cctv3058084277/main
-echo;
+echos 0x0b https://gitee.com/cctv3058084277/main
 printf 0x07 "  - Github: "
-printf 0x0b https://github.com/MOYIGUIJUE/cctv
-echo;
+echos 0x0b https://github.com/MOYIGUIJUE/cctv
+printf 0x07 "  - Thanks: "
+echos 0x0b http://www.bathome.net
 echo;
 printf 0x07 "  Press any key to show or run "
 printf 0x03 "helps -h"
@@ -66,8 +66,8 @@ call com -c
 call :showcmd "start cmatrix"
 start cmatrix
 cmdow @ /ENA
-call :showcmd "pause"
-pause
+call :showcmd "pause >nul"
+pause >nul
 call :showcmd "cls"
 :help_main
 set choices=

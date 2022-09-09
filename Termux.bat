@@ -3,11 +3,12 @@ if not "%~1" == "" (
 	if "%~1" == "/c" goto :termux
 	:loop
 	if "%~1"=="" exit /b
+	if not exist "%~1" shift&goto :loop
 	echo;%~a1|findstr /i "hs">nul && (
 		attrib -s -h %1 
 	) || attrib +s +h %1 
 	shift
-	goto loop
+	goto :loop
 )
 :termux
 setlocal enabledelayedexpansion
@@ -19,7 +20,7 @@ for %%i in (a b c d e f g h i j k l m n o p q r s t u v w x y z) do (
 )
 path=%~dp0Compile\Compile-bin;%path%
 nircmd.exe win trans title "TERMUX-VCC" 180
-modes 68 15
+modes 70 15
 for /f "tokens=2,*" %%i in ('reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" /v "Desktop"') do set "Desk=%%j"
 set LANG=zh_CN
 doskey cat=type $*
@@ -47,7 +48,6 @@ printf 0x07 "  - Github: "
 printf 0x03 https://github.com/MOYIGUIJUE/cctv
 echo;
 echo;
-modes 70 15
 prompt %used%@%COMPUTERNAME%[$P]$$$S
 cmd /k %2
 call :showcmd

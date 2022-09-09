@@ -15,14 +15,18 @@ if "%~1"=="-c" (
 	)
 	echo;[!file!]--^>[%~dp0]
 	copy /y "!file!" "%~dp0"
-) else if "%~1"=="-u" (
-	goto :check_update
-) else (
-	echo;Usage: cn [arguments] {} 查看此信息
+) else if "%~1"=="-p" (
+	goto :paths
+) else if "%~1"=="-a" (
+	goto :exts
+) else if "%~1"=="-h" (
+	echo;Usage: cn [arguments] {[-h]} 查看此信息
 	echo;   or: cn [arguments] {[-c]} [file] [path] 同步文件
+	echo;   or: cn [arguments] {[-p]} 管理环境变量 [+num/-num][keyword]
+	echo;   or: cn [arguments] {[-a]} [keyword] 查看环境变量下所有的可执行文件
 	echo;        
-	call :disk
-)
+	
+) else call :disk
 
 :end
 popd
@@ -61,41 +65,99 @@ exit /b
 	del DiskCalc*.vbs
 exit /b
 
+REM 管理环境变量
+:paths
+for /f "tokens=3* delims= " %%i in ('reg query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v path') do (
+	if "%%j"=="" ( printf 0x07 "%%i">path.tmp ) else printf 0x07 "%%i %%j">path.tmp
+)
+type path.tmp | sed "s/\(.*\)\(.\)/\1\n/g" | sed "s/;/\n/g" | sed "/^$/d" >paths.tmp
+nl paths.tmp
+echo;
+set chooses=
+set choose=
+set /p "choose=[+/-]: "
+if "%choose%"=="" exit /b
+if "%choose:~0,1%"=="-" ( 
+	set "chooses=%choose:~1%" 
+	call :chooses
+) else if "%choose:~0,1%"=="+" (
+	set "chooses=%choose:~1%" 
+	call :chooses_add
+) else (
+	echo;  - 输入格式错误 [+num][-num][+][-][-keyword]
+)
+del path*.tmp 2>nul
+exit /b
+REM ---
+:chooses
+cd.>path.tmp
+if "%chooses%"=="" (
+	call notepad paths.tmp
+	for /f "delims=" %%i in (paths.tmp) do printf 0x07 "%%~i;">>path.tmp
+	goto :write
+)
+for /f "delims=" %%j in ('echo;%chooses%@^| sed "s/[0-9]//g"') do (
+	if "%%j"=="@" (
+		for /f "delims=" %%i in ('sed "%chooses% d" paths.tmp') do (
+			printf 0x07 "%%~i;">>path.tmp
+		)
+		goto :write
+	) else (
+		cd.>path.tmp
+		for /f "delims=" %%i in (paths.tmp) do (
+			echo;%%~i| find /i "%chooses%" >nul || ( printf 0x07 "%%~i;">>path.tmp & echo;%%~i )
+		)
+		goto :write
+	)
+)
+exit /b
 
-REM wmic LogicalDisk where "DeviceID='H:'" get DeviceID ^, Size ^, FreeSpace ^| findstr ":"
-REM wmic LogicalDisk get DeviceID , Size , FreeSpace | findstr ":"
-REM 1.查看磁盘信息：freedisk 可以查看每一个盘的剩余空间
-wmic diskdrive >查看磁盘信息
-REM 可以看出来牌子和大小.
-Wmic logicaldisk >牌子和大小
-REM 可以看到有几个盘，每一个盘的文件系统和剩余空间
-wmic volume >每一个盘的文件系统和剩余空间
-REM 每个盘的剩余空间量，其实上一个命令也可以查看的
-fsutil volume diskfree c: >每一个卷的容量信息
-REM 这个命令查看每一个卷的容量信息是很方便
-REM 2.CPU信息
-wmic cpu >CPU信息
-REM 上面显示的有位宽，最大始终频率， 生产厂商，二级缓存等信息
-REM 3.内存信息
-    wmic memorychip >内存信息
-REM 可以显示出来三条内存，两条256，一条1G的，速度400MHz
-REM 4.BIOS信息
-    wmic bios >BIOS信息
-	
-	
-REM 查看主板上内存条的数量。
-wmic memorychip list brief 或者 wmic MEMPHYSICAL list brief >内存条的数量
-REM 查看cpu 
-wmic cpu list brief >cpu 
-REM 查看物理内存
-wmic memphysical list brief >物理内存
-REM 查看逻辑内存
-wmic memlogical list brief >逻辑内存
-REM 查看缓存内存
-wmic memcache list brief >缓存内存
-REM 查看虚拟内存
-wmic pagefile list brief >虚拟内存
-REM 查看网卡
-wmic nic list brief >网卡
-REM 查看网络协议
-wmic netprotocal list brief >网络协议
+:chooses_add
+if not "%chooses%"=="" (
+	cd.>path.tmp
+	sed -n "%chooses%p" paths.tmp
+	set inputpath=
+	set /p "inputpath=--> 修改: "
+	if "!inputpath!"=="" exit /b
+	echo;sed "%chooses%c !inputpath!" paths.tmp
+	for /f "delims=" %%i in ('sed "%chooses%c !inputpath!" paths.tmp') do (
+		printf 0x07 "%%~i;">>path.tmp
+	)
+	goto :write
+) else (
+	set add_environment=
+	set /p "add_environment=--> 请输入新的环境变量: "
+	if not "!add_environment!"=="" printf 0x07 "!add_environment!;">>path.tmp
+	goto :write
+)
+exit /b
+
+:write
+timeout 2 >nul
+for /f "delims=" %%i in (path.tmp) do setx /M PATH "%%i" 2>nul>nul && echo;  + PATH 添加成功 ||echo;  - 需要管理员权限
+exit /b
+
+REM 查看环境变量下所有的可执行文件
+:exts
+if not exist "%Desk%\allpath" md %Desk%\allpath
+cd.>%Desk%\paths.txt
+echo;*.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC | sed "s/;/ */g" > %Desk%\allpath\PATHEXT.txt
+set /p EXTS=<%Desk%\allpath\PATHEXT.txt
+echo;dir /b %EXTS%
+set num=1
+for /f "delims=" %%i in ('path ^| sed "s/;/\n/g" ^| sed "/^$/d"') do (
+	if !num! equ 1 (
+		set "tmp=%%i"
+		cd /d !tmp:~5!
+		dir /b %EXTS% >%Desk%\allpath\!num!.txt
+		if exist "!tmp:~5!" ( echo;!num! - !tmp:~5! >>%Desk%\paths.txt ) else echo;!num! - !tmp:~5! [ERROR]>>%Desk%\paths.txt
+	) else (
+		cd /d %%i
+		dir /b %EXTS% >%Desk%\allpath\!num!.txt
+		if exist "%%~i" ( echo;!num! - %%i >>%Desk%\paths.txt ) else echo;!num! - %%i [ERROR]>>%Desk%\paths.txt
+	)
+	set /a num+=1
+)
+timeout 2
+if not "%~2"=="" find /i "%~2" %Desk%\allpath\*.txt >>%Desk%\paths.txt
+exit /b
