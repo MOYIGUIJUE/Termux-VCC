@@ -49,6 +49,7 @@ printf 0x03 https://github.com/MOYIGUIJUE/cctv
 echo;
 echo;
 prompt %used%@%COMPUTERNAME%[$P]$$$S
+Set /P=[3 q< Nul
 cmd /k %2
 call :showcmd
 exit /b 

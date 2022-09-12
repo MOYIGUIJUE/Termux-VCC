@@ -19,22 +19,24 @@ echo; To start: 820146120
 printf 0x20 " DONE "
 echo; On line: 235227728
 echo;
-echo;
 echo;  Open sourse at:
 printf 0x07 "  - Gitee: "
 echos 0x0b https://gitee.com/cctv3058084277/main
 printf 0x07 "  - Github: "
 echos 0x0b https://github.com/MOYIGUIJUE/cctv
-printf 0x07 "  - Thanks: "
-echos 0x0b http://www.bathome.net
 echo;
 printf 0x07 "  Press any key to show or run "
-printf 0x03 "helps -h"
+Call :SetConsoleTextAttributeEx 4
+set /p.=helps -h<nul
+Call :SetConsoleTextAttributeEx 5
 echo; to accelerate.
 echo;
-printf 0x0e "  - "
-set /p "choices="
-if "%choices%"=="helps -h" goto :help_main
+CmdMenuSel 0708 CONTINUE ACCELERATE QUIT
+if %errorlevel% equ 2 goto :help_main
+if %errorlevel% equ 3 exit /b
+REM printf 0x0e "  - "
+REM set /p "choices="
+REM if "%choices%"=="helps -h" goto :help_main
 cmdow @ /DIS
 cls
 echos 0x0e [0]ÑÝÊ¾»·½Ú
@@ -70,7 +72,7 @@ call :showcmd "pause >nul"
 pause >nul
 call :showcmd "cls"
 :help_main
-set choices=
+REM set choices=
 cls
 echos 0x0e [1]°²×°¼°È·ÈÏ°²×°»·¾³(helps -h¿ÉÒÔÖ±½ÓÌøµ½ÕâÀï)
 echo;^> install -vcc [path]
@@ -144,20 +146,23 @@ echo;	conj.Ö±µ½¡­ÎªÖ¹£»ÔÚ¡­Ö®Ç°
 echo;	n.ÊÕÒøÌ¨£»£¨ÏÖ½ð³öÄÉ»úµÄ£©·ÅÇ®µÄ³éÌë
 echo;	ÍøÂçÖ±µ½¡­¡­ÎªÖ¹£»°®µÄÊÄÑÔ£»¸ûÖÖ
 echo;	µÚÈýÈË³Æµ¥Êý£ºtills  ÏÖÔÚ·Ö´Ê£ºtilling  ¹ýÈ¥Ê½£ºtilled  
-echo;			--^> press any key to continue
-pause >nul
-echo;
-echo;2. He never saw a saw saw a saw¡£
-echo;	Ëû´ÓÀ´Ã»¼û¹ýÒ»°Ñ¾â×Ó¾âÁíÒ»°Ñ¾â×Ó¡£
-echo;	µÚÒ»¸ösawÊÇ¶¯´ÊseeµÄ¹ýÈ¥Ê±£¬µÚ¶þºÍµÚËÄ¸ösaw´øÓÐ²»¶¨¹Ú´Ê\"a\"ÔÚÇ°
-echo;	ÊÇÃû´Ê\"¾â×Ó\",µÚÈý¸ösawÊÇ¶¯´Ê\"¾â\"¡£
-echo;
+echo;			--^> SHOW TIME^!
 cmdow @ /NOT
 for /f %%i in ('CWnd find /!') do (
 	CWnd enable %%i min
 	CWnd enable %%i max
 	CWnd enable %%i close
 )
+
+	For /L %%I in (0,16,255) Do (
+		For /L %%J in (0,16,255) Do (
+			For /L %%K in (0,16,255) Do (
+				Call :SetConsoleTextAttribute %%I-%%J-%%K %%I-%%J-%%K
+				Set /P=#< Nul
+			)
+		)
+	)
+goto :TimeMain
 exit /b
 REM echo;^> helps -
 REM echo;	ÔËÓÃcopy con %tmp%\temp_cmd.bat
@@ -206,6 +211,229 @@ printf -t 0x07 100 "%~1"
 timeout 1 >nul
 echo;
 exit /b
+
+
+:TimeMain
+@Mode Con: Cols=128 Lines=9 & Chcp 437 > Nul & Title Clock & @SetLocal EnableExtensions EnableDelayedExpansion
+	@Call :SetConsoleTextAttribute 0-0-0 58-150-221
+	@Cls
+	@Call :SetConsoleCursorInfo 2 0
+	@Call :ShowTime
+@Exit /B 0
+
+:ShowTime
+	@Call :GotoXY 61 2
+	@Call :SetConsoleTextAttribute 0-0-0 58-150-221
+	Set _Temp_Time_=%Time:~0,8%
+	Set /P=#%_Temp_Time_%< Nul
+	Set _Temp_Time_=%_Temp_Time_: =0+%
+	Set _Temp_Time_=%_Temp_Time_::0=:0+%
+
+	Set "Block=ÛÛ"
+	Set "Block=%Block:~0,1%"
+
+	For /F "Delims=:, Tokens=1,2,3" %%i in ("%_Temp_Time_%") Do (
+		Set /A _Temp_H_=%%i
+		Set /A _Temp_M_=%%j
+		Set /A _Temp_S_=%%k
+	)
+
+	@Call :SetConsoleTextAttribute 255-255-255 58-150-221
+
+	@Call :GotoXY 5 4
+	For /L %%i in (0,1,23) Do (
+		For /L %%j in (0,1,4) Do (
+			If %%i Lss !_Temp_H_! (
+				Set /P=#%Block%< Nul
+			) Else Set /P=# < Nul
+		)
+	)
+
+	@Call :GotoXY 5 6
+	For /L %%i in (0,1,59) Do (
+		For /L %%j in (0,1,1) Do (
+			If %%i Lss !_Temp_M_! (
+				Set /P=#%Block%< Nul
+			) Else Set /P=# < Nul
+		)
+	)
+
+	@Call :GotoXY 5 8
+	For /L %%i in (0,1,59) Do (
+		For /L %%j in (0,1,1) Do (
+			If %%i Lss !_Temp_S_! (
+				Set /P=#%Block%< Nul
+			) Else Set /P=# < Nul
+		)
+	)
+
+@Goto :ShowTime
+
+
+
+
+
+%================================================================%
+%= ÈÕÆÚ: 2022 Äê 9 ÔÂ 10 ÈÕ =%
+%= Ãû³Æ: Type =%
+%= ×÷ÓÃ: Ä£Äâ´ò×Ö =%
+%= ²ÎÊý: String ÒªÏÔÊ¾µÄ×Ö·û´® =%
+%= ±¸×¢: ´Ëº¯ÊýÒª·ÃÎÊ»·¾³±äÁ¿ _._ =%
+%================================================================%
+:Type <String>
+	If "%~1"=="" @Goto :Eof
+	Set "_._=%~1"
+	Set /P=#%_._:~0,1%< Nul
+	Set "_._=%_._:~1%"
+	TimeOut /T 0 > Nul 2> Nul
+	If Defined _._ @Call :Type "%_._%"
+@Goto :Eof
+
+%================================================================================================================================%
+%= VT100 º¯Êý =%
+%================================================================================================================================%
+
+%================================================================%
+%= ÈÕÆÚ: 2022 Äê 9 ÔÂ 9 ÈÕ =%
+%= Ãû³Æ: InitVT100 =%
+%= ×÷ÓÃ: ³õÊ¼»¯ Windows 10 µÄ ÐéÄâÖÕ¶ËÐòÁÐ =%
+%================================================================%
+:InitVT100
+%= { =%
+
+	%= »ñÈ¡ ESC ×Ö·û =%
+
+	Set "ESC="
+
+	%= Èç¹ûÃ»ÓÐ¶¨Òå ESC ×Ö·û£¬Õâ¸ö¹ý³ÌÊÇÎªÁË·ÀÖ¹ÂÛÌ³ÎóÍÌÉÏÎÄµÄ ESC ×Ö·û =%
+	If Not Defined ESC (
+
+		For /F "Delims=#" %%_ in ('Prompt #$E# ^& Echo On ^& For %%$ in ^(1^) Do DosKey') Do Set "ESC=%%_"
+
+	)
+
+%= } =%
+@Goto :Eof
+
+%================================================================%
+%= ÈÕÆÚ: 2022 Äê 9 ÔÂ 9 ÈÕ =%
+%= Ãû³Æ: GotoXY =%
+%= ×÷ÓÃ: ¶¨Î»¹â±êµ½Ö¸¶¨Î»ÖÃ =%
+%= ²ÎÊý: X ¹â±êµÄ X Öá×ø±ê£¬Èç¹ûÊ¡ÂÔ»òÉèÎª 0£¬ÔòÉèÆäÎª1 =%
+%= ²ÎÊý: Y ¹â±êµÄ Y Öá×ø±ê£¬Èç¹ûÊ¡ÂÔ»òÉèÎª 0£¬ÔòÉèÆäÎª1 =%
+%================================================================%
+:GotoXY <X> <Y>
+%= { =%
+
+	%= Èç¹ûÃ»ÓÐ¶¨Òå ESC ×Ö·û =%
+	If Not Defined ESC (
+
+		@Call :InitVT100
+
+	)
+
+	%= ¶¨Î»¹â±ê =%
+	Set /P=%ESC%[%2;%1H< Nul
+
+%= } =%
+@Goto :Eof
+
+%================================================================%
+%= ÈÕÆÚ: 2022 Äê 9 ÔÂ 9 ÈÕ =%
+%= Ãû³Æ: SetConsoleTextAttribute =%
+%= ×÷ÓÃ: ÉèÖÃ¿ØÖÆÌ¨ÎÄ±¾ÑÕÉ« =%
+%= ²ÎÊý: BGCOL ±³¾° RGB ÑÕÉ«Öµ£¬¸ñÊ½ÎªR-G-B =%
+%= ²ÎÊý: FGCOL Ç°¾° RGB ÑÕÉ«Öµ£¬¸ñÊ½ÎªR-G-B =%
+%================================================================%
+:SetConsoleTextAttribute <BGCOL> <FGCOL>
+%= { =%
+
+	%= Èç¹ûÃ»ÓÐ¶¨Òå ESC ×Ö·û =%
+	If Not Defined ESC (
+
+		@Call :InitVT100
+
+	)
+
+	%= ÉèÖÃ±³¾°É« =%
+	For /F "Delims=-, Tokens=1,2,3" %%I in ("%1") Do (
+		Set /P=%ESC%[48;2;%%I;%%J;%%Km< Nul
+	)
+
+	%= ÉèÖÃÇ°¾°É« =%
+	For /F "Delims=-, Tokens=1,2,3" %%I in ("%2") Do (
+		Set /P=%ESC%[38;2;%%I;%%J;%%Km< Nul
+	)
+
+%= } =%
+@Goto :Eof
+
+%================================================================%
+%= ÈÕÆÚ: 2022 Äê 9 ÔÂ 9 ÈÕ =%
+%= Ãû³Æ: SetConsoleCursorInfo =%
+%= ×÷ÓÃ: ÉèÖÃ¿ØÖÆÌ¨¹â±êÊôÐÔ =%
+%= ²ÎÊý: CursorVisibility ¹â±ê¿É¼ûºÍÉÁË¸×´Ì¬£¬È¡Öµ1~4£¬·Ö±ðÎª£º =%
+%=       1 ÏÔÊ¾¹â±ê =%
+%=       2 Òþ²Ø¹â±ê =%
+%=       3 ¿ªÊ¼¹â±êÉÁË¸ =%
+%=       4 Í£Ö¹ÉÁË¸¹â±ê =%
+%= ²ÎÊý: CursorShape      ×Ô¶¨Òå¹â±êÐÎ×´£¬È¡Öµ0~6£¬·Ö±ðÎª£º =%
+%=       0 ÓÃ»§ÅäÖÃµÄÄ¬ÈÏ¹â±êÐÎ×´ =%
+%=       1 ÉÁË¸¿é¹â±êÐÎ×´ =%
+%=       2 ÎÈ¶¨¿é¹â±êÐÎ×´ =%
+%=       3 ÉÁË¸ÏÂ»®Ïß¹â±êÐÎ×´ =%
+%=       4 ÎÈ¶¨ÏÂ»®Ïß¹â±êÐÎ×´ =%
+%=       5 ÉÁË¸ÌõÐÎ¹â±êÐÎ×´ =%
+%=       6 ÎÈ¶¨ÌõÐÎ¹â±êÐÎ×´ =%
+%================================================================%
+:SetConsoleCursorInfo <CursorVisibility> <CursorShape>
+%= { =%
+
+	%= Èç¹ûÃ»ÓÐ¶¨Òå ESC ×Ö·û =%
+	If Not Defined ESC (
+
+		@Call :InitVT100
+
+	)
+
+	%= ÉèÖÃ¹â±ê¿É¼ûºÍÉÁË¸×´Ì¬ =%
+	For /F "Delims=-, Tokens=%1" %%I in ("25h-25l-12h-12l") Do (
+		Set /P=%ESC%[?%%I< Nul
+	)
+
+	Set /P=%ESC%[%2 q< Nul
+
+%= } =%
+@Goto :Eof
+
+%================================================================%
+%= ÈÕÆÚ: 2022 Äê 9 ÔÂ 9 ÈÕ =%
+%= Ãû³Æ: SetConsoleTextAttributeEx =%
+%= ×÷ÓÃ: ¸ñÊ½»¯¿ØÖÆÌ¨ÎÄ±¾ =%
+%= ²ÎÊý: Code ²Ù×÷´úÂë£¬È¡Öµ1~6£¬·Ö±ðÎª£º =%
+%=       1 Ä¬ÈÏ£¬Í¨³£Ïàµ±ÓÚColor 07 =%
+%=       2 ´ÖÌå/ÁÁ =%
+%=       3 ÎÞ´ÖÌå/ÁÁ =%
+%=       4 ÏÂ»®Ïß =%
+%=       5 ÎÞÏÂ»®Ïß =%
+%=       6 ½»»»Ç°¾°É«ºÍ±³¾°É« =%
+%================================================================%
+:SetConsoleTextAttributeEx <Code>
+%= { =%
+
+	%= Èç¹ûÃ»ÓÐ¶¨Òå ESC ×Ö·û =%
+	If Not Defined ESC (
+
+		@Call :InitVT100
+
+	)
+
+	For /F "Delims=-, Tokens=%1" %%I in ("0-1-22-4-24-7") Do (
+		Set /P=%ESC%[%%Im< Nul
+	)
+
+%= } =%
+@Goto :Eof
 
 REM ----------------------------------------------help command----------------------------------------------
 
