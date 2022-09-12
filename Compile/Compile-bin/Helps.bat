@@ -309,7 +309,7 @@ exit /b
 	If Not Defined ESC (
 
 		For /F "Delims=#" %%_ in ('Prompt #$E# ^& Echo On ^& For %%$ in ^(1^) Do DosKey') Do Set "ESC=%%_"
-
+		REM for /F %%a in ('echo prompt $E^| cmd') do set "ESC=%%a"
 	)
 
 %= } =%
