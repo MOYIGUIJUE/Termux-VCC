@@ -67,6 +67,8 @@ call :showcmd "com -c"
 call com -c
 call :showcmd "start cmatrix"
 start cmatrix
+call :showcmd "start zms"
+start zms
 cmdow @ /ENA
 call :showcmd "pause >nul"
 pause >nul
@@ -153,7 +155,7 @@ for /f %%i in ('CWnd find /!') do (
 	CWnd enable %%i max
 	CWnd enable %%i close
 )
-
+taskkill -f -im cmatrix.exe
 	For /L %%I in (0,16,255) Do (
 		For /L %%J in (0,16,255) Do (
 			For /L %%K in (0,16,255) Do (

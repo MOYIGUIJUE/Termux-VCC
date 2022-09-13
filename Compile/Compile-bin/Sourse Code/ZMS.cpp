@@ -14,7 +14,7 @@ BOOL CALLBACK EnumWindowsProc(_In_ HWND hwnd, _In_ LPARAM Lparam)
 	return TRUE;
 }
 
-int main(int argc, char *argv[])
+/* int main(int argc, char *argv[])
 {
 	// 视频路径、1920和1080，要根据实际情况改。建议使用GetSystemMetrics函数获取分辨率属性
 	LPCWSTR lpParameter = L" .\\video.mp4  -noborder -x 1920 -y 1080 -loop 0";
@@ -34,4 +34,28 @@ int main(int argc, char *argv[])
 	}
 
 	return 0;
+} */
+
+int main(int argc, char *argv[])
+{
+	HWND hProgman = FindWindowW(L"Progman", 0);				// 找到PM窗口
+	SendMessageTimeout(hProgman, 0x52C, 0, 0, 0, 100, 0);	// 给它发特殊消息
+	HWND hFfplay = FindWindowW(L"matrix", 0);				// 找到视频窗口
+	SetWindowLong(hFfplay, GWL_STYLE,GetWindowLong(hFfplay, GWL_STYLE) & ~(WS_CAPTION | WS_SIZEBOX));//去掉窗口边框
+	SetParent(hFfplay, hProgman);							// 将视频窗口设置为PM的子窗口
+	EnumWindows(EnumWindowsProc, 0);						// 找到第二个WorkerW窗口并隐藏它
+	return 0;
 }
+
+
+/* 
+int main(int argc, char *argv[])
+{
+	//LPCWSTR str = L"Everything";
+	HWND hwnd = FindWindowW(L"ConsoleWindowClass", L"TERMUX-VCC");
+	//设置程序的显示大小及位置
+	//MoveWindow(hwnd, 100, 100, 400, 400, false);
+	//去除边框
+	SetWindowLong(hwnd, GWL_STYLE,GetWindowLong(hwnd, GWL_STYLE) & ~(WS_CAPTION | WS_SIZEBOX));
+}
+ */
