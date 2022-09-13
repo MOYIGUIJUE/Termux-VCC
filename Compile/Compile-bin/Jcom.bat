@@ -5,7 +5,7 @@ if "%~1"=="" (
 	exit /b
 )
 if "%~1"=="-p" (
-	call :judge_java_home %2
+	call :judge_java_home %2 
 	exit /b
 )
 if not exist "%~1" goto :new_file
@@ -71,7 +71,11 @@ java -classpath e:/jdom.jar; test1
 if exist "%~1" ( set "cd=%~1" )
 if exist "%cd%\bin\java.exe" ( echo;  + %cd%\bin\java.exe ) else ( goto :error )
 if exist "%cd%\bin\javac.exe" ( echo;  + %cd%\bin\javac.exe ) else ( goto :error )
-if exist "%cd%\lib" ( echo;  + %cd%\lib ) else ( goto :error )
+if exist "%cd%\lib" (
+	if exist "%cd%\lib\tools.jar" ( echo;  + %cd%\lib\tools.jar & set "JAVA_CLASSPATH=.;%%JAVA_HOME%%\lib\dt.jar;%%JAVA_HOME%%\lib\tools.jar;" ) else (
+		echo;  + %cd%\lib & set "JAVA_CLASSPATH=.;%%JAVA_HOME%%\lib;"
+	)
+) else ( goto :error )
 if exist "%cd%\jre\bin\java.exe" (
 	echo;  + %cd%\jre\bin\java.exe & set "JRE_PATH=%%JAVA_HOME%%\jre\bin;"
 ) else ( echo;  - %cd%\bin\jlink.exe --module-path jmods --add-modules java.desktop --output jre  )
@@ -101,7 +105,7 @@ for /f "delims=" %%i in (pathr.tmp) do setx /M PATH "%%i%%JAVA_HOME%%\bin;%JRE_P
 del path*.tmp
 set "JAVA_HOME=%cd%"
 setx /M JAVA_HOME "%cd%" >nul && echo;  + JAVA_HOME 添加成功
-setx /M CLASSPATH ".;%%JAVA_HOME%%\lib" >nul && echo;  + CLASSPATH 添加成功
+setx /M CLASSPATH "%JAVA_CLASSPATH%" >nul && echo;  + CLASSPATH 添加成功
 echo;
 
 :show
