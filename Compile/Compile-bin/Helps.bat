@@ -4,12 +4,6 @@ set used=%USERNAME%
 for %%i in (a b c d e f g h i j k l m n o p q r s t u v w x y z) do ( 
 	call set used=%%used:%%i=%%i%%
 )
-Topmost
-for /f %%i in ('CWnd find /!') do (
-	CWnd Disable %%i min
-	CWnd Disable %%i max
-	CWnd Disable %%i close
-)
 cls
 echo;
 call vcc -v
@@ -34,6 +28,12 @@ echo;
 CmdMenuSel 0708 CONTINUE ACCELERATE QUIT
 if %errorlevel% equ 2 goto :help_main
 if %errorlevel% equ 3 exit /b
+Topmost
+for /f %%i in ('CWnd find /!') do (
+	CWnd Disable %%i min
+	CWnd Disable %%i max
+	CWnd Disable %%i close
+)
 REM printf 0x0e "  - "
 REM set /p "choices="
 REM if "%choices%"=="helps -h" goto :help_main

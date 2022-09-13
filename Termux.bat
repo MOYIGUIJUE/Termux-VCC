@@ -25,7 +25,7 @@ for /f "tokens=2,*" %%i in ('reg query "HKCU\Software\Microsoft\Windows\CurrentV
 set LANG=zh_CN
 doskey cat=type $*
 doskey cp=copy $*
-doskey clear=Title ^& cls
+doskey clear=Title ^& cls ^& color 07 ^& modes 70 15 ^& echo; ^& vcc -v
 doskey mv=move $*
 doskey rv=recycle $*
 doskey pwd=cd
@@ -38,6 +38,7 @@ doskey Everything="%~dp0Compile\Compile-include\Everything.exe" $*
 doskey Gdown="%~dp0Compile\Compile-include\NeatDM.exe" $*
 doskey ip=printf 0x07 "%IPv4%" ^| clip ^& echos 0x03 --[%IPv4%]“—∏¥÷∆÷¡ºÙ«–∞Â-- 
 doskey ca=set /a ca_result=$*
+doskey win=nircmd.exe win trans ititle $*
 call install -c
 echo;
 echo;  Open sourse at:
