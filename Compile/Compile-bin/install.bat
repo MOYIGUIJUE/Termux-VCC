@@ -4,6 +4,8 @@ if "%~1" == "-vcc" (
 	goto :vcc
 ) else if "%~1" == "-c" (
 	goto :check_update
+) else if "%~1" == "-v" (
+	goto :show_update
 ) else (
 	echo;Usage: install [arguments] {[-c]} 
 	echo;   or: install [arguments] {[-vcc]} [path]
@@ -13,6 +15,18 @@ if "%~1" == "-vcc" (
 	echo;      		其余显示此帮助信息
 	exit /b
 )
+
+:show_update
+	echo;
+	printf 0x10 " GITEE "
+	set /p dates_install=<%Temp%\%dates:/=-%.install
+	echo;%dates_install%
+	call vcc -v >nul
+	printf 0x20 " LOCAL "
+	echo; SOURSE PATH IS [%VCC_HOME%]
+	echo;
+	echo;  - 当前版本: %version%
+exit /b
 
 :check_update
 	echo;
@@ -30,6 +44,8 @@ if "%~1" == "-vcc" (
 	call vcc -v >nul
 	printf 0x10 " GITEE "
 	echo; %var2:~0,-4%
+	set dates=%date:~0,-3%
+	echo; %var2:~0,-4% >%Temp%\%dates:/=-%.install
 	printf 0x20 " LOCAL "
 	echo; SOURSE PATH IS [%VCC_HOME%]
 	echo;

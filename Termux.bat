@@ -39,7 +39,8 @@ doskey Gdown="%~dp0Compile\Compile-include\NeatDM.exe" $*
 doskey ip=printf 0x07 "%IPv4%" ^| clip ^& echos 0x03 --[%IPv4%]“—∏¥÷∆÷¡ºÙ«–∞Â-- 
 doskey ca=set /a ca_result=$*
 doskey win=nircmd.exe win trans ititle $*
-call install -c
+set dates=%date:~0,-3%
+if exist %Temp%\%dates:/=-%.install ( call install -v ) else call install -c
 echo;
 echo;  Open sourse at:
 printf 0x07 "  - Gitee: "
