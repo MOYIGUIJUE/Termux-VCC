@@ -51,7 +51,7 @@ if "%~1"=="-v" (
 	echo;[%cd%\FILE\]--^>[!input!\FILE\]
 	xcopy .\FILE\ "!input!\FILE\" /e /y /h /r
 ) else (
-	echo;Usage: up [arguments] {[-v][-p][-all][-f]} [path]
+	echo;Usage: up [arguments] {[-v][-all][-f]} [path]
 	echo;   or: up [arguments] {[-p]} {[-a][-i][-g][-c]} [path]
 	echo;   or: up [arguments] {[-c]} [file] [path]
 	echo;&echo;Arguments:

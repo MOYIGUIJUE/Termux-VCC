@@ -96,7 +96,7 @@ set "environment=HKCU\Environment"
 for /f "tokens=1,2,3* delims= " %%i in ('reg query "%environment%"') do (
 	if NOT !nums! equ 0 (
 		if "%%l"=="" ( set "paths!nums!=%%k" ) else set "paths!nums!=%%k %%l"
-		if "%%k"=="" ( echo;  [!nums!]	%%i	%%j	Пе ) else call echo;  [!nums!]	%%i	%%j	%%paths!nums!:~0,30%% ...
+		if "%%k"=="" ( echo;  [!nums!]	%%i	%%j	Пе ) else call echo;  [!nums!]	%%i	%%j	%%paths!nums!%%
 		set "environment!nums!=%%i"
 	)
 	set /a nums+=1
@@ -109,7 +109,7 @@ set "environment=HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environme
 for /f "tokens=1,2,3* delims= " %%i in ('reg query "%environment%"') do (
 	if NOT !nums! equ 0 (
 		if "%%l"=="" ( set "paths!nums!=%%k" ) else set "paths!nums!=%%k %%l"
-		if "%%k"=="" ( echo;  [!nums!]	%%i	%%j	Пе ) else call echo;  [!nums!]	%%i	%%j	%%paths!nums!:~0,30%% ...
+		if "%%k"=="" ( echo;  [!nums!]	%%i	%%j	Пе ) else call echo;  [!nums!]	%%i	%%j	%%paths!nums!%%
 		set "environment!nums!=%%i"
 	)
 	set /a nums+=1

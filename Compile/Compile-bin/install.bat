@@ -6,6 +6,8 @@ if "%~1" == "-vcc" (
 	goto :check_update
 ) else if "%~1" == "-v" (
 	goto :show_update
+) else if "%~1" == "-d" (
+	goto :down_update
 ) else (
 	echo;Usage: install [arguments] {[-c]} 
 	echo;   or: install [arguments] {[-vcc]} [path]
@@ -20,12 +22,17 @@ if "%~1" == "-vcc" (
 	echo;
 	printf 0x10 " GITEE "
 	set /p dates_install=<%Temp%\%dates:/=-%.install
-	echo;%dates_install%
+	echo; %dates_install:~0,-4%
 	call vcc -v >nul
 	printf 0x20 " LOCAL "
 	echo; SOURSE PATH IS [%VCC_HOME%]
 	echo;
-	echo;  - 当前版本: %version%
+	if "TERMUX-VCC-%version%.exe"=="%dates_install%" (
+		echo;  - 当前版本: %version%
+	) else (
+		echo;  - 检测到当前不是最新版本,请下载最新版本
+		echo;  - https://gitee.com/cctv3058084277/main/releases/tag/TERMUX-VCC
+	)
 exit /b
 
 :check_update
@@ -45,7 +52,8 @@ exit /b
 	printf 0x10 " GITEE "
 	echo; %var2:~0,-4%
 	set dates=%date:~0,-3%
-	echo; %var2:~0,-4% >%Temp%\%dates:/=-%.install
+	del /f /q %Temp%\*.install
+	echo;%var2%>%Temp%\%dates:/=-%.install
 	printf 0x20 " LOCAL "
 	echo; SOURSE PATH IS [%VCC_HOME%]
 	echo;
@@ -83,3 +91,8 @@ exit /b
 	popd
 exit /b
 ::/E 复制目录和子目录，包括空的。/Y 取消提示以确认要覆盖现有目标文件 。/H 也复制隐藏和系统文件。/R 改写只读文件。 /Q 复制时不显示文件名。
+
+:down_update
+call down https://gitee.com/cctv3058084277/cctvpage1/releases/download/TERMUX-VCC/TERMUX-VCC-1.3.7.7z
+call 7z x %tmp%\TERMUX-VCC-1.3.7.7z -o%tmp%\termux -aoa
+call %tmp%\termux\termux.bat /u

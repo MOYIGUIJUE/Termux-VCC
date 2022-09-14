@@ -60,11 +60,6 @@ call :showcmd "vcc -v"
 call vcc -v
 call :showcmd "install -c"
 call install -c
-call :showcmd "colortype"
-call colortype
-echo;
-call :showcmd "com -c"
-call com -c
 call :showcmd "start cmatrix"
 start cmatrix
 call :showcmd "start zms"
@@ -128,15 +123,7 @@ echo;	最上层的termux.bat内还有一些宏命令
 echo;	第三阶段就是DIY这个集合了
 	call :command
 	if errorlevel 404 ( cls ) else pause >nul &cls
-echos 0x0e [7]Clear刷新
-echo;^> start https://gitee.com/cctv3058084277/main 
-echo;	查看并下载最新版本
-echo;^> clear
-echo;	回到初始界面
-echo;^> exit /b	或者	^> exit
-echo;	你发现此教程结束后,提示符又没有颜色了
-echo;	你可以输入以上命令解锁它
-echos 0x0e [8]到这里就基本结束了,下面的填词可以试一试,按ESC结束
+echos 0x0e [7]到这里就基本结束了,下面的填词可以试一试,按ESC结束
 echo;[翻译]麻烦没来找你，就别去自找麻烦。
 words "1. Never trouble trouble" "till" "trouble troubles you。"
 echo;	                 ----
@@ -148,14 +135,25 @@ echo;	conj.直到…为止；在…之前
 echo;	n.收银台；（现金出纳机的）放钱的抽屉
 echo;	网络直到……为止；爱的誓言；耕种
 echo;	第三人称单数：tills  现在分词：tilling  过去式：tilled  
-echo;			--^> SHOW TIME^!
+cls
+echos 0x0e [8]Clear刷新
+echo;^> start https://gitee.com/cctv3058084277/main 
+echo;	查看并下载最新版本
+echo;^> clear
+echo;	回到初始界面
+echo;^> exit /b	或者	^> exit
+echo;	你发现此教程结束后,提示符又没有颜色了
+echo;	你可以输入以上命令解锁它
 cmdow @ /NOT
 for /f %%i in ('CWnd find /!') do (
 	CWnd enable %%i min
 	CWnd enable %%i max
 	CWnd enable %%i close
 )
-taskkill -f -im cmatrix.exe
+taskkill -f -im cmatrix.exe 2>nul>nul
+echo;
+cmd /k
+cls
 	For /L %%I in (0,16,255) Do (
 		For /L %%J in (0,16,255) Do (
 			For /L %%K in (0,16,255) Do (

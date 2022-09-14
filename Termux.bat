@@ -1,6 +1,7 @@
 @echo off &title TERMUX-VCC
 if not "%~1" == "" (
 	if "%~1" == "/c" goto :termux
+	if "%~1" == "/u" goto :update
 	:loop
 	if "%~1"=="" exit /b
 	if not exist "%~1" shift&goto :loop
@@ -63,3 +64,7 @@ set /p.=
 call %.%
 set.=
 goto :showcmd
+
+:update
+call up -v "%VCC_HOME%"
+call up -p -c "%VCC_HOME%"
