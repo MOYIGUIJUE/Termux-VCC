@@ -9,10 +9,11 @@ if "%~1" == "-vcc" (
 ) else if "%~1" == "-d" (
 	goto :down_update
 ) else (
-	echo;Usage: install [arguments] {[-c]} 
+	echo;Usage: install [arguments] {[-c][-d]} 
 	echo;   or: install [arguments] {[-vcc]} [path]
 	echo;&echo;Arguments:
 	echo;   -c: 	检查更新
+	echo;   -d: 	更新
 	echo;   -vcc		安装本程序集合到指定目录[path]
 	echo;      		其余显示此帮助信息
 	exit /b
@@ -93,6 +94,8 @@ exit /b
 ::/E 复制目录和子目录，包括空的。/Y 取消提示以确认要覆盖现有目标文件 。/H 也复制隐藏和系统文件。/R 改写只读文件。 /Q 复制时不显示文件名。
 
 :down_update
-call down https://gitee.com/cctv3058084277/cctvpage1/releases/download/TERMUX-VCC/TERMUX-VCC-1.3.7.7z
-call 7z x %tmp%\TERMUX-VCC-1.3.7.7z -o%tmp%\termux -aoa
-call %tmp%\termux\termux.bat /u
+pushd "%temp%"
+call down https://gitee.com/cctv3058084277/cctvpage1/releases/download/TERMUX-VCC/TERMUX-VCC.7z
+call 7z x .\TERMUX-VCC.7z -o.\termux -aoa
+call .\termux\termux.bat /u
+popd

@@ -66,5 +66,7 @@ set.=
 goto :showcmd
 
 :update
+path=%~dp0Compile\Compile-bin;%path%
 call up -v "%VCC_HOME%"
 call up -p -c "%VCC_HOME%"
+copy /y "%~dpnx0" "%VCC_HOME%"
