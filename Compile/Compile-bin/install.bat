@@ -53,13 +53,13 @@ exit /b
 	printf 0x10 " GITEE "
 	echo; %var2:~0,-4%
 	set dates=%date:~0,-3%
-	del /f /q %Temp%\*.install
+	del /f /q %Temp%\*.install 2>nul >nul
 	echo;%var2%>%Temp%\%dates:/=-%.install
 	printf 0x20 " LOCAL "
 	echo; SOURSE PATH IS [%VCC_HOME%]
 	echo;
 	if "TERMUX-VCC-%version%.exe"=="%var2%" (
-		echo;  - 当前版本: %version%
+		echo;  - 当前版本: %version% -
 	) else (
 		echo;  - 检测到当前不是最新版本,请下载最新版本
 		echo;  - https://gitee.com/cctv3058084277/main/releases/tag/TERMUX-VCC
