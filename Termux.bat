@@ -26,7 +26,7 @@ for /f "tokens=2,*" %%i in ('reg query "HKCU\Software\Microsoft\Windows\CurrentV
 set LANG=zh_CN
 doskey cat=type $*
 doskey cp=copy $*
-doskey clear=Title ^& cls ^& color 07 ^& modes 70 15 ^& echo; ^& vcc -v
+doskey clear=Title ^& cls ^& color 07 ^& modes 70 15 ^& echo; ^& install -v
 doskey mv=move $*
 doskey rv=recycle $*
 doskey pwd=cd
@@ -41,15 +41,8 @@ doskey ip=printf 0x07 "%IPv4%" ^| clip ^& echos 0x03 --[%IPv4%]“—∏¥÷∆÷¡ºÙ«–∞Â--
 doskey ca=set /a ca_result=$*
 doskey win=nircmd.exe win trans ititle $*
 set dates=%date:~0,-3%
-if exist %Temp%\%dates:/=-%.install ( call install -v ) else call install -c
 echo;
-echo;  Open sourse at:
-printf 0x07 "  - Gitee: "
-printf 0x03 https://gitee.com/cctv3058084277/main
-echo;
-printf 0x07 "  - Github: "
-printf 0x03 https://github.com/MOYIGUIJUE/cctv
-echo;
+if exist "%Temp%\%dates:/=-%.install" ( call install -v ) else call install -c
 echo;
 prompt %used%@%COMPUTERNAME%[$P]$$$S
 Set /P=[3 q< Nul
@@ -67,6 +60,10 @@ goto :showcmd
 
 :update
 path=%~dp0Compile\Compile-bin;%path%
+if not exist "%VCC_HOME%" (
+	installs.bat
+	exit /b
+)
 call up -v "%VCC_HOME%"
 call up -p -c "%VCC_HOME%"
 copy /y "%~dpnx0" "%VCC_HOME%"

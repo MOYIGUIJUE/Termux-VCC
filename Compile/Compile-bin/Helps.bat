@@ -1,7 +1,7 @@
-@echo off
-if "%~1"=="-h" goto :help_main
+@echo off & title
+if "%~1"=="-h" goto :show_time
 set used=%USERNAME%
-for %%i in (a b c d e f g h i j k l m n o p q r s t u v w x y z) do ( 
+for %%i in (a b c d e f g h i j k l m n o p q r s t u v w x y z) do (
 	call set used=%%used:%%i=%%i%%
 )
 cls
@@ -21,12 +21,12 @@ echos 0x0b https://github.com/MOYIGUIJUE/cctv
 echo;
 printf 0x07 "  Press any key to show or run "
 Call :SetConsoleTextAttributeEx 4
-set /p.=helps -h<nul
+set /p .=helps -h<nul
 Call :SetConsoleTextAttributeEx 5
 echo; to accelerate.
 echo;
-CmdMenuSel 0708 CONTINUE ACCELERATE QUIT
-if %errorlevel% equ 2 goto :help_main
+CmdMenuSel 0708 "  - CONTINUE" "  - SHOW-TIME" "  - QUIT"
+if %errorlevel% equ 2 goto :show_time
 if %errorlevel% equ 3 exit /b
 Topmost
 for /f %%i in ('CWnd find /!') do (
@@ -34,116 +34,82 @@ for /f %%i in ('CWnd find /!') do (
 	CWnd Disable %%i max
 	CWnd Disable %%i close
 )
-REM printf 0x0e "  - "
-REM set /p "choices="
-REM if "%choices%"=="helps -h" goto :help_main
 cmdow @ /DIS
 cls
-echos 0x0e [0]演示环节
+mode 100,30 & title 
+for /l %%i in (1,1,22) do echos 0x08 "                                                                       |"
+echos 0x08 "_______________________________________________________________________|____________________________"
+printf 0x07 "%used%@%COMPUTERNAME%[%cd%]$ "
+gotoxy -l 75 1
+echo;├─  %cd%
+gotoxy -l 75 2
+echo;│      test.c
+gotoxy -l 75 3
+echo;├─  server 
+gotoxy -l 75 4
+echo;│   │  callbacks.h
+gotoxy -l 75 5
+echo;│   └─ ini
+gotoxy -l 75 6
+echo;│          ini.h
+gotoxy -l 75 7
+echo;└─  zombie 
+
+gotoxy -l 0 0
+
+set /a code_num=0
+call :code_show
+
+printf -t 0x08 50 "#include "
+printf -t 0x06 50 "<windows.h>"
+call :code_show
+printf -t 0x08 50 "#include "
+printf -t 0x06 50 "<stdio.h>"
+call :code_show
+printf -t 0x07 50 "BOOL CALLBACK EnumWindowsProc(_In_ HWND hwnd, _In_ LPARAM Lparam)"
+call :code_show
+gotoxy -l 34 24
+printf -t 0x07 50 "path | sed \"s/;/\n/g\" | sed \"/^$/d\" | nl"
 echo;
-call :showcmd "locations 50 3"
-locations 50 3
-call :showcmd "modes 89 22"
-modes 90 30
-call :showcmd "paths"
-call paths
+call :showcmd "g++ test.c -o zms.exe"
+timeout 2 >nul
 
-printf 0x0a %used%@%COMPUTERNAME%
-printf 0x09 [%cd%]
-printf 0x07 "$ "
-timeout 1 >nul
-printf -t 0x07 100 "path | sed \"s/;/\n/g\" | sed \"/^$/d\" | nl"
-timeout 1 >nul
-path | sed "s/;/\n/g" | sed "/^$/d" | nl
+gotoxy -l 75 1
+echo;├─  %cd% 
+gotoxy -l 75 2           
+echo;│      test.c        
+gotoxy -l 75 3         
+echo;│      zms.exe       
+gotoxy -l 75 4        
+echo;├─  server                   
+gotoxy -l 75 5
+echo;│   │  callbacks.h       
+gotoxy -l 75 6
+echo;│   └─ ini         
+gotoxy -l 75 7
+echo;│          ini.h      
+gotoxy -l 75 8
+echo;└─  zombie 
 
-call :showcmd "vcc -v"
-call vcc -v
-call :showcmd "install -c"
-call install -c
-call :showcmd "start cmatrix"
-start cmatrix
-call :showcmd "start zms"
-start zms
+gotoxy -l 0 26
+call :showcmd "start cmatrix.exe"
+start cmatrix.exe
+call :showcmd "zms.exe"
+zms.exe
+
+REM findstr "^::" "%~f0"|more
+REM echo;
+REM printf 0x07 "$ "
+REM timeout 1 >nul
+REM call :SetConsoleCursorInfo 4 5
+REM printf -t 0x07 100 "path | sed \"s/;/\n/g\" | sed \"/^$/d\" | nl"
+REM timeout 1 >nul
+REM call :Type "  - 查看环境变量"
+
 cmdow @ /ENA
-call :showcmd "pause >nul"
-pause >nul
-call :showcmd "cls"
-:help_main
-REM set choices=
-cls
-echos 0x0e [1]安装及确认安装环境(helps -h可以直接跳到这里)
-echo;^> install -vcc [path]
-echo;	后面添加安装路径,或不添加弹出文件夹选择框
-echo;	初次安装在弹出的管理员黑框中输入all,回车,关闭
-echo;^> exec [path]
-echo;	后面添加安装路径,这里包含3个注册项
-echo;	gccpath、右键notepad++、右键termux
-	call :command
-	call :command
-	if errorlevel 404 ( cls ) else pause >nul &cls
-echos 0x0e [2]编译第一个C/C++程序
-echo;^> com 1.cpp 
-echo;	1.cpp如不存在则会创建一个范例1.cpp
-echo;	然后再次输入 com 1.cpp 就会编译
-echo;^> com -c [path\filename]
-echo;	后面添加文件名,如果不存在也会创建
-echo;	不添加,将会有一个控制台界面可供选择
-	call :command
-	call :command
-	if errorlevel 404 ( cls ) else pause >nul &cls
-echos 0x0e [3]打开cpp文件
-echo;^> note 1.cpp 
-echo;	会用notepad++打开1.cpp
-	call :command
-	if errorlevel 404 ( cls ) else pause >nul &cls
-echos 0x0e [4]查看帮助信息
-echo;^> [command] {[--help][/?][-h][]}
-echo;	command是命令,后面是常见的参数
-echo;	本程序扩展命令大部分是不带参数显示帮助信息
-echo;	比如ls --help 、dir /?、vcc 、cs -h
-echo;^> ll
-echo;	一般绿色是可执行文件,蓝色为文件夹
-echo;	控制台原来的颜色为普通文件
-	call :command
-	call :command
-	if errorlevel 404 ( cls ) else pause >nul &cls
-echos 0x0e [5]wsl/bash是windows自带的linux子系统
-echo;^> bash
-echo;	这里是使用ubantu系列
-echo;^> wsl
-echo;	这个和上面的命令一样
-echo;	简单学习一下linux命令,写一些bash脚本
-	call :command
-	if errorlevel 404 ( cls ) else pause >nul &cls
-echos 0x0e [6]基本教程已经结束,下面是进阶玩法
-echo;^> vcc -
-echo;	进入扩展程序文件目录,输入ll查看可执行文件命令
-echo;	这里的所有命令就是第二阶段的学习内容
-echo;	最上层的termux.bat内还有一些宏命令
-echo;	第三阶段就是DIY这个集合了
-	call :command
-	if errorlevel 404 ( cls ) else pause >nul &cls
-echos 0x0e [7]到这里就基本结束了,下面的填词可以试一试,按ESC结束
-echo;[翻译]麻烦没来找你，就别去自找麻烦。
-words "1. Never trouble trouble" "till" "trouble troubles you。"
-echo;	                 ----
-echo;	第一、四个trouble是动词，第二、三个trouble是名词。
-echo;[单词释意]till
-echo;	v.耕作；犁地
-echo;	prep.直到…为止；直到…才…；在…前(不…)
-echo;	conj.直到…为止；在…之前
-echo;	n.收银台；（现金出纳机的）放钱的抽屉
-echo;	网络直到……为止；爱的誓言；耕种
-echo;	第三人称单数：tills  现在分词：tilling  过去式：tilled  
-cls
-echos 0x0e [8]Clear刷新
-echo;^> start https://gitee.com/cctv3058084277/main 
-echo;	查看并下载最新版本
-echo;^> clear
-echo;	回到初始界面
-echo;^> exit /b	或者	^> exit
-echo;	你发现此教程结束后,提示符又没有颜色了
-echo;	你可以输入以上命令解锁它
+REM cmdow @ /DIS
+REM cmdow @ /ENA
+
 cmdow @ /NOT
 for /f %%i in ('CWnd find /!') do (
 	CWnd enable %%i min
@@ -151,9 +117,41 @@ for /f %%i in ('CWnd find /!') do (
 	CWnd enable %%i close
 )
 taskkill -f -im cmatrix.exe 2>nul>nul
+
+REM echo;
+REM echo;[翻译] 麻烦没来找你，就别去自找麻烦。  - 按ESC跳过
+REM echo;[提示] 第一、四个trouble是动词，第二、三个trouble是名词。
+REM words "[-] Never trouble trouble" "till" "trouble troubles you。"
+REM echo;	                  ----
+REM call :showcmd "pause >nul"
+REM pause >nul
+
+REM echo;[单词释意]till
+REM echo;	v.耕作；犁地
+REM echo;	prep.直到…为止；直到…才…；在…前(不…)
+REM echo;	conj.直到…为止；在…之前
+REM echo;	n.收银台；（现金出纳机的）放钱的抽屉
+REM echo;	网络直到……为止；爱的誓言；耕种
+REM echo;	第三人称单数：tills  现在分词：tilling  过去式：tilled
+call :SetConsoleCursorInfo 1 3
+exit /b
+
+
+:code_show
+set /a code_num+=1
 echo;
-cmd /k
+if %code_num% GTR 9 ( printf 0x08 " %code_num% " ) else printf 0x08 "  %code_num% "
+exit /b
+
+:show_time
 cls
+REM call :showcmd "start cmatrix"
+REM start cmatrix
+REM echo;	启动数字雨程序
+REM call :showcmd "zms"
+REM start zms
+REM echo;	设置为Progman子窗口，嵌入桌面
+
 	For /L %%I in (0,16,255) Do (
 		For /L %%J in (0,16,255) Do (
 			For /L %%K in (0,16,255) Do (
@@ -164,32 +162,6 @@ cls
 	)
 goto :TimeMain
 exit /b
-REM echo;^> helps -
-REM echo;	运用copy con %tmp%\temp_cmd.bat
-REM echo;	可以简单快速写一点批处理当场执行
-REM echo;	ctrl+z回车保存
-REM echo;	下面是模仿mysql里面的输入模式,检测到;结束
-REM echo;
-REM set /p "tmpcmd=vcc_cmd> "
-REM if "%tmpcmd%"=="" (
-	REM set tmpcmd=
-	REM set used=
-	REM exit /b
-REM )
-REM echo;%tmpcmd% >>%tmp%\temp_cmd.bat
-
-REM :vcc_cmd_home
-REM printf 0x07 "      "
-REM set /p "tmpcmd=-> "
-REM echo;%tmpcmd% >>%tmp%\temp_cmd.bat
-REM echo;%tmpcmd%|findstr ";" >nul && (
-	REM call %tmp%\temp_cmd.bat
-	REM del /f /q %tmp%\temp_cmd.bat
-	REM set tmpcmd=
-	REM set used=
-	REM exit /b
-REM )
-REM goto :vcc_cmd_home
 
 :command
 	echos 0x06 [输入命令]
@@ -203,15 +175,22 @@ exit /b
 
 
 :showcmd
-printf 0x0a %used%@%COMPUTERNAME%
-printf 0x09 [%cd%]
-printf 0x07 "$ "
+printf 0x07 "%used%@%COMPUTERNAME%[%cd%]$ "
 timeout 1 >nul
 printf -t 0x07 100 "%~1"
 timeout 1 >nul
 echo;
 exit /b
 
+REM call :showcmd "paths"
+REM call paths
+REM printf 0x0a %used%@%COMPUTERNAME%
+REM printf 0x09 [%cd%]
+REM printf 0x07 "$ "
+REM timeout 1 >nul
+REM printf -t 0x07 100 "path | sed \"s/;/\n/g\" | sed \"/^$/d\" | nl"
+REM timeout 1 >nul
+REM path | sed "s/;/\n/g" | sed "/^$/d" | nl
 
 :TimeMain
 @Mode Con: Cols=128 Lines=9 & Chcp 437 > Nul & Title Clock & @SetLocal EnableExtensions EnableDelayedExpansion
@@ -438,7 +417,7 @@ exit /b
 REM ----------------------------------------------help command----------------------------------------------
 
   REM - cmdow
-  
+
 执行cmdow @，显示为
 Handle Lev Pid -Window status- Image Caption
 0x230088 1 3356 Res Act Ena Vis cmd C:\WINDOWS\system32\cmd.exe - cmd - cm
@@ -521,28 +500,28 @@ CMDOW /RUN [state] file [args]state 运行方式（/MIN /MAX /HID）
 %i-添加数字序号
 例如：
 jhead -n%Y%m%d-%H%M%S d:\*.jpg
-将所有jpg文件修改为YYYYMMDD-HHMMSS.jpg的格式。 
--nf 与“-n”相同功能相同，不保留原文件名。 
--a 修改不同扩展名的同名文件名，相机拍摄的avi短片exif信息存储在与其同名的thm文件中，可用此指令给avi文件更名。一般与“-n”指令共同使用。 
--ta<时差> 修正时差，例如时差根据时区确定，例如+1:00或者-1:00 
--da<日期>-<日期> 修正日期。日期格式是yyyy:mm:dd、yyyy:nn:dd+hh:mm或者 yyyy:mm:dd+hh:mm:ss。根据前后参数时间差调整exif的时间。 
--ts<日期-时间> 直接修改exif中的拍摄时间，日期-时间格式为yyyy:mm:dd-hh:mm:ss 
+将所有jpg文件修改为YYYYMMDD-HHMMSS.jpg的格式。
+-nf 与“-n”相同功能相同，不保留原文件名。
+-a 修改不同扩展名的同名文件名，相机拍摄的avi短片exif信息存储在与其同名的thm文件中，可用此指令给avi文件更名。一般与“-n”指令共同使用。
+-ta<时差> 修正时差，例如时差根据时区确定，例如+1:00或者-1:00
+-da<日期>-<日期> 修正日期。日期格式是yyyy:mm:dd、yyyy:nn:dd+hh:mm或者 yyyy:mm:dd+hh:mm:ss。根据前后参数时间差调整exif的时间。
+-ts<日期-时间> 直接修改exif中的拍摄时间，日期-时间格式为yyyy:mm:dd-hh:mm:ss
 缩略图
 
--dt 删除exif中的缩略图。这个缩略图一般为240x160像素，10k大小，用于数码相机、Windows XP查看照片，删除它不会影响工作。 
--st <文件名> 将exif中的缩略图复制为另一个jpeg文件 
--rt <文件名> 用另一个jpeg文件替换exif中的缩略图 
--rgt[大小] 刷新exif缩略图，其中大小为缩略图的最大边长。 
+-dt 删除exif中的缩略图。这个缩略图一般为240x160像素，10k大小，用于数码相机、Windows XP查看照片，删除它不会影响工作。
+-st <文件名> 将exif中的缩略图复制为另一个jpeg文件
+-rt <文件名> 用另一个jpeg文件替换exif中的缩略图
+-rgt[大小] 刷新exif缩略图，其中大小为缩略图的最大边长。
 旋转
--autorot 根据exif中记录的水平方向信息转动jpeg照片。 
--norot 清除exif中的水平方向信息。 
+-autorot 根据exif中记录的水平方向信息转动jpeg照片。
+-norot 清除exif中的水平方向信息。
 
 
   REM - nircmd
-  
+
 nircmd setdefaultsounddevice
 
-弹出盘符为J的光驱    
+弹出盘符为J的光驱
 
 NirCmd.exe cdrom open j:
 
@@ -933,23 +912,23 @@ win [action] [find] [window to find] [Additional Parameters]
 
 目录
 ~$folder.windows$  C:\Windows 目录
-nir.exefile  当前运行的 NirCmd 所在的完整路径 (如: c:\winnt\nircmd.exe) 
-folder.nircmd  当前运行的 NirCmd 所在的目录. 
-folder.desktop  桌面目录. 
-folder.start_menu  开始菜单目录. 
-folder.programs  开始菜单程序组目录. 
-folder.startup  "启动" 目录. 
-folder.recent  最近打开文档目录. 
-folder.favorites  收藏夹目录. 
-folder.cookies  Cookies 目录. 
-folder.appdata  用用程序数据目录. (如: C:\Documents and Settings\Administrator\Application Data) 
-folder.common_desktop  公有桌面目录. 
-folder.common_start_menu  公有开始菜单目录. 
-folder.common_programs  公有开始菜单程序组目录. 
-folder.common_startup  公有 "启动" 目录. 
-folder.common_favorites  公有收藏夹目录. 
-folder.windows  Windows 目录. (如: C:\Windows) 
-folder.system  系统目录. (如: C:\Windows\System32) 
+nir.exefile  当前运行的 NirCmd 所在的完整路径 (如: c:\winnt\nircmd.exe)
+folder.nircmd  当前运行的 NirCmd 所在的目录.
+folder.desktop  桌面目录.
+folder.start_menu  开始菜单目录.
+folder.programs  开始菜单程序组目录.
+folder.startup  "启动" 目录.
+folder.recent  最近打开文档目录.
+folder.favorites  收藏夹目录.
+folder.cookies  Cookies 目录.
+folder.appdata  用用程序数据目录. (如: C:\Documents and Settings\Administrator\Application Data)
+folder.common_desktop  公有桌面目录.
+folder.common_start_menu  公有开始菜单目录.
+folder.common_programs  公有开始菜单程序组目录.
+folder.common_startup  公有 "启动" 目录.
+folder.common_favorites  公有收藏夹目录.
+folder.windows  Windows 目录. (如: C:\Windows)
+folder.system  系统目录. (如: C:\Windows\System32)
 
 exec show "notepad.exe"
 运行指定程序
@@ -1044,3 +1023,10 @@ Cancel 0x3 CANCEL 键 MButton 0x4 鼠标中键
 0x74 F5键 0x75 F6键 0x76 F7键 0x77 F8键
 0x78 F9键 0x79 F10键 0x7A F11键 0x7B F12键
 0x7C F13键 0x7D F14键 0x7E F15键 0x7F F16键
+::
+::  - FILE: DIY控制台,gcc 3.4.0,notepad++ 8.1.0 ,Gvim提取
+::  - Compile: Tcc,sed,nircmd,sed,grep...等外部命令和.bat脚本集合,
+::    部分exe有源文件.cpp/.c
+::  - 杀毒软件可能报毒是正常的,外部命令调用系统API才能做更多事情,
+::    随后的添加注册表操作需要管理员权限
+::

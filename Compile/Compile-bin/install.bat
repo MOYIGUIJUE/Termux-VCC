@@ -20,7 +20,6 @@ if "%~1" == "-vcc" (
 )
 
 :show_update
-	echo;
 	printf 0x10 " GITEE "
 	set /p dates_install=<%Temp%\%dates:/=-%.install
 	echo; %dates_install:~0,-4%
@@ -34,6 +33,14 @@ if "%~1" == "-vcc" (
 		echo;  - 检测到当前不是最新版本,请下载最新版本
 		echo;  - https://gitee.com/cctv3058084277/main/releases/tag/TERMUX-VCC
 	)
+	echo;
+	echo;  Open sourse at:
+	printf 0x07 "  - Gitee: "
+	printf 0x03 https://gitee.com/cctv3058084277/main
+	echo;
+	printf 0x07 "  - Github: "
+	printf 0x03 https://github.com/MOYIGUIJUE/cctv
+	echo;
 exit /b
 
 :check_update
