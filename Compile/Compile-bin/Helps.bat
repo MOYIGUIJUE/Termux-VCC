@@ -36,23 +36,25 @@ for /f %%i in ('CWnd find /!') do (
 )
 cmdow @ /DIS
 cls
-mode 100,30 & title 
-for /l %%i in (1,1,22) do echos 0x08 "                                                                       |"
-echos 0x08 "_______________________________________________________________________|____________________________"
-printf 0x07 "%used%@%COMPUTERNAME%[%cd%]$ "
-gotoxy -l 75 1
+mode 75,23 & title 
+call vcc -h
+for /l %%i in (1,1,11) do echos 0x08 "                                           |"
+echos 0x08 "___________________________________________|_____________________________"
+echo;
+set /a wide=45
+gotoxy -l %wide% 1
 echo;©À©¤  %cd%
-gotoxy -l 75 2
-echo;©¦      test.c
-gotoxy -l 75 3
-echo;©À©¤  server 
-gotoxy -l 75 4
-echo;©¦   ©¦  callbacks.h
-gotoxy -l 75 5
+gotoxy -l %wide% 2
+echo;©¦   ©¸  test.c     
+gotoxy -l %wide% 3
+echo;©À©¤  server
+gotoxy -l %wide% 4
+echo;©¦   ©¦  callbacks.h     
+gotoxy -l %wide% 5
 echo;©¦   ©¸©¤ ini
-gotoxy -l 75 6
-echo;©¦          ini.h
-gotoxy -l 75 7
+gotoxy -l %wide% 6
+echo;©¦   ©¦      ini.h
+gotoxy -l %wide% 7
 echo;©¸©¤  zombie 
 
 gotoxy -l 0 0
@@ -60,42 +62,65 @@ gotoxy -l 0 0
 set /a code_num=0
 call :code_show
 
-printf -t 0x08 50 "#include "
-printf -t 0x06 50 "<windows.h>"
+printf -t 0x08 10 "#include "
+printf -t 0x06 10 "<iostream>"
 call :code_show
-printf -t 0x08 50 "#include "
-printf -t 0x06 50 "<stdio.h>"
+printf -t 0x03 10 "using namespace "
+printf -t 0x07 10 "std;"
 call :code_show
-printf -t 0x07 50 "BOOL CALLBACK EnumWindowsProc(_In_ HWND hwnd, _In_ LPARAM Lparam)"
+printf -t 0x03 10 "int "
+printf -t 0x07 10 "main("
+printf -t 0x03 10 "int "
+printf -t 0x07 10 "argc,"
+printf -t 0x03 10 "char *"
+printf -t 0x07 10 "argv[])"
 call :code_show
-gotoxy -l 34 24
-printf -t 0x07 50 "path | sed \"s/;/\n/g\" | sed \"/^$/d\" | nl"
+printf -t 0x07 10 {
+call :code_show
+printf -t 0x07 10 "	cout<<"
+printf -t 0x06 10 "\"hello world\""
+printf -t 0x07 10 ", 0);	"
+call :code_show
+printf -t 0x03 10 "	return "
+printf -t 0x02 10 0
+printf -t 0x07 10 ;
+call :code_show
+printf -t 0x07 10 }
+
+
+gotoxy -l 0 13
+printf 0x07 "%used%@%COMPUTERNAME%[%cd%]$ "
+printf -t 0x07 10 "path | sed \"s/;/\n/g\" | sed \"/^$/d\" | nl"
 echo;
-call :showcmd "g++ test.c -o zms.exe"
+call :showcmd "g++ test.cpp -o test.exe"
 timeout 2 >nul
 
-gotoxy -l 75 1
+gotoxy -l %wide% 1
 echo;©À©¤  %cd% 
-gotoxy -l 75 2           
+gotoxy -l %wide% 2           
 echo;©¦      test.c        
-gotoxy -l 75 3         
-echo;©¦      zms.exe       
-gotoxy -l 75 4        
-echo;©À©¤  server                   
-gotoxy -l 75 5
+gotoxy -l %wide% 3         
+echo;©¦      test.exe       
+gotoxy -l %wide% 4        
+echo;©À©¤  server             
+gotoxy -l %wide% 5
 echo;©¦   ©¦  callbacks.h       
-gotoxy -l 75 6
+gotoxy -l %wide% 6
 echo;©¦   ©¸©¤ ini         
-gotoxy -l 75 7
+gotoxy -l %wide% 7
 echo;©¦          ini.h      
-gotoxy -l 75 8
-echo;©¸©¤  zombie 
+gotoxy -l %wide% 8
+echo;©¸©¤  zombie    
 
-gotoxy -l 0 26
-call :showcmd "start cmatrix.exe"
-start cmatrix.exe
-call :showcmd "zms.exe"
-zms.exe
+gotoxy -l 0 15
+
+call :showcmd "test.exe"
+echo;hello world
+
+REM call :showcmd "start cmatrix.exe"
+REM start cmatrix.exe
+REM call :showcmd "zms.exe"
+REM zms.exe
 
 REM findstr "^::" "%~f0"|more
 REM echo;
