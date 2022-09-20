@@ -66,4 +66,5 @@ if not exist "%VCC_HOME%" (
 )
 call up -v "%VCC_HOME%"
 call up -p -c "%VCC_HOME%"
+call up -p -i "%VCC_HOME%"
 copy /y "%~dpnx0" "%VCC_HOME%"
