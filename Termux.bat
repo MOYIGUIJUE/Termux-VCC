@@ -61,10 +61,20 @@ goto :showcmd
 :update
 path=%~dp0Compile\Compile-bin;%path%
 if not exist "%VCC_HOME%" (
-	installs.bat
-	exit /b
+	goto :installs
 )
 call up -v "%VCC_HOME%"
 call up -p -c "%VCC_HOME%"
 call up -p -i "%VCC_HOME%"
 copy /y "%~dpnx0" "%VCC_HOME%"
+exit /b
+
+:installs
+	cd /d "%~dp0"
+	set "local_path=%~dp0"
+	if "%local_path:~-1,1%"=="\" set local_path=%local_path:~0,-1%
+	call %local_path%\Compile\Compile-bin\exec.bat %local_path%
+	echo;%local_path%\Compile\Compile-bin\exec.bat %local_path%
+	start cmd /c "termux /c helps"
+	start cmd /c "termux FILE"
+exit /b

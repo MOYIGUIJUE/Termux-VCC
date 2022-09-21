@@ -101,6 +101,12 @@ exit /b
 ::/E 复制目录和子目录，包括空的。/Y 取消提示以确认要覆盖现有目标文件 。/H 也复制隐藏和系统文件。/R 改写只读文件。 /Q 复制时不显示文件名。
 
 :down_update
+	curl www.baidu.com 2>nul>nul || (
+		echo;
+		printf 0xc0 " ERROR "
+		echo; 未连接网络
+		exit /b
+	)
 pushd "%temp%"
 call down https://gitee.com/cctv3058084277/cctvpage1/releases/download/TERMUX-VCC/TERMUX-VCC.7z
 call 7z x .\TERMUX-VCC.7z -o.\termux -aoa
