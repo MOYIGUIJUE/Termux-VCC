@@ -36,10 +36,10 @@ for /f %%i in ('CWnd find /!') do (
 )
 cmdow @ /DIS
 cls
-mode 75,23 & title 
+modes 75 23 & title 
 call vcc -h
 for /l %%i in (1,1,11) do echos 0x08 "                                           |"
-echos 0x08 "___________________________________________|_____________________________"
+echos 0x08 "___________________________________________|________________________________"
 echo;
 set /a wide=45
 gotoxy -l %wide% 1
@@ -170,12 +170,12 @@ exit /b
 
 :show_time
 cls
-REM call :showcmd "start cmatrix"
-REM start cmatrix
-REM echo;	启动数字雨程序
-REM call :showcmd "zms"
-REM start zms
-REM echo;	设置为Progman子窗口，嵌入桌面
+call :showcmd "start cmatrix"
+start cmatrix
+echo;	启动数字雨程序
+call :showcmd "zms"
+start zms
+echo;	设置为Progman子窗口，嵌入桌面
 
 	For /L %%I in (0,16,255) Do (
 		For /L %%J in (0,16,255) Do (
