@@ -21,6 +21,7 @@ for %%i in (a b c d e f g h i j k l m n o p q r s t u v w x y z) do (
 )
 path=%~dp0Compile\Compile-bin;%path%
 nircmd.exe win trans title "TERMUX-VCC" 180
+title 
 modes 70 15
 for /f "tokens=2,*" %%i in ('reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" /v "Desktop"') do set "Desk=%%j"
 set LANG=zh_CN

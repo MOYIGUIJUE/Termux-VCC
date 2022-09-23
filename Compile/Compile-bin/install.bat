@@ -30,6 +30,7 @@ if "%~1" == "-vcc" (
 	if "TERMUX-VCC-%version%.exe"=="%dates_install%" (
 		echo;  - 当前版本: %version%
 	) else (
+		echo;  - 当前版本: %version%
 		echo;  - 检测到当前不是最新版本,请下载最新版本[install -d]
 		echo;  - https://gitee.com/cctv3058084277/main/releases/tag/TERMUX-VCC
 	)
@@ -68,6 +69,7 @@ exit /b
 	if "TERMUX-VCC-%version%.exe"=="%var2%" (
 		echo;  - 当前版本: %version% -
 	) else (
+		echo;  - 当前版本: %version% -
 		echo;  - 检测到当前不是最新版本,请下载最新版本
 		echo;  - https://gitee.com/cctv3058084277/main/releases/tag/TERMUX-VCC
 	)
