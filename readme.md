@@ -59,6 +59,37 @@ doskey ca=set /a ca_result=$*
 
 >剩余的自己去探索吧
 
+### 目录结构
+
+```
+├─Compile-bin
+│  ├─Sourse Code
+│  └─Sourse Com
+├─Compile-include
+│  ├─2052
+│  ├─CMD
+│  ├─doc
+│  ├─examples
+│  ├─ghost
+│  │  └─64
+│  ├─include
+│  │  ├─sec_api
+│  │  │  └─sys
+│  │  ├─sys
+│  │  ├─tcc
+│  │  └─winapi
+│  ├─lib
+│  ├─libtcc
+│  ├─sqlite
+│  ├─TABLE
+│  └─VBS
+└─Home
+```
+
+
+
+
+
 ### 联系我们
 
 Q群:820146120
