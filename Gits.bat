@@ -8,6 +8,7 @@ if "%~1"=="" (
 	git status
 	exit /b
 )
+
 REM git diff
 git add *
 git commit -m "%~1"
