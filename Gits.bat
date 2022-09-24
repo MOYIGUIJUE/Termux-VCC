@@ -9,10 +9,20 @@ if "%~1"=="" (
 	exit /b
 )
 
+
+
+
 REM git diff
+
 git add *
 git commit -m "%~1"
 git push
+
+REM .gitignore规则不生效
+REM git rm -r --cached .
+REM git add .
+REM git commit -m 'update .gitignore'
+
 REM git push origin master
 REM git pull --rebase origin master
 REM 合并分支
