@@ -5,7 +5,11 @@ set "choose_path=E:\MAIN\CCTV_History"
 if not exist "%choose_path%\vcc.log" cd.>%choose_path%\vcc.log
 for /f "usebackq tokens=1,2 delims=|" %%a in ("%choose_path%\vcc.log") do set "vcc_version=%%b"
 if "%vcc_version%"=="" set vcc_version=0.0.0
-if "%~1" == "to" (
+if "%~1" == "-u" (
+	echos 0x03 TERMUX-VCC.7z
+	if exist "%choose_path%\TERMUX-VCC.7z" del /f /q "%choose_path%\TERMUX-VCC.7z"
+	7z a "%choose_path%\TERMUX-VCC.7z" "%~dp0..\..\Compile\" "%~dp0..\..\Termux.bat"
+) else if "%~1" == "to" (
 	echos 0x03 %dates:/=-%.zip
 	7z a "%~3\%dates:/=-%.%2" "%~dp0..\..\Compile\" "%~dp0..\..\Termux.bat"
 ) else if "%~1" == "for" (
@@ -33,6 +37,7 @@ if "%~1" == "to" (
 	echo;Usage: backup [arguments] {[-zip][-7z][-all]} [name]
 	echo;   or: backup [arguments] {[to][for]} {[7z][zip]} [drive:][path/filename]
 	echo;   or: backup [arguments] {[-dir][-log]}
+	echo;   or: backup [arguments] [-u] TERMUX-VCC.7z
 	echo;&echo;Arguments:
 	echo;   选定路径: 	%choose_path% [%dates:/=-%]
 	echo;   -zip		以zip格式备份到选定路径
