@@ -36,9 +36,9 @@ for /f %%i in ('CWnd find /!') do (
 )
 cmdow @ /DIS
 cls
-modes 75 23 & title 
+modes 75 16 & title 
 call vcc -h
-for /l %%i in (1,1,11) do echos 0x08 "                                           |"
+for /l %%i in (1,1,9) do echos 0x08 "                                           |"
 echos 0x08 "___________________________________________|________________________________"
 echo;
 set /a wide=45
@@ -88,7 +88,7 @@ call :code_show
 printf -t 0x07 10 }
 
 
-gotoxy -l 0 13
+gotoxy -l 0 11
 printf 0x07 "%used%@%COMPUTERNAME%[%cd%]$ "
 printf -t 0x07 10 "path | sed \"s/;/\n/g\" | sed \"/^$/d\" | nl"
 echo;
@@ -112,7 +112,7 @@ echo;©¦          ini.h
 gotoxy -l %wide% 8
 echo;©¸©¤  zombie    
 
-gotoxy -l 0 15
+gotoxy -l 0 13
 
 call :showcmd "test.exe"
 echo;hello world

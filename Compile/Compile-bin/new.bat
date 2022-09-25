@@ -1,7 +1,7 @@
 @echo off
-setlocal enabledelayedexpansion
 if "%~1"=="" goto :help
 if exist "%~1" echo;该文件已存在&exit /b
+
 if /i "%~x1" == ".bat" (
 	echo;@echo off ^& title >%~dpnx1
 	echo;rem mode 70,15>>%~dpnx1
@@ -16,12 +16,12 @@ if /i "%~x1" == ".bat" (
 	echo;echo;hello world>>%~dpnx1
 	echo;pause>>%~dpnx1
 ) Else if /i "%~x1" == ".cmd" (
-	echo;@echo off >>%1
+	echo;@echo off >%1
 	echo;setlocal enabledelayedexpansion>>%1
-	echo;>>%1
+	echo;echo;重定向中文到文件会默认保存为ANSI编码>>%1
 	echo;pause>>%1
 ) Else if /i "%~x1" == ".vbs" (
-	echo;msgbox^("hello world"^)>>%1
+	echo;msgbox^("重定向中文到文件会默认保存为ANSI编码"^)>%1
 	echo;set ws = createobject^("wscript.shell"^)>>%1
 ) Else if /i "%~x1" == ".cpp" (
 	echo;#include ^<iostream^>>%1
@@ -29,6 +29,7 @@ if /i "%~x1" == ".bat" (
 	echo;int main^(int argc,char *argv[]^)>>%1
 	echo;{>>%1
 	echo;	cout^<^<"hello world!"^<^<endl;>>%~1
+	echo;	cout^<^<"你好,世界!"^<^<endl;>>%~1
 	echo;	system^("pause"^);>>%1
 	echo;	return 0;>>%1
 	echo;}>>%1
@@ -38,18 +39,19 @@ if /i "%~x1" == ".bat" (
 	echo;int main^(^)>>%1
 	echo;{>>%1
 	echo;	printf^("hello world! \n"^);>>%~1
+	echo;	printf^("你好,世界! \n"^);>>%~1
 	echo;	system^("pause"^);>>%1
 	echo;	return 0;>>%1
 	echo;}>>%1
 ) Else if /i "%~x1" == ".java" (
-	echo;public class %~n1 { >>%1
-	echo;	public static void main^(String[] args^){ >>%1
-	echo;		System.out.println^("hello world"^);>>%1
-	echo;	}>>%1
-	echo;}>>%1
+	(echo;public class %~n1 {
+	echo;	public static void main^(String[] args^){
+	echo;		System.out.println^("hello world"^);
+	echo;		System.out.println^("你好,世界"^);
+	echo;	}
+	echo;} )>%1
 ) Else (
-	cd. >%1
-	ren "%~1" "%*" 2>nul >nul
+	echo;输入中文到文件会默认保存为ANSI编码 >%1
 )
 REM powershell.exe -command "dir *.txt -R|foreach-object{(Get-Content $_.FullName -Encoding Default) | Set-Content $_.FullName -Encoding ANSI }"
 

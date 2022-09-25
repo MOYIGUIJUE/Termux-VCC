@@ -70,9 +70,17 @@ exit /b
 		echo;  - 当前版本: %version% -
 	) else (
 		echo;  - 当前版本: %version% -
-		echo;  - 检测到当前不是最新版本,请下载最新版本
+		echo;  - 检测到当前不是最新版本,请下载最新版本[install -d]
 		echo;  - https://gitee.com/cctv3058084277/main/releases/tag/TERMUX-VCC
 	)
+	echo;
+	echo;  Open sourse at:
+	printf 0x07 "  - Gitee: "
+	printf 0x03 https://gitee.com/cctv3058084277/main
+	echo;
+	printf 0x07 "  - Github: "
+	printf 0x03 https://github.com/MOYIGUIJUE/cctv
+	echo;
 exit /b
 
 
@@ -94,7 +102,7 @@ exit /b
 	:input
 	echo;安装目录:%input%
 	xcopy .\Compile\ "%input%\Compile\" /e /y /h /r
-	xcopy .\Compile\ "%input%\FILE\" /e /y /h /r
+	xcopy .\FILE\ "%input%\FILE\" /e /y /h /r
 	copy Termux.bat "%input%"
 	call exec.bat %input%
 	start cmd /c "termux FILE"
