@@ -1,4 +1,4 @@
-@echo off
+@echo off 
 if "%~1"=="" (
 	echo;Usage: exec {[-r][path]}
 	echo;       不能添加第2个参数
@@ -6,6 +6,7 @@ if "%~1"=="" (
 	echo;       -r直接进入控制台
 	exit /b
 )
+title HKCR_REG
 %2mshta vbscript:createobject("shell.application").shellexecute("""%~dpnx0""","%~1 ::",,"runas",1)(window.close)&exit /b
 cd /d %~dp0..\..
 if "%1"=="-r" goto :root
@@ -16,7 +17,6 @@ if exist %1 (
 	setx /M VCC_HOME %1
 	pause >nul
 )
-title HKCR_REG
 set "cds=%cd%"
 cd..
 if "%cd%"=="%cds%" set cds=%cds:\=%

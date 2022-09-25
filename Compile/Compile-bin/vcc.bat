@@ -32,7 +32,9 @@ for /f "tokens=2 delims=|" %%i in ('more +%split% %~dpnx0') do set version=%%i
 set "version=%version: =%"
 echo;  - vcc version %version% 
 printf 0x07 "  - Sourse Path: "
-echos 0x03 %~dp0
+pushd %~dp0..\..
+echos 0x03 %cd%
+popd
 set split=
 exit /b 
 rem ------------------------------------------
@@ -95,3 +97,4 @@ REM aria2c.exe --conf-path=aria2.conf
 2022/09/14 12:11:37 2022-09-14.7z | 1.3.7 
 2022/09/20 23:31:45 2022-09-20.7z | 1.3.8 
 2022/09/20 23:42:27 2022-09-20-termux.7z | 1.3.8 
+2022/09/25 22:02:42 2022-09-25simple.7z | 1.3.9 
