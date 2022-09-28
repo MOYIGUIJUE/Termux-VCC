@@ -6,4 +6,5 @@ call %local_path%\Compile\Compile-bin\exec.bat %local_path%
 echo;%local_path%\Compile\Compile-bin\exec.bat %local_path%
 start cmd /c "termux /c helps"
 start cmd /c "termux FILE"
+start cmd /c "termux Compile"
 del %0
