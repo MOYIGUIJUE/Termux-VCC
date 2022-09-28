@@ -1,5 +1,7 @@
-@echo off & title
-if "%~1"=="-h" goto :show_time
+@echo off & title 
+For %%i in (- / \) Do (
+	If /i "%1"=="%%ih" Goto :helps
+)
 set used=%USERNAME%
 for %%i in (a b c d e f g h i j k l m n o p q r s t u v w x y z) do (
 	call set used=%%used:%%i=%%i%%
@@ -25,18 +27,113 @@ set /p .=helps -h<nul
 Call :SetConsoleTextAttributeEx 5
 echo; to accelerate.
 echo;
-CmdMenuSel 0708 "  - CONTINUE" "  - SHOW-TIME" "  - QUIT"
-if %errorlevel% equ 2 goto :show_time
+CmdMenuSel 0708 "  - CONTINUE" "  - HELP" "  - QUIT"
+if %errorlevel% equ 2 goto :helps
 if %errorlevel% equ 3 exit /b
+cls
+echo;  ^< 目录 ^>
+echo;
+CmdMenuSel 0708 "  - 第一章 安装和使用" "  - 第二章 基础教程" "  - 第三章 进阶教程" "  - 第四章 了解本外部命令集合" "  - 第五章 外部命令" "  - 第六章 编写外部命令"
+cls
+goto :book_%errorlevel%
+
+:book_1
+gotoxy -l 0 0
+echo;  - 第一章 安装和使用
+echo;
+echo;  - 先这样,再那样
+echo;  - 学会了吧,点击确定
+length "确定"
+call :mouse 40 7 %errorlevel% 7 70 "确定" 1
+if %errorlevel% EQU 1 goto :TimeMain
+goto :book_1
+
+:mouse <X> <Y> <EX> <EY> <color> <str> <RE>
+set /a X=%1
+set /a Y=%2
+set /a EX=%3+%1
+set /a EY=%4
+
+gotoxy -l %X% %Y%
+echos 0x%5 %6
+
+for /f "tokens= 1,2,3 delims= " %%i in ('Mouse.exe') do (
+	set MX=%%k
+	set MY=%%j
+)
+REM echo;[%X%,%Y%,%EX%,%EY%]
+if %MX% GEQ %X% if %MX% LEQ %EX% if %MY% GEQ %Y% if %MY% LEQ %EY% exit /b %7
+exit /b 0
+
+:book_2
+echo;  - 第二章 基础教程
+
+call :showcmd "paths"
+call paths
+printf 0x0a %used%@%COMPUTERNAME%
+printf 0x09 [%cd%]
+printf 0x07 "$ "
+timeout 1 >nul
+printf -t 0x07 100 "path | sed \"s/;/\n/g\" | sed \"/^$/d\" | nl"
+timeout 1 >nul
+call :Type "  - 查看环境变量"
+path | sed "s/;/\n/g" | sed "/^$/d" | nl
+
+exit /b
+
+:book_3
+echo;  - 第三章 进阶教程
+	For /L %%I in (0,16,255) Do (
+		For /L %%J in (0,16,255) Do (
+			For /L %%K in (0,16,255) Do (
+				Call :SetConsoleTextAttribute %%I-%%J-%%K %%I-%%J-%%K
+				Set /P=#< Nul
+			)
+		)
+	)
+exit /b
+
+:book_4
+echo;  - 第四章 了解本外部命令集合
+echo;
+echo;[翻译] 麻烦没来找你，就别去自找麻烦。  - 按ESC跳过
+echo;[提示] 第一、四个trouble是动词，第二、三个trouble是名词。
+words "[-] Never trouble trouble" "till" "trouble troubles you。"
+echo;	                  ----
+call :showcmd "pause >nul"
+pause >nul
+
+echo;[单词释意]till
+echo;	v.耕作；犁地
+echo;	prep.直到…为止；直到…才…；在…前(不…)
+echo;	conj.直到…为止；在…之前
+echo;	n.收银台；（现金出纳机的）放钱的抽屉
+echo;	网络直到……为止；爱的誓言；耕种
+echo;	第三人称单数：tills  现在分词：tilling  过去式：tilled
+exit /b
+
+:book_5
+echo;  - 第五章 外部命令
+call :showcmd "start cmatrix"
+start cmatrix.exe
+echo;	启动数字雨程序
+call :showcmd "zms"
+start zms.exe
+echo;	设置为Progman子窗口，嵌入桌面
+exit /b
+
+:book_6
+title;第六章 编写外部命令
+
 Topmost
-for /f %%i in ('CWnd find /!') do (
+(for /f %%i in ('CWnd find /!') do (
 	CWnd Disable %%i min
 	CWnd Disable %%i max
 	CWnd Disable %%i close
-)
-cmdow @ /DIS
+)) 2>nul
+cmdow @ /DIS 2>nul
 cls
-modes 75 16 & title 
+modes 75 16
 call vcc -h
 for /l %%i in (1,1,9) do echos 0x08 "                                           |"
 echos 0x08 "___________________________________________|________________________________"
@@ -89,9 +186,6 @@ printf -t 0x07 10 }
 
 
 gotoxy -l 0 11
-printf 0x07 "%used%@%COMPUTERNAME%[%cd%]$ "
-printf -t 0x07 10 "path | sed \"s/;/\n/g\" | sed \"/^$/d\" | nl"
-echo;
 call :showcmd "g++ test.cpp -o test.exe"
 timeout 2 >nul
 
@@ -112,52 +206,20 @@ echo;│          ini.h
 gotoxy -l %wide% 8
 echo;└─  zombie    
 
-gotoxy -l 0 13
+gotoxy -l 0 12
 
 call :showcmd "test.exe"
 echo;hello world
 
-REM call :showcmd "start cmatrix.exe"
-REM start cmatrix.exe
-REM call :showcmd "zms.exe"
-REM zms.exe
-
-REM findstr "^::" "%~f0"|more
-REM echo;
-REM printf 0x07 "$ "
-REM timeout 1 >nul
-REM call :SetConsoleCursorInfo 4 5
-REM printf -t 0x07 100 "path | sed \"s/;/\n/g\" | sed \"/^$/d\" | nl"
-REM timeout 1 >nul
-REM call :Type "  - 查看环境变量"
-
-cmdow @ /ENA
-REM cmdow @ /DIS
-REM cmdow @ /ENA
-
-cmdow @ /NOT
-for /f %%i in ('CWnd find /!') do (
+cmdow @ /ENA 2>nul
+cmdow @ /NOT 2>nul>nul
+(for /f %%i in ('CWnd find /!') do (
 	CWnd enable %%i min
 	CWnd enable %%i max
 	CWnd enable %%i close
-)
+)) 2>nul>nul
 taskkill -f -im cmatrix.exe 2>nul>nul
 
-REM echo;
-REM echo;[翻译] 麻烦没来找你，就别去自找麻烦。  - 按ESC跳过
-REM echo;[提示] 第一、四个trouble是动词，第二、三个trouble是名词。
-REM words "[-] Never trouble trouble" "till" "trouble troubles you。"
-REM echo;	                  ----
-REM call :showcmd "pause >nul"
-REM pause >nul
-
-REM echo;[单词释意]till
-REM echo;	v.耕作；犁地
-REM echo;	prep.直到…为止；直到…才…；在…前(不…)
-REM echo;	conj.直到…为止；在…之前
-REM echo;	n.收银台；（现金出纳机的）放钱的抽屉
-REM echo;	网络直到……为止；爱的誓言；耕种
-REM echo;	第三人称单数：tills  现在分词：tilling  过去式：tilled
 call :SetConsoleCursorInfo 1 3
 exit /b
 
@@ -166,26 +228,6 @@ exit /b
 set /a code_num+=1
 echo;
 if %code_num% GTR 9 ( printf 0x08 " %code_num% " ) else printf 0x08 "  %code_num% "
-exit /b
-
-:show_time
-cls
-call :showcmd "start cmatrix"
-start cmatrix
-echo;	启动数字雨程序
-call :showcmd "zms"
-start zms
-echo;	设置为Progman子窗口，嵌入桌面
-
-	For /L %%I in (0,16,255) Do (
-		For /L %%J in (0,16,255) Do (
-			For /L %%K in (0,16,255) Do (
-				Call :SetConsoleTextAttribute %%I-%%J-%%K %%I-%%J-%%K
-				Set /P=#< Nul
-			)
-		)
-	)
-goto :TimeMain
 exit /b
 
 :command
@@ -206,16 +248,6 @@ printf -t 0x07 100 "%~1"
 timeout 1 >nul
 echo;
 exit /b
-
-REM call :showcmd "paths"
-REM call paths
-REM printf 0x0a %used%@%COMPUTERNAME%
-REM printf 0x09 [%cd%]
-REM printf 0x07 "$ "
-REM timeout 1 >nul
-REM printf -t 0x07 100 "path | sed \"s/;/\n/g\" | sed \"/^$/d\" | nl"
-REM timeout 1 >nul
-REM path | sed "s/;/\n/g" | sed "/^$/d" | nl
 
 :TimeMain
 @Mode Con: Cols=128 Lines=9 & Chcp 437 > Nul & Title Clock & @SetLocal EnableExtensions EnableDelayedExpansion
@@ -1048,6 +1080,11 @@ Cancel 0x3 CANCEL 键 MButton 0x4 鼠标中键
 0x74 F5键 0x75 F6键 0x76 F7键 0x77 F8键
 0x78 F9键 0x79 F10键 0x7A F11键 0x7B F12键
 0x7C F13键 0x7D F14键 0x7E F15键 0x7F F16键
+
+:helps
+cls
+findstr "^::" "%~f0"|more
+echo;
 ::
 ::  - FILE: DIY控制台,gcc 3.4.0,notepad++ 8.1.0 ,Gvim提取
 ::  - Compile: Tcc,sed,nircmd,sed,grep...等外部命令和.bat脚本集合,

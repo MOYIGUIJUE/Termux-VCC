@@ -1,67 +1,88 @@
-@echo off & setlocal enabledelayedexpansion
-if "%~1"=="" (
+@echo off
+setlocal enabledelayedexpansion
+if "%~1"=="-p" (
+	call :judge_java_home %2
+	exit /b
+) else if "%~1"=="" (
 	echo;JCOM [drive:][path][filename]
 	echo;JCOM -p [drive:][path] 配置环境变量
 	exit /b
+) else (
+	if exist "%~1" (
+		pushd %~dp1
+		if "%~x1"==".java" (
+			if exist "%~n1.class" (
+				java %~n1
+			) else (
+				javac %1
+				java %~n1
+			)
+		) else if "%~x1"==".class" (
+			java %~n1
+		) else (
+			echo;ERROR:文件类型
+		)
+		popd
+		exit /b
+	) else goto :new_file
 )
-if "%~1"=="-p" (
-	call :judge_java_home %2 
-	exit /b
-)
-if not exist "%~1" goto :new_file
-set break=0
-for /f "usebackq tokens=1,2,3,*" %%i in ("%~1") do (
-	echo;%%i %%j %%k %%l|findstr /i "public" >nul && call :ren_public %%~k "%~1"
-	if !break! equ 404 call :break
-)
-exit /b
 
 :new_file
-if exist "%~1.java" (
-	echo;java "%~1.java" [.java]
-	java "%~1.java"
-) else if exist "%~1.class" (
-	echo;java %1 [.class]
-	java %1
+pushd %~dp1
+if exist "%~1.class" (
+	REM echo;java %~n1 [.class]
+	java %~n1
+) else if exist "%~1.java" (
+	REM echo;javac "%~1.java" [.java]
+	javac "%~1.java"
+	java "%~n1"
 ) else if /i "%~x1" == ".java" (
 	echo;public class %~n1 { >%1
 	echo;	public static void main^(String[] args^){ >>%1
 	echo;		System.out.println^("hello world"^);>>%1
+	echo;		System.out.println^("你好,世界"^);>>%1
 	echo;	}>>%1
 	echo;}>>%1
 ) else (
 	echo;文件名不正确
 )
+popd
 exit /b
 
-:break
-set break=
-DIR >&0 2>NUL
+REM :break
+REM set break=
+REM DIR >&0 2>NUL
 
 REM :strcmp
 REM set "str1=%~1"
 REM set "str2=%~2"
 REM if "!str1:%str2%=!"=="%str1%" (exit /b 0) else exit /b 1
 
-:ren_public
-if not "%~n2"=="%~1" ren %~2 %~1.java
+REM set break=0
+REM for /f "usebackq tokens=1,2,3,*" %%i in ("%~1") do (
+	REM echo;%%i %%j %%k %%l|findstr /i "public" >nul && echo;ren %%~k "%~1"
+	REM if !break! equ 404 call :break
+REM )
+REM :ren_public
+REM if not "%~n2"=="%~1" ren %~2 %~1.java
 REM echo;java %~dp2%1.java
 REM java -cp jar包; 文件
-if exist "%~dpn2.class" (
-	echo;java %~n2 [class]
-	java %~n2
-) else (
-	echo;java %~dp2%1.java [java]
-	java %~dp2%1.java
-)
-set /a break=404
-goto :eof
+REM if exist "%~dpn2.class" (
+	REM echo;java %~n2 [class]
+	REM java %~n2
+REM ) else (
+	REM echo;java %~dp2%1.java [java]
+	REM java %~dp2%1.java
+REM )
+REM set /a break=404
+REM goto :eof
 
-javac -cp e:/jdom.jar test1.java 
-javac -cp d:\workspace\lib\commons-lang3-3.2.jar; StringUtilsTest.java
-----------------cp为classpath的缩写----------------
-java -cp d:\workspace\lib\commons-lang3-3.2.jar; StringUtilsTest
-java -classpath e:/jdom.jar; test1
+REM javac -cp e:/jdom.jar test1.java 
+REM javac -cp d:\workspace\lib\commons-lang3-3.2.jar; StringUtilsTest.java
+REM ----------------cp为classpath的缩写----------------
+REM java -cp d:\workspace\lib\commons-lang3-3.2.jar; StringUtilsTest
+REM java -classpath e:/jdom.jar; test1
+
 	REM set "JAVA_HOME=F:\JDK\jdk-16.0.2"
 	REM set "CLASSPATH=.;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar"
 	REM path=%path%;%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin

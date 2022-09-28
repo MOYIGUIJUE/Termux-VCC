@@ -1,4 +1,4 @@
-@echo off &title TERMUX-VCC
+@echo off & title;
 if not "%~1" == "" (
 	if "%~1" == "/c" goto :termux
 	if "%~1" == "/u" goto :update
@@ -20,8 +20,8 @@ for %%i in (a b c d e f g h i j k l m n o p q r s t u v w x y z) do (
 	call set used=%%used:%%i=%%i%%
 )
 path=%~dp0Compile\Compile-bin;%path%
-nircmd.exe win trans title "TERMUX-VCC" 180
-title 
+seta -a 180
+REM nircmd.exe win trans title "TERMUX-VCC" 180
 modes 70 15
 for /f "tokens=2,*" %%i in ('reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" /v "Desktop"') do set "Desk=%%j"
 set LANG=zh_CN
@@ -60,22 +60,32 @@ set.=
 goto :showcmd
 
 :update
+cd /d %~dp0
 path=%~dp0Compile\Compile-bin;%path%
 if not exist "%VCC_HOME%" (
-	goto :installs
+	echo;  - 未安装
+	exit /b
 )
-call up -v "%VCC_HOME%"
-call up -p -c "%VCC_HOME%"
-call up -p -i "%VCC_HOME%"
-copy /y "%~dpnx0" "%VCC_HOME%"
+call vcc -v >nul
+set /p new_version=<%Temp%\%dates:/=-%.install
+set new_version=%new_version:~11,-4%
+:version_loop
+if "%new_version:.=%" GTR "%version:.=%" (
+	echo;call RUN-%version%.cmd
+	call :vcc_version_add %version%
+	goto :version_loop
+) else echo;  - 当前是最新版本,无需更新
 exit /b
 
-:installs
-	cd /d "%~dp0"
-	set "local_path=%~dp0"
-	if "%local_path:~-1,1%"=="\" set local_path=%local_path:~0,-1%
-	call %local_path%\Compile\Compile-bin\exec.bat %local_path%
-	echo;%local_path%\Compile\Compile-bin\exec.bat %local_path%
-	start cmd /c "termux /c helps"
-	start cmd /c "termux FILE"
-exit /b
+
+:vcc_version_add
+for /f "tokens=1,2,3 delims=." %%i in ("%~1") do (
+	set tal=%%i
+	set mid=%%j
+	set low=%%k
+)
+set /a low+=1
+if %low% GTR 9 set /a mid+=1 & set low=0
+if %mid% GTR 9 set /a tal+=1 & set mid=0
+set version=%tal%.%mid%.%low%
+goto :eof
