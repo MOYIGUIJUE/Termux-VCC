@@ -66,7 +66,7 @@ if not exist "%VCC_HOME%" (
 	echo;  - 未安装
 	exit /b
 )
-call vcc -v >nul
+call %VCC_HOME%\Compile\Compile-bin\vcc.bat -v >nul
 set /p new_version=<%Temp%\%dates:/=-%.install
 set new_version=%new_version:~11,-4%
 :version_loop
@@ -74,7 +74,7 @@ if "%new_version:.=%" GTR "%version:.=%" (
 	echo;call RUN-%version%.cmd
 	call :vcc_version_add %version%
 	goto :version_loop
-) else echo;  - 当前是最新版本,无需更新
+) else echo;  - 完成 -
 exit /b
 
 
