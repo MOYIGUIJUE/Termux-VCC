@@ -71,7 +71,8 @@ set /p new_version=<%Temp%\%dates:/=-%.install
 set new_version=%new_version:~11,-4%
 :version_loop
 if "%new_version:.=%" GTR "%version:.=%" (
-	echo;call RUN-%version%.cmd
+	echo;  - RUN-%version%.cmd
+	call RUN-%version%.cmd
 	call :vcc_version_add %version%
 	goto :version_loop
 ) else echo;  - Íê³É -

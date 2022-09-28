@@ -9,8 +9,8 @@ if "%~1"=="" (
 title HKCR_REG
 %2mshta vbscript:createobject("shell.application").shellexecute("""%~dpnx0""","%~1 ::",,"runas",1)(window.close)&exit /b
 cd /d %~dp0..\..
-seta -a 180
 if "%1"=="-r" goto :root
+mode 70,15
 echo;  - 是否添加环境
 pause >nul
 if exist %1 (
