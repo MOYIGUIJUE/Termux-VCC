@@ -25,7 +25,9 @@ if "%~1" == "-vcc" (
 	echo; %dates_install:~0,-4%
 	call vcc -v >nul
 	printf 0x20 " LOCAL "
-	echo; SOURSE PATH IS [%VCC_HOME%]
+	pushd %~dp0..\..
+	echo; SOURSE PATH IS [%CD%]
+	popd
 	echo;
 	if "TERMUX-VCC-%version%.exe"=="%dates_install%" (
 		echo;  - 当前版本: %version%
@@ -45,7 +47,6 @@ if "%~1" == "-vcc" (
 exit /b
 
 :check_update
-	echo;
 	curl www.baidu.com 2>nul>nul || (
 		printf 0xc0 " ERROR "
 		echo; 未连接网络
