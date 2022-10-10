@@ -1,21 +1,45 @@
-//#include<iostream>
 #include<windows.h>
 #include<stdio.h>
 #include<conio.h>
-//using namespace std;
+
+#include<iostream>
+#include<iomanip>
+using namespace std;
 
 void move();
+void ASCII();
 void setColor(int color)
 {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
 }
 
+char const* character[] = {"NULL", "SOH", "STX", "ETX ", "EOT ", 
+                              "ENQ ", "ACK", 
+                            "\\a","\\b","\\t","\\n","\\v","\\f","\\r","SO","SI", 
+                              "DLE",
+                            "DC1 ", "DC2", "DC3", "DC4",
+                              "NAK", "SYN", "ETB", "CAN ",
+                            "EM ", "SUB", "ESC", "FS ",
+                              "GS ", "RS ", "US ", "(space)"};
+							  
 int main(int argc,char *argv[])
 {
 	if(argc<=1){
-		printf("Usage: words [×Ö·û´®] [ÒªÌîÐ´µÄ×Ö·û´®] [×Ö·û´®] \n       char strings[20]; \n");
+		printf("Usage: words [×Ö·û´®] [ÒªÌîÐ´µÄ×Ö·û´®] [×Ö·û´®] \n       char strings[20]; \n       [-key][-asc] \n");
 		return 1;
 	}
+	if(!strcmp(argv[1],"-key")){
+		char chars;
+		chars=getch();
+		//printf("%d\n",chars);
+		return chars;
+	} 
+	if(!strcmp(argv[1],"-asc")){
+		ASCII();
+		return 0;
+	} 
+	
+	
     char strings[20];
     char chars;
 	int num=0;
@@ -94,3 +118,35 @@ void move()//¶¨ÒåÒ»¸öÅÐ¶Ï°´ÏÂ°´¼üµÄº¯Êý
 	if(chars == 27) 
 	printf("°´ÏÂÁËesc");
 }
+
+void ASCII()
+{
+   
+    char c;
+    int row;
+    for(int i = 0; i < 32; i++)
+    {
+        row = i;
+        while (row <= 127) {
+            if (row <= 32){
+                
+                cout << setfill('0') << setw(2) << setbase(10)
+                     << row << " = " << setw(15) << setfill(' ')
+                     << character[row] << " | ";
+            }
+            else if (row > 32 && row < 127)
+            {
+                c = row;
+                cout << setfill('0') << setw(2) << setbase(10)
+                     << row << " = " << setw(15) << setfill(' ')
+                     << c << " | ";
+            }
+            else
+                cout << setfill('0') << setw(2) << setbase(10)
+                     << row << " = " << setw(15) << setfill(' ')
+                     << "DEL" << " | ";
+            row = row + 32;
+        }
+        cout << endl;
+    }
+} 

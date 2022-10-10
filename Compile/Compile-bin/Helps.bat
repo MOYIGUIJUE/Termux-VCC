@@ -41,7 +41,7 @@ goto :book_%errorlevel%
 gotoxy -l 0 0
 echo;  - 第一章 安装和使用
 echo;
-echo;  - 先这样,再那样
+echo;  - 就这样,再那样
 echo;  - 学会了吧,点击确定
 length "确定"
 call :mouse 40 7 %errorlevel% 7 70 "确定" 1
@@ -94,15 +94,14 @@ echo;  - 第三章 进阶教程
 exit /b
 
 :book_4
+call :game_loop
+cls
 echo;  - 第四章 了解本外部命令集合
 echo;
 echo;[翻译] 麻烦没来找你，就别去自找麻烦。  - 按ESC跳过
 echo;[提示] 第一、四个trouble是动词，第二、三个trouble是名词。
 words "[-] Never trouble trouble" "till" "trouble troubles you。"
 echo;	                  ----
-call :showcmd "pause >nul"
-pause >nul
-
 echo;[单词释意]till
 echo;	v.耕作；犁地
 echo;	prep.直到…为止；直到…才…；在…前(不…)
@@ -470,6 +469,56 @@ exit /b
 
 %= } =%
 @Goto :Eof
+
+
+:game_loop
+call :SetConsoleCursorInfo 2 0
+mode 70,16
+set MAX_X=20
+set MAX_Y=13
+for /l %%i in (1,1,15) do (
+echo;                                          ^|
+)
+echo;------------------------------------------+ [20,13] wasd ESC退出
+set X=2
+set Y=2
+title [%X%,%Y%]
+gotoxy -l 4 2
+set /p.=我<nul
+:loop_game
+title [%X%,%Y%]
+words -key
+if %errorlevel% EQU 119 (
+	if %Y% GEQ 1 (
+		set /a Y-=1
+		printfs "  "
+		gotoxy -2 -1
+		set /p.=我<nul
+	)
+) else if %errorlevel% EQU 97 (
+	if %X% GEQ 1 (
+		set /a X-=1
+		REM gotoxy -4 0
+		printfs "  "
+		set /p.=我<nul
+	)
+) else if %errorlevel% EQU 115 (
+	if %Y% LSS %MAX_Y% (
+		set /a Y+=1
+		printfs "  "
+		gotoxy -2 1
+		set /p.=我<nul
+	)
+) else if %errorlevel% EQU 100 (
+	if %X% LSS %MAX_X% (
+		set /a X+=1
+		set /p.=  我<nul
+	)
+) else if %errorlevel% EQU 27 (
+	call :SetConsoleCursorInfo 1 3
+	exit /b
+) 
+goto :loop_game
 
 REM ----------------------------------------------help command----------------------------------------------
 
