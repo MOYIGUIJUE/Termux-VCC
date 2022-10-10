@@ -1,4 +1,4 @@
-@echo off & title;
+@echo off & title 
 if not "%~1" == "" (
 	if "%~1" == "/c" goto :termux
 	if "%~1" == "/u" goto :update
@@ -41,6 +41,8 @@ doskey Gdown="%~dp0Compile\Compile-include\NeatDM.exe" $*
 doskey ip=printf 0x07 "%IPv4%" ^| clip ^& echos 0x03 --[%IPv4%]“—∏¥÷∆÷¡ºÙ«–∞Â-- 
 doskey ca=set /a ca_result=$*
 doskey win=nircmd.exe win trans ititle $*
+doskey list=tasklist ^| findstr /i $*
+doskey kill=taskkill -f -im $*
 set dates=%date:~0,-3%
 echo;
 if exist "%Temp%\%dates:/=-%.install" ( call install -v ) else call install -c

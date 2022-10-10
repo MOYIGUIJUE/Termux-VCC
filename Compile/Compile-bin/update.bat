@@ -28,7 +28,7 @@ cd.>%tmp%\%version%.log
 cd.>%tmp%\%version%.cmd
 for /r "%VCC_HOME%\Compile" %%i in (*) do (
 	set "tmp=%%~pnxi"
-	set "tmps=!tmp:%home%=!"
+	if "%home%"=="\" (set "tmps=!tmp!") else set "tmps=!tmp:%home%=!"
 	echo;set "Arr!tmps!=%%~zi">>%tmp%\%version%.cmd
 	echo;!tmps!>>%tmp%\%version%.log
 )
@@ -51,7 +51,7 @@ for /f "delims=" %%i in (%tmp%\%version%.log) do (
 
 for /r "%VCC_HOME%\Compile" %%i in (*) do (
 	set "tmp=%%~pnxi"
-	set "tmps=!tmp:%home%=!"
+	if "%home%"=="\" (set "tmps=!tmp!") else set "tmps=!tmp:%home%=!"
 	call set name=%%Arr!tmps!%%
 	if "!name!" NEQ "%%~zi" (
 		if "!name!"=="" ( echo;  + %%i ) else echo;  * %%i

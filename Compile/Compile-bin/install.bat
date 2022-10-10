@@ -22,14 +22,14 @@ if "%~1" == "-vcc" (
 :show_update
 	printf 0x10 " GITEE "
 	set /p dates_install=<%Temp%\%dates:/=-%.install
-	echo; %dates_install:~0,-4%
+	echo; %dates_install%
 	call vcc -v >nul
 	printf 0x20 " LOCAL "
 	pushd %~dp0..\..
 	echo; SOURSE PATH IS [%CD%]
 	popd
 	echo;
-	if "TERMUX-VCC-%version%.exe"=="%dates_install%" (
+	if "TERMUX-VCC-%version%"=="%dates_install%" (
 		echo;  - 当前版本: %version%
 	) else (
 		echo;  - 当前版本: %version%
@@ -54,25 +54,25 @@ exit /b
 	)
 	set num=1
 	for /f "delims=" %%i in ('curl https://gitee.com/cctv3058084277/main/releases/tag/TERMUX-VCC 2^>nul ^
-	 ^| sed "s/}/\n/g" ^| find /i "download_url" ^|sed "s/:/\n/g;s/,/\n/g" ^| sed -n "4p;6p"') do (
+	 ^| sed "s/}/\n/g" ^| findstr /i "download_url tag_path" ^|sed "s/:/\n/g;s/,/\n/g" ^| sed -n "4p;36p"') do (
 		set "var!num!=%%~i"
 		set /a num+=1
 	)
 	call vcc -v >nul
 	printf 0x10 " GITEE "
-	echo; %var2:~0,-4%
+	echo; %var1%
 	set dates=%date:~0,-3%
 	del /f /q %Temp%\*.install 2>nul >nul
-	echo;%var2%>%Temp%\%dates:/=-%.install
+	echo;%var1%>%Temp%\%dates:/=-%.install
 	printf 0x20 " LOCAL "
 	echo; SOURSE PATH IS [%VCC_HOME%]
 	echo;
-	if "TERMUX-VCC-%version%.exe"=="%var2%" (
+	if "TERMUX-VCC-%version%"=="%var1%" (
 		echo;  - 当前版本: %version% -
 	) else (
 		echo;  - 当前版本: %version% -
 		echo;  - 检测到当前不是最新版本,请下载最新版本[install -d]
-		echo;  - https://gitee.com/cctv3058084277/main/releases/tag/TERMUX-VCC
+		echo;  - https:/%var2:"=%
 	)
 	echo;
 	echo;  Open sourse at:

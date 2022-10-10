@@ -131,19 +131,25 @@ void ASCII()
             if (row <= 32){
                 
                 cout << setfill('0') << setw(2) << setbase(10)
-                     << row << " = " << setw(15) << setfill(' ')
+                     << row << " = " << setw(7) << setfill(' ')
                      << character[row] << " | ";
             }
             else if (row > 32 && row < 127)
             {
                 c = row;
-                cout << setfill('0') << setw(2) << setbase(10)
-                     << row << " = " << setw(15) << setfill(' ')
+				if (row > 99) {
+				cout << setfill('0') << setw(2) << setbase(10)
+                     << row << " = " << setw(6) << setfill(' ')
                      << c << " | ";
+				} else {
+                cout << setfill('0') << setw(2) << setbase(10)
+                     << row << " = " << setw(7) << setfill(' ')
+                     << c << " | ";
+				}
             }
             else
                 cout << setfill('0') << setw(2) << setbase(10)
-                     << row << " = " << setw(15) << setfill(' ')
+                     << row << " = " << setw(6) << setfill(' ')
                      << "DEL" << " | ";
             row = row + 32;
         }

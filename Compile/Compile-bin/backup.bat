@@ -45,6 +45,7 @@ if "%~1" == "-u" (
 	echo;   -all		以7z格式备份所有文件到选定路径
 	echo;   -dir		查看选定路径文件列表
 	echo;   -log		查看日志
+	echo;   -u		不增加版本【7z】
 	echo;   to		备份到自选路径
 	echo;   for		自选文件或目录备份到选定路径
 	echo;   name		自定义文件名部分,%dates:/=-%name.zip
