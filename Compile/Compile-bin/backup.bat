@@ -6,9 +6,7 @@ if not exist "%choose_path%\vcc.log" cd.>%choose_path%\vcc.log
 for /f "usebackq tokens=1,2 delims=|" %%a in ("%choose_path%\vcc.log") do set "vcc_version=%%b"
 if "%vcc_version%"=="" set vcc_version=0.0.0
 if "%~1" == "-u" (
-	echos 0x03 TERMUX-VCC.7z
-	if exist "%choose_path%\TERMUX-VCC.7z" del /f /q "%choose_path%\TERMUX-VCC.7z"
-	7z a "%choose_path%\TERMUX-VCC.7z" "%~dp0..\..\Compile\" "%~dp0..\..\Termux.bat"
+	call :vcc_version_add %2
 ) else if "%~1" == "to" (
 	echos 0x03 %dates:/=-%.zip
 	7z a "%~3\%dates:/=-%.%2" "%~dp0..\..\Compile\" "%~dp0..\..\Termux.bat"
@@ -37,7 +35,7 @@ if "%~1" == "-u" (
 	echo;Usage: backup [arguments] {[-zip][-7z][-all]} [name]
 	echo;   or: backup [arguments] {[to][for]} {[7z][zip]} [drive:][path/filename]
 	echo;   or: backup [arguments] {[-dir][-log]}
-	echo;   or: backup [arguments] [-u] TERMUX-VCC.7z
+	echo;   or: backup [arguments] [-u] [描述信息]
 	echo;&echo;Arguments:
 	echo;   选定路径: 	%choose_path% [%dates:/=-%]
 	echo;   -zip		以zip格式备份到选定路径
@@ -45,7 +43,7 @@ if "%~1" == "-u" (
 	echo;   -all		以7z格式备份所有文件到选定路径
 	echo;   -dir		查看选定路径文件列表
 	echo;   -log		查看日志
-	echo;   -u		不增加版本【7z】
+	echo;   -u		增加版本 [描述信息]
 	echo;   to		备份到自选路径
 	echo;   for		自选文件或目录备份到选定路径
 	echo;   name		自定义文件名部分,%dates:/=-%name.zip

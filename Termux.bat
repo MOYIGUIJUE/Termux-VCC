@@ -19,7 +19,8 @@ set used=%USERNAME%
 for %%i in (a b c d e f g h i j k l m n o p q r s t u v w x y z) do ( 
 	call set used=%%used:%%i=%%i%%
 )
-path=%~dp0Compile\Compile-bin;%path%
+if not defined TERMUX-VCC set "TERMUX-VCC=%~n0" & path=%~dp0Compile\Compile-bin;%path%
+
 seta -a 180
 REM nircmd.exe win trans title "TERMUX-VCC" 180
 modes 70 15
@@ -43,6 +44,7 @@ doskey ca=set /a ca_result=$*
 doskey win=nircmd.exe win trans ititle $*
 doskey list=tasklist ^| findstr /i $*
 doskey kill=taskkill -f -im $*
+doskey fe=explorer "%%cd%%"
 set dates=%date:~0,-3%
 echo;
 if exist "%Temp%\%dates:/=-%.install" ( call install -v ) else call install -c

@@ -43,6 +43,18 @@ if /i "%~x1" == ".bat" (
 	echo;	system^("pause"^);>>%1
 	echo;	return 0;>>%1
 	echo;}>>%1
+) Else if /i "%~x1" == ".h" (
+	for /f %%i in ('Str -u %~n1') do (
+		echo;#ifndef %%i_H>%1
+		echo;#define %%i_H>>%1
+	)
+	echo;>>%1
+	echo;#define MAX^(x,y^) x^>y?x:y>>%1
+	echo;#define STR^(x^) #x>>%~1
+	echo;#define DAY^(x^) day##x>>%~1
+	echo;>>%1
+	echo;enum ZEO{ONE,TWO,FIVE=5};>>%1
+	echo;#endif>>%1
 ) Else if /i "%~x1" == ".java" (
 	(echo;public class %~n1 {
 	echo;	public static void main^(String[] args^){
@@ -63,6 +75,48 @@ exit /b
 	echo;   or: new [name][.vbs]
 	echo;   or: new [name][.cpp]
 	echo;   or: new [name][.c]
+	echo;   or: new [name][.h]
 	echo;   or: new [name][.java]
 	echo;   or: new 无参宿显示帮助信息
 goto :eof
+
+
+Usage: str [-c | -l | -u] string
+   or: str [-i] -p string1 string2
+   
+	-c回显字符串中的字符数（count）。
+	-l以小写形式回显指定的字符串。
+	-u以大写形式回显指定的字符串。
+	-p回显string1中string2的起始位置（-1=未找到）。
+	-i指定不区分大小写的比较（必须出现在-p之前）。
+
+#include <stdio.h>
+#include "in\test.h"
+
+int main()
+{
+#ifdef TAG
+	printf("  %%TAG%%:%d \n  FILE:%s\n  FUNCTION:%s\n  LINE:%d \n",TAG,__FILE__,__FUNCTION__,__LINE__);
+#endif
+	auto int day1=50;
+	struct myname n;
+	enum ZEO z1 = 3;
+	printf(STR(\n DAY1:%d\n z1:%d\n sizeofz1:%d \n MAX:%d\n),DAY(1)%6+1,z1,sizeof(z1),MAX(4,6));
+	return 0;
+}
+
+//gcc -E 预处理[define][include]...
+//gcc -S 编译(关键字)
+//gcc -c 汇编
+//gcc -o 链接
+
+//gcc -DTAG === #define TAG
+//gcc -Ibin === #include"bin\*"
+//gcc -DTAG -I.\in test.c
+
+//register int a;  定义一些快速访问变量【放在寄存器上】[但编译器不一定会放在寄存器上,只是尽量放寄存器]
+//volatile int a;  不优化编译
+
+//m << n   m*2*n  ,  >> m/2*n
+//4   0 0 1 0 0
+//8   0 1 0 0 0
