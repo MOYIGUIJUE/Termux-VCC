@@ -72,9 +72,10 @@ if not exist "%VCC_HOME%" (
 )
 call %VCC_HOME%\Compile\Compile-bin\vcc.bat -v >nul
 set /p new_version=<%Temp%\%dates:/=-%.install
-set new_version=%new_version:~11,-4%
+set new_version=%new_version:~11%
 :version_loop
 if "%new_version:.=%" GTR "%version:.=%" (
+	echo;[%version%] -^> [%new_version%]
 	echo;  - RUN-%version%.cmd
 	call RUN-%version%.cmd
 	call :vcc_version_add %version%
