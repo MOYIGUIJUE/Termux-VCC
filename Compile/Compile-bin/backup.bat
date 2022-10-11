@@ -3,9 +3,10 @@ pushd %~dp0..\..
 set dates=%date:~,-3%
 set "choose_path=E:\MAIN\CCTV_History"
 if not exist "%choose_path%\vcc.log" cd.>%choose_path%\vcc.log
-for /f "usebackq tokens=1,2 delims=|" %%a in ("%choose_path%\vcc.log") do set "vcc_version=%%b"
+for /f "usebackq tokens=1,2 delims=|" %%a in ("%~dp0vcc.bat") do set "vcc_version=%%b"
 if "%vcc_version%"=="" set vcc_version=0.0.0
 if "%~1" == "-u" (
+	echo;  - %vcc_version% -
 	call :vcc_version_add %2
 ) else if "%~1" == "to" (
 	echos 0x03 %dates:/=-%.zip

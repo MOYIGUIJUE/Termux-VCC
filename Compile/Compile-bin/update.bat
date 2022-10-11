@@ -12,6 +12,8 @@ if "%~1"=="-c" (
 ) else if "%~1"=="-l" (
 	cd /d %~dp0
 	goto :log
+) else if "%~1"=="-t" (
+	dir /b %tmp%\?.?.?.log %tmp%\?.?.?.cmd
 ) else (
 	echo;
 	echo;Usage: update [arguments] {[-c][-l]}
@@ -19,6 +21,7 @@ if "%~1"=="-c" (
 	echo;Arguments:
 	echo;   -l:  生成本版本文件目录信息
 	echo;   -c:  生成从上一个版本到这个版本的更新脚本
+	echo;   -t:  查看临时目录下版本文件
 	exit /b
 )
 exit /b
