@@ -118,6 +118,31 @@ exit /b
 		echo; 未连接网络
 		exit /b
 	)
+	set num=1
+	for /f "delims=" %%i in ('curl https://gitee.com/cctv3058084277/main/releases/tag/TERMUX-VCC 2^>nul ^
+	 ^| sed "s/}/\n/g" ^| findstr /i "download_url tag_path" ^|sed "s/:/\n/g;s/,/\n/g" ^| sed -n "4p;36p"') do (
+		set "var!num!=%%~i"
+		set /a num+=1
+	)
+	call vcc -v >nul
+	printf 0x10 " GITEE "
+	echo; %var1%
+	set dates=%date:~0,-3%
+	del /f /q %Temp%\*.install 2>nul >nul
+	echo;%var1%>%Temp%\%dates:/=-%.install
+	printf 0x20 " LOCAL "
+	echo; SOURSE PATH IS [%VCC_HOME%]
+	echo;
+	if "TERMUX-VCC-%version%"=="%var1%" (
+		echo;  - 当前版本: %version% -
+	) else (
+		echo;  - 当前版本: %version% -
+		echo;  - 检测到当前不是最新版本,开始下载...
+		goto :end_update_down
+	)
+exit /b
+	
+:end_update_down
 pushd "%temp%"
 if exist TERMUX-VCC.7z del /f /q TERMUX-VCC.7z
 call down https://gitee.com/cctv3058084277/cctvpage1/releases/download/TERMUX-VCC/TERMUX-VCC.7z
