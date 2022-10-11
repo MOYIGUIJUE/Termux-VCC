@@ -20,9 +20,8 @@ for %%i in (a b c d e f g h i j k l m n o p q r s t u v w x y z) do (
 	call set used=%%used:%%i=%%i%%
 )
 if not defined TERMUX-VCC set "TERMUX-VCC=%~n0" & path=%~dp0Compile\Compile-bin;%path%
-
+color 07
 seta -a 180
-REM nircmd.exe win trans title "TERMUX-VCC" 180
 modes 70 15
 for /f "tokens=2,*" %%i in ('reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" /v "Desktop"') do set "Desk=%%j"
 set LANG=zh_CN
@@ -47,7 +46,10 @@ doskey kill=taskkill -f -im $*
 doskey fe=explorer "%%cd%%"
 set dates=%date:~0,-3%
 echo;
-if exist "%Temp%\%dates:/=-%.install" ( call install -v ) else call install -c
+set /a install_show=%time:~6,2% %% 8
+if exist "%Temp%\%dates:/=-%.install" ( 
+	if %install_show% LSS 2 ( call install -v ) else echo;  ^< %~dp0 ^>
+) else call install -c
 echo;
 prompt %used%@%COMPUTERNAME%[$P]$$$S
 Set /P=[3 q< Nul
