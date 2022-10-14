@@ -22,6 +22,7 @@ for %%i in (a b c d e f g h i j k l m n o p q r s t u v w x y z) do (
 if not defined TERMUX-VCC set "TERMUX-VCC=%~n0" & path=%~dp0Compile\Compile-bin;%path%
 color 07
 seta -a 180
+sico %~dp0Compile\Home\empty.ico
 modes 70 15
 for /f "tokens=2,*" %%i in ('reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" /v "Desktop"') do set "Desk=%%j"
 set LANG=zh_CN

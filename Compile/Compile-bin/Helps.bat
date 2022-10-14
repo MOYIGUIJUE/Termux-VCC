@@ -2,6 +2,14 @@
 For %%i in (- / \) Do (
 	If /i "%1"=="%%ih" Goto :helps
 )
+if not "%~1"=="" (
+	for /f "delims=:" %%a in ('findstr /n "helps_%1.*$" %~fs0') do (
+		REM echo;sed -n "%%a,4p" "%~fs0"
+		echo;[more +%%a %~f0]
+		more +%%a "%~fs0"
+	)
+	exit /b
+)
 set used=%USERNAME%
 for %%i in (a b c d e f g h i j k l m n o p q r s t u v w x y z) do (
 	call set used=%%used:%%i=%%i%%
@@ -522,7 +530,7 @@ goto :loop_game
 
 REM ----------------------------------------------help command----------------------------------------------
 
-  REM - cmdow
+::::::::::::::::::::helps_cmdow.exe::::::::::::::::::::::
 
 执行cmdow @，显示为
 Handle Lev Pid -Window status- Image Caption
@@ -566,7 +574,11 @@ cmdow @ /siz 700 350
 
 CMDOW /RUN [state] file [args]state 运行方式（/MIN /MAX /HID）
 
-  REM - jpeg
+::::::::::::::::::::helps_png2ico.exe::::::::::::::::::::::
+png2ico -i "png" -o "ico" -s 16 32bpp -s 24 32bpp -s 32 32bpp -s 48 32bpp -s 64 32bpp -s 72 32bpp -s 96 32bpp -s 128 32bpp -noconfirm
+           "png"    "ico" 只能是文件夹名称
+		   
+::::::::::::::::::::helps_jpeg.exe::::::::::::::::::::::
 
 -te <其他jpeg文件>
 将其他jpeg文件的eixf导入目标jpeg。例如"jhead –te D:\My Pictures\B.jpg D:\My Pictures\A.jpg"
@@ -623,7 +635,7 @@ jhead -n%Y%m%d-%H%M%S d:\*.jpg
 -norot 清除exif中的水平方向信息。
 
 
-  REM - nircmd
+::::::::::::::::::::helps_nircmd.exe::::::::::::::::::::::
 
 弹出盘符为J的光驱
 
@@ -2392,6 +2404,7 @@ debugwrite [text]
 cls
 findstr "^::" "%~f0"|more
 echo;
+exit /b
 ::
 ::  - FILE: DIY控制台,gcc 3.4.0,notepad++ 8.1.0 ,Gvim提取
 ::  - Compile: Tcc,sed,nircmd,sed,grep...等外部命令和.bat脚本集合,
@@ -2399,3 +2412,32 @@ echo;
 ::  - 杀毒软件可能报毒是正常的,外部命令调用系统API才能做更多事情,
 ::    随后的添加注册表操作需要管理员权限
 ::
+
+::::::::::::::::::::helps_xconvert.exe::::::::::::::::::::::
+
+/*&@echo off
+set "file=%~1"
+set "exefile=%~dp0\xconvert.exe"
+for /f "delims=" %%a in ('dir /a-d-h-s-r/b/s "%file%\*.jp*";"%file%\*.png"') do (
+    for /f "tokens=1,2 delims=x" %%b in ('cscript -nologo -e:jscript "%~f0" "%%~a"') do (
+		echo;IF [%%~b ^< %%~c] DO %%a
+		if %%~b lss %%~c (
+		     "%exefile%" "%%a" +repage -rotate -90 "%%a"
+			  echo;%%~a**%%~b*%%~c
+		)
+	)
+)
+pause
+exit
+*/
+var wi=new ActiveXObject('WIA.ImageFile');
+var w=0;
+var h=0;
+try{
+    wi.LoadFile(WSH.Arguments(0));
+    w=wi.Width;
+    h=wi.Height;
+}catch(e){}
+WSH.echo(w.toString()+'x'+h.toString());
+wi =null;
+WSH.Quit();

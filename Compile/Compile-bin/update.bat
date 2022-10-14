@@ -64,7 +64,6 @@ for /r "%VCC_HOME%\Compile" %%i in (*) do (
 	)
 )
 echo;  -- RUN CODE -- [%%temp%%\run_update.cmd]
-type "%temp%\run_update.cmd"
 exit /b
 
 
