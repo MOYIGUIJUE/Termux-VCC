@@ -48,7 +48,7 @@ set dates=%date:~0,-3%
 echo;
 set /a install_show=%time:~6,2% %% 8
 if exist "%Temp%\%dates:/=-%.install" ( 
-	if %install_show% LSS 2 ( call install -v ) else echo;  ^< %~dp0 ^>
+	if %install_show% LSS 1 ( call install -v ) else echo;  ^< %~dp0 ^| ³£ÓÃÃüÁî: ^>   &echo;  [ Helps Com Jcom New Tcc Everything^(Es^) Gdown IP CA FE Listf Kill ]
 ) else call install -c
 echo;
 prompt %used%@%COMPUTERNAME%[$P]$$$S

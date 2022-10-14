@@ -16,11 +16,12 @@ if "%~1"=="-c" (
 	dir /b %tmp%\?.?.?.log %tmp%\?.?.?.cmd
 ) else (
 	echo;
-	echo;Usage: update [arguments] {[-c][-l]}
+	echo;Usage: update [arguments] [-c] [path]
+	echo;   or: update [arguments] {[-t][-l]}
 	echo;  
 	echo;Arguments:
 	echo;   -l:  生成本版本文件目录信息
-	echo;   -c:  生成从上一个版本到这个版本的更新脚本
+	echo;   -c:  生成更新脚本 [path]为目标路径
 	echo;   -t:  查看临时目录下版本文件
 	exit /b
 )
@@ -30,8 +31,8 @@ exit /b
 cd.>%tmp%\%version%.log
 cd.>%tmp%\%version%.cmd
 for /r "%VCC_HOME%\Compile" %%i in (*) do (
-	set "tmp=%%~pnxi"
-	if "%home%"=="\" (set "tmps=!tmp!") else set "tmps=!tmp:%home%=!"
+	set "tm=%%~pnxi"
+	if "%home%"=="\" (set "tmps=!tm!") else set "tmps=!tm:%home%=!"
 	echo;set "Arr!tmps!=%%~zi">>%tmp%\%version%.cmd
 	echo;!tmps!>>%tmp%\%version%.log
 )
@@ -51,17 +52,19 @@ for /f "delims=" %%i in (%tmp%\%version%.log) do (
 		REM echo;del /f /q "%%VCC_HOME%%%%~i" >>RUN-%version%.cmd
 	)
 )
-
+cd.>"%temp%\run_update.cmd"
 for /r "%VCC_HOME%\Compile" %%i in (*) do (
-	set "tmp=%%~pnxi"
-	if "%home%"=="\" (set "tmps=!tmp!") else set "tmps=!tmp:%home%=!"
+	set "tm=%%~pnxi"
+	if "%home%"=="\" (set "tmps=!tm!") else set "tmps=!tm:%home%=!"
 	call set name=%%Arr!tmps!%%
 	if "!name!" NEQ "%%~zi" (
 		if "!name!"=="" ( echo;  + %%i ) else echo;  * %%i
-		REM copy /y "%%~i" ".!tmps!"
+		echo;copy /y "%%~i" "%2!tmps!" >>"%temp%\run_update.cmd"
 		REM echo;copy /y ".!tmps!" "%%VCC_HOME%%!tmps!" >>RUN-%version%.cmd
 	)
 )
+echo;  -- RUN CODE -- [%%temp%%\run_update.cmd]
+type "%temp%\run_update.cmd"
 exit /b
 
 
