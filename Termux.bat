@@ -40,16 +40,18 @@ doskey es="%~dp0Compile\Compile-include\es.exe" $*
 doskey Everything="%~dp0Compile\Compile-include\Everything.exe" $*
 doskey Gdown="%~dp0Compile\Compile-include\NeatDM.exe" $*
 doskey ip=printf 0x07 "%IPv4%" ^| clip ^& echos 0x03 --[%IPv4%]已复制至剪切板-- 
-doskey ca=set /a ca_result=$*
-doskey win=nircmd.exe win trans ititle $*
-doskey list=tasklist ^| findstr /i $*
+doskey ca=set /a $*
+doskey listf=tasklist ^| findstr /i $*
 doskey kill=taskkill -f -im $*
 doskey fe=explorer "%%cd%%"
+doskey tn="%~dp0FILE\Notepad++\notepad++.exe" %~f0
+doskey tns="%~dp0FILE\Notepad++\notepad++.exe" "%~dp0Compile\Compile-bin\$*.bat" 
+doskey news=new.bat $* ^& "%~dp0FILE\Notepad++\notepad++.exe" $*
 set dates=%date:~0,-3%
 echo;
 set /a install_show=%time:~6,2% %% 8
 if exist "%Temp%\%dates:/=-%.install" ( 
-	if %install_show% LSS 1 ( call install -v ) else echo;  ^< %~dp0 ^| 常用命令: ^>   &echo;  [ Helps Com Jcom New Tcc Everything^(Es^) Gdown IP CA FE Listf Kill ]
+	if %install_show% LSS 1 ( call install -v ) else call vcc -v
 ) else call install -c
 echo;
 prompt %used%@%COMPUTERNAME%[$P]$$$S

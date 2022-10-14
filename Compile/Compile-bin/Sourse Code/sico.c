@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 		HINSTANCE hInstance = GetModuleHandle(argv[0]);
 		SendMessage(hwnd,WM_SETICON,ICON_SMALL,(LPARAM)LoadImage(hInstance,TEXT(argv[1]),IMAGE_ICON, 32, 32, LR_LOADFROMFILE));
 	} else {
-		printf("Usage: %s \"IconFile\" Set Current Console Icon",argv[0]);
+		printf("Usage: %s \"IconFile\" Set Current Console Icon\n",argv[0]);
 	}
 	return 0;
 }

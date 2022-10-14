@@ -8,6 +8,7 @@ call vcc -v >nul
 
 if "%~1"=="-c" (
 	cd /d %~dp0
+	if not "%~3"=="" set version=%3
 	goto :check
 ) else if "%~1"=="-l" (
 	cd /d %~dp0
@@ -16,12 +17,13 @@ if "%~1"=="-c" (
 	dir /b %tmp%\?.?.?.log %tmp%\?.?.?.cmd
 ) else (
 	echo;
-	echo;Usage: update [arguments] [-c] [path]
+	echo;Usage: update [arguments] [-c] [path] [version]
 	echo;   or: update [arguments] {[-t][-l]}
 	echo;  
 	echo;Arguments:
 	echo;   -l:  生成本版本文件目录信息
-	echo;   -c:  生成更新脚本 [path]为目标路径
+	echo;   -c:  生成更新脚本 [path]为目标路径 
+	echo;                     [version]为自定义要对比的版本
 	echo;   -t:  查看临时目录下版本文件
 	exit /b
 )
@@ -63,12 +65,8 @@ for /r "%VCC_HOME%\Compile" %%i in (*) do (
 		REM echo;copy /y ".!tmps!" "%%VCC_HOME%%!tmps!" >>RUN-%version%.cmd
 	)
 )
-echo;  -- RUN CODE -- [%%temp%%\run_update.cmd]
+echo;  -- RUN CODE -- [%%temp%%\run_update.cmd] ^<- [%%tmp%%\%version%.cmd]
 exit /b
-
-
-
-
 
 
 choice /N /M ". - 是否打包[Y/N] -"

@@ -34,7 +34,7 @@ for /f "delims=:" %%a in ('findstr /n "splitline.*$" %~fs0') do set "split=%%a"
 for /f "tokens=2 delims=|" %%i in ('more +%split% %~dpnx0') do set version=%%i
 set "version=%version: =%"
 echo;  - vcc version %version% 
-printf 0x07 "  - Sourse Path: "
+printfs "  - Sourse Path: "
 pushd %~dp0..\..
 echos 0x03 %cd%
 popd
@@ -104,3 +104,4 @@ REM aria2c.exe --conf-path=aria2.conf
 2022/09/28 23:05:33 2022-09-28.7z | 1.4.0 
 2022/10/10 16:28:21 2022-10-10.7z | 1.4.1 
 2022/10/11 17:21:05  | 1.4.2 
+2022/10/14 16:29:00  | 1.4.3 
