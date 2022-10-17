@@ -19,7 +19,6 @@ int main(int argc,char *argv[])
 		} else {
 			if (GetConsoleScreenBufferInfo(hConsole, &csbi))
 			{
-			
 				HANDLE hout;
 				COORD coord;
 				coord.X = csbi.dwCursorPosition.X + atoi(argv[1]);

@@ -14,7 +14,7 @@ if "%~1"=="-c" (
 	cd /d %~dp0
 	goto :log
 ) else if "%~1"=="-t" (
-	dir /b %tmp%\?.?.?.log %tmp%\?.?.?.cmd
+	dir /b %temp%\?.?.?.log %temp%\?.?.?.cmd
 ) else (
 	echo;
 	echo;Usage: update [arguments] [-c] [path] [version]
@@ -30,6 +30,7 @@ if "%~1"=="-c" (
 exit /b
 
 :log
+echo;  - 为版本 %version% 生成文件目录信息 [ - ]
 cd.>%tmp%\%version%.log
 cd.>%tmp%\%version%.cmd
 for /r "%VCC_HOME%\Compile" %%i in (*) do (
@@ -41,59 +42,25 @@ for /r "%VCC_HOME%\Compile" %%i in (*) do (
 exit /b
 
 :check
-REM call :vcc_version_add %version%
-REM echo;copy /y "termux.bat" "%%VCC_HOME%%\termux.bat">RUN-%version%.cmd
 if not exist "%tmp%\%version%.cmd" echo;Not find %version%.cmd & exit /b
 if not exist "%tmp%\%version%.log" echo;Not find %version%.log & exit /b
-
 call %tmp%\%version%.cmd
-
+echo;@echo off >"%temp%\run_update.cmd"
+echo;copy /y "%VCC_HOME%\Termux.bat" "%~2\" >>"%temp%\run_update.cmd"
 for /f "delims=" %%i in (%tmp%\%version%.log) do (
 	if not exist "%VCC_HOME%%%i" (
 		echo;  - %VCC_HOME%%%i
-		REM echo;del /f /q "%%VCC_HOME%%%%~i" >>RUN-%version%.cmd
+		echo;del /f /q "%~2%%~i" >>"%temp%\run_update.cmd"
 	)
 )
-cd.>"%temp%\run_update.cmd"
 for /r "%VCC_HOME%\Compile" %%i in (*) do (
 	set "tm=%%~pnxi"
 	if "%home%"=="\" (set "tmps=!tm!") else set "tmps=!tm:%home%=!"
 	call set name=%%Arr!tmps!%%
 	if "!name!" NEQ "%%~zi" (
 		if "!name!"=="" ( echo;  + %%i ) else echo;  * %%i
-		echo;copy /y "%%~i" "%2!tmps!" >>"%temp%\run_update.cmd"
-		REM echo;copy /y ".!tmps!" "%%VCC_HOME%%!tmps!" >>RUN-%version%.cmd
+		echo;copy /y "%%~i" "%~2!tmps!" >>"%temp%\run_update.cmd"
 	)
 )
-echo;  -- RUN CODE -- [%%temp%%\run_update.cmd] ^<- [%%tmp%%\%version%.cmd]
+if "%~2"=="" ( echo;  -- SHOW CODE --  ) else echo;  -- RUN CODE --  [%%TEMP%%\RUN_UPDATE.CMD]
 exit /b
-
-
-choice /N /M ". - 是否打包[Y/N] -"
-if %errorlevel% EQU 2 exit /b
-
-for /r "%VCC_HOME%\Compile" %%i in (*) do (
-	set "tmp=%%~pnxi"
-	set "tmps=!tmp:%home%=!"
-	call set name=%%Arr!tmps!%%
-	if "!name!" NEQ "%%~zi" (
-		echo;  + %%i
-		copy /y "%%~i" ".!tmps!"
-		REM echo;copy /y ".!tmps!" "%%VCC_HOME%%!tmps!" >>RUN-%version%.cmd
-	)
-)
-
-if not exist "%~dp0Compile\" xcopy /T /E /Y %VCC_HOME%\Compile %~dp0Compile\
-copy /y "%VCC_HOME%\Termux.bat" "%~dp0"
-
-
-if exist TERMUX-VCC.7z del /f /q TERMUX-VCC.7z
-7z a ".\TERMUX-VCC.7z" ".\Compile\" ".\*.bat" ".\*.cmd" ".\*.log"
-exit /b
-
-:vcc_version_add
-set "ver=%~1"
-set "ver=%ver:.=%"
-set /a ver-=1
-set version=%ver:~0,1%.%ver:~1,1%.%ver:~2,1%
-goto :eof

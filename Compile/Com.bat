@@ -6,7 +6,7 @@ set LANG=zh_CN
 set path_tmp=%path%
 set "gcc-v=%~dp0..\..\FILE\bin"
 path=%gcc-v%;%path%
-
+set "local_path=%~dp0"
 modes 55 9
 if /i "%~x1" == ".exe" start time_start %1 &exit
 
@@ -22,7 +22,6 @@ if "%~x1" == ".ico" (
 
 if not "%~1" == "" (
 	:loop
-	if "%~1"=="" pause & goto lip
 	if not exist "%~1" (
 		echo;未找到指定文件,创建%1中...
 		call file_name "%~1"
@@ -34,6 +33,7 @@ if not "%~1" == "" (
 	)
 	call :names %1
 	if !errorlevel! equ 404 echos 0x0e [%~nx1]不是可编译文件 &exit /b
+	if "%~2"=="" goto lip
 	call compile %1
 	echo. & shift & goto loop
 ) else (
@@ -98,7 +98,7 @@ if %errorlevel%==6 (
 	set /p=<nul>"!new_file!"
 	goto lip
 )
-if %errorlevel%==8 start %~dp0..\Termux.bat &goto lip
+if %errorlevel%==8 start cmd /c "%local_path%..\Termux.bat" &goto lip
 if %errorlevel%==9 (
 	cls 
 	echo;[ -lwsock32 -static -libgcc -lgdi32 -m64 ]

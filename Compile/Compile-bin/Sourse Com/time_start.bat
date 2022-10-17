@@ -1,6 +1,13 @@
 @echo off
 setlocal enabledelayedexpansion
-location & modes 60 10
+REM nircmd win move foreground 50 600 50 10
+if exist "%TEMP%\time_start_location.time_start" ( 
+	for /f "tokens=1,2,3,4 delims=," %%i in ('type "%TEMP%\time_start_location.time_start"') do (
+		set /a kk=%%k-%%i
+		set /a ll=%%l-%%j
+		location %%i %%j !kk! !ll!
+	)
+)
 if exist "%~dpn1.exe" (
 	title %~dpn1.exe
 	set a=!time!
@@ -45,4 +52,5 @@ echos 0x08 -------------------------------
 echos 0x08 Process exited after %ts%.%ms_% seconds with return value %return%
 echos 0x08 "请按任意键退出. . ."
 pause>nul
+location > %TEMP%\time_start_location.time_start
 exit
