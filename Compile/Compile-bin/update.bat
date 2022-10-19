@@ -47,9 +47,17 @@ if not exist "%tmp%\%version%.log" echo;Not find %version%.log & exit /b
 call %tmp%\%version%.cmd
 echo;@echo off >"%temp%\run_update.cmd"
 echo;copy /y "%VCC_HOME%\Termux.bat" "%~2\" >>"%temp%\run_update.cmd"
+
+REM ¼ÆÊý
+set reduce=0
+set add=0
+set change=0
+
+echo;
 for /f "delims=" %%i in (%tmp%\%version%.log) do (
 	if not exist "%VCC_HOME%%%i" (
 		echo;  - %VCC_HOME%%%i
+		set /a reduce+=1
 		echo;del /f /q "%~2%%~i" >>"%temp%\run_update.cmd"
 	)
 )
@@ -58,9 +66,10 @@ for /r "%VCC_HOME%\Compile" %%i in (*) do (
 	if "%home%"=="\" (set "tmps=!tm!") else set "tmps=!tm:%home%=!"
 	call set name=%%Arr!tmps!%%
 	if "!name!" NEQ "%%~zi" (
-		if "!name!"=="" ( echo;  + %%i ) else echo;  * %%i
+		if "!name!"=="" ( echo;  + %%i & set /a add+=1 ) else echo;  * %%i & set /a change+=1
 		echo;copy /y "%%~i" "%~2!tmps!" >>"%temp%\run_update.cmd"
 	)
 )
-if "%~2"=="" ( echo;  -- SHOW CODE --  ) else echo;  -- RUN CODE --  [%%TEMP%%\RUN_UPDATE.CMD]
+echo;
+if "%~2"=="" ( echo;  -- [ CHANGE %change% ADD %add% REDUCE %reduce% ] --  ) else echo;  -- RUN CODE --  [%%TEMP%%\RUN_UPDATE.CMD]
 exit /b

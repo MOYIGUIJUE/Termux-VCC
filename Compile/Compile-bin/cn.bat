@@ -139,25 +139,31 @@ exit /b
 
 REM 查看环境变量下所有的可执行文件
 :exts
-if not exist "%Desk%\allpath" md %Desk%\allpath
-cd.>%Desk%\paths.txt
-echo;*.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC | sed "s/;/ */g" > %Desk%\allpath\PATHEXT.txt
-set /p EXTS=<%Desk%\allpath\PATHEXT.txt
-echo;dir /b %EXTS%
+if not exist "%temp%\allpath" md %temp%\allpath
+cd.>%temp%\paths.txt
+echo;*.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC | sed "s/;/ */g" > %temp%\allpath\PATHEXT.txt
+set /p EXTS=<%temp%\allpath\PATHEXT.txt 
+REM echo;dir /b %EXTS%
 set num=1
 for /f "delims=" %%i in ('path ^| sed "s/;/\n/g" ^| sed "/^$/d"') do (
 	if !num! equ 1 (
 		set "tmp=%%i"
 		cd /d !tmp:~5!
-		dir /b %EXTS% >%Desk%\allpath\!num!.txt
-		if exist "!tmp:~5!" ( echo;!num! - !tmp:~5! >>%Desk%\paths.txt ) else echo;!num! - !tmp:~5! [ERROR]>>%Desk%\paths.txt
+		dir /b %EXTS% >%temp%\allpath\!num!.txt 2>nul
+		if exist "!tmp:~5!" ( echo;!num! - !tmp:~5! >>%temp%\paths.txt ) else echo;!num! - !tmp:~5! [ERROR]>>%temp%\paths.txt 
 	) else (
 		cd /d %%i
-		dir /b %EXTS% >%Desk%\allpath\!num!.txt
-		if exist "%%~i" ( echo;!num! - %%i >>%Desk%\paths.txt ) else echo;!num! - %%i [ERROR]>>%Desk%\paths.txt
+		dir /b %EXTS% >%temp%\allpath\!num!.txt 2>nul
+		if exist "%%~i" ( echo;!num! - %%i >>%temp%\paths.txt ) else echo;!num! - %%i [ERROR]>>%temp%\paths.txt 
 	)
 	set /a num+=1
 )
-timeout 2
-if not "%~2"=="" find /i "%~2" %Desk%\allpath\*.txt >>%Desk%\paths.txt
+timeout 1 >nul
+if "%~2"=="" exit /b
+for /f "tokens=1,2,3 delims=:" %%i in ('findstr /i "%~2" "%temp%\allpath\*.txt"') do (
+	sed -n "%%~njp" "%temp%\paths.txt"
+	echo;  + %%k
+)
+REM del /f /q "%temp%\paths.txt"
+REM rd /s /q "%temp%\allpath"
 exit /b

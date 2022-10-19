@@ -1,9 +1,13 @@
 #include <windows.h>
+#include<stdio.h>
 int main(int argc, char *argv[])
 {
-	HWND hWnd = ::GetForegroundWindow();
-	::SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 100, 100, SWP_NOMOVE | SWP_NOSIZE);
-	return FALSE;
+	//HWND hWnd = ::GetForegroundWindow();
+	HWND hWnd = GetConsoleWindow();
+	//HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	if( argc == 2 ) { printf("%d,%X",hWnd,hWnd); return 0; }
+	SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 100, 100, SWP_NOMOVE | SWP_NOSIZE);
+	return 0;
 }
 
 /* void TopWindow(HWND &hWnd) {
