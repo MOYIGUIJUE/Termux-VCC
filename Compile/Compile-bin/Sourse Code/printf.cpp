@@ -10,6 +10,7 @@ int main(int argc,char *argv[])
 		HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 		char num[]="-n";
 		char time[]="-t";
+		char scale[]="-a";//进制
 		if (!strcmp(num,argv[1])){
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),strtol(argv[2],&p,16));
 			for(int j=1;j<=atoi(argv[3]);j++){
@@ -32,6 +33,17 @@ int main(int argc,char *argv[])
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),0x07);
 			return 0;
 		}
+		if (!strcmp(scale,argv[1])){
+			char *stop;
+			int ans=strtol(argv[3], &stop, atoi(argv[2]));
+			printf("HEX %X\n", ans);
+			printf("DEC %d\n", ans);
+			printf("OCT %o\n", ans);
+			char s[16];           
+			itoa(ans,s,2);            
+			printf("BIN %s\n", s);
+			return 0;
+		}
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),strtol(argv[1],&p,16));
 		for(int i=2;i<argc;i++){
 			printf("%s",argv[i]);
@@ -42,6 +54,7 @@ int main(int argc,char *argv[])
 		printf("Usage: printf [color] [str] \n");
 		printf("	or: printf [-n] [color] [number] [str] 设置显示字符串次数number \n");
 		printf("	or: printf [-t] [color] [time] [str] 设置显示每个字符中间间隔时间time \n");
+		printf("	or: printf [-a] [scale] [number] 进制[2-36]进制,数字 \n");
 		printf("	or: printf 无参数显示此帮助信息 \n\n");
 		printf("	color 字体颜色,格式比如0x0e,详细参照color /? \n");
 		printf("	str 字符串 \n");
