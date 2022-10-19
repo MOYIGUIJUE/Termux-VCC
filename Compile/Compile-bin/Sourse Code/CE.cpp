@@ -37,12 +37,12 @@ int main(int argc, char* argv[]) {
     if(argc > 1)
         hand=(HWND)atoi(argv[1]);
     else {
-        printf("Usage: ce [handle]\n");
+        printf("Usage: ce [handle] - 十进制 \n");
         printf("       ce [title] - 也可以输入窗口标题:");
 		cin >> szFileName;
 		hand=FindWindow(NULL, szFileName);
     }
-	
+	//sprintf(hand,"%x",hand);
 	if( hand == NULL ) {
 		printf("NOT FIND HANDLE ");
 		return 0;
@@ -50,6 +50,8 @@ int main(int argc, char* argv[]) {
     GetWindowThreadProcessId(hand,&pidwin);//通过窗口句柄hand找到pid
 	g_hProcess = OpenProcess(PROCESS_ALL_ACCESS, 0, pidwin);//通过pid找到进程句柄,并且得到
 	
+	printf("目标窗口句柄:%X \n",hand);
+	printf("目标PID:%d \n",pidwin);
 	printf("目标进程句柄:%#X \n",g_hProcess);
 	
     BOOL flag = TRUE;
@@ -103,7 +105,7 @@ int main(int argc, char* argv[]) {
 				printf("是否继续修改[Y/N] - \n");
 				chars=getch();
 				if(chars == 78 || chars == 110 ) {
-						if (g_hProcess)
+						/* if (g_hProcess)
 						{
 							DWORD dwEC = 0;
 							BOOL b = GetExitCodeProcess(g_hProcess, &dwEC);
@@ -113,7 +115,7 @@ int main(int argc, char* argv[]) {
 								{ cout << "强行关闭" << endl; }
 							}
 							CloseHandle(g_hProcess);
-						}
+						} */
 					flag = FALSE;
 					break;
 				}
@@ -180,7 +182,7 @@ BOOL FindNext(DWORD dwValue)
 
 void ShowList()
 {
-	int tt_i=0;
+	/* int tt_i=0;
     for (int i = 0; i < g_nListCnt; i++) {
 		tt_i++;
         printf("0X%*X",-12,g_arrList[i]);
@@ -189,7 +191,7 @@ void ShowList()
 			printf("\n");
 		}
     }
-	printf("\n");
+	printf("\n"); */
 	
 	//=====
 	
