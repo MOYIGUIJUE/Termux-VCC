@@ -1,5 +1,4 @@
 #undef UNICODE
-//按老师说的改了项目属性还是没用，搜到的避免字符串转换问题的方法就是加这一句
 #include<stdio.h>
 #include<Windows.h>
 #include<conio.h>
@@ -31,36 +30,28 @@ void ShowList(); //显示有效的地址列表
 BOOL WriteMemory(DWORD dwAddr, DWORD dwValue); //修改地址处的值
 
 int main(int argc, char* argv[]) {
-    //system("chcp 65001");
-    //首先通过CreateProcess将目标进程加载，然后才能访问目标进程的内存空间
-    char szFileName[100];
-    //从命令行读取参数或者请求输入
+    HWND hand;//声明窗口句柄,这样就可以用findwindow方法来找进程pid
+    char szFileName[256];
+    DWORD pidwin;//声明pid
+	
     if(argc > 1)
-        strcpy(szFileName, argv[1]);
+        hand=(HWND)atoi(argv[1]);
     else {
-        printf("请输入要修改的程序:");
-        std::cin >> szFileName;
+        printf("Usage: ce [handle]\n");
+        printf("       ce [title] - 也可以输入窗口标题:");
+		cin >> szFileName;
+		hand=FindWindow(NULL, szFileName);
     }
-    STARTUPINFO si;
-    memset(&si, 0, sizeof(si));
-    PROCESS_INFORMATION pi;
-    BOOL bRet = ::CreateProcess(
-            NULL,
-            szFileName,
-            NULL,
-            NULL,
-            FALSE,
-            CREATE_NEW_CONSOLE,
-            NULL,
-            NULL,
-            &si,
-            &pi
-    );
-    g_hProcess = pi.hProcess; //将目标进程的句柄保存在全局变量中
-	printf("进程句柄:%#X \n",pi.hProcess);
-	printf("主线程句柄:%#X \n",pi.hThread);
-	printf("进程ID:%d \n",pi.dwProcessId);
-	printf("线程ID:%d \n",pi.dwThreadId);
+	
+	if( hand == NULL ) {
+		printf("NOT FIND HANDLE ");
+		return 0;
+	}
+    GetWindowThreadProcessId(hand,&pidwin);//通过窗口句柄hand找到pid
+	g_hProcess = OpenProcess(PROCESS_ALL_ACCESS, 0, pidwin);//通过pid找到进程句柄,并且得到
+	
+	printf("目标进程句柄:%#X \n",g_hProcess);
+	
     BOOL flag = TRUE;
     int iVal;
 	char chars;
