@@ -51,8 +51,6 @@
 
 > 附加说明：本集合不依赖任何运行库，您只需安装一次 **TERMUX-VCC** 至目标电脑即可运行，安装一次即可，如果版本有更新初始页面会提示升级，运行 **install -d** 即可。 
 
-[完整帮助文档](https://raw.githubusercontent.com/imengyu/JiYuTrainer/master/帮助.png)
-
 ---
 
 一些提示
