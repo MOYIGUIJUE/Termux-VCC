@@ -5,7 +5,7 @@ int main(int argc, char *argv[])
 	//HWND hWnd = ::GetForegroundWindow();
 	HWND hWnd = GetConsoleWindow();
 	//HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	if( argc == 2 ) { printf("%d,%X",hWnd,hWnd); return 0; }
+	if( argc == 2 ) { printf("%d,%X",hWnd,hWnd); return 0; } //打印控制台窗口句柄
 	SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 100, 100, SWP_NOMOVE | SWP_NOSIZE);
 	return 0;
 }

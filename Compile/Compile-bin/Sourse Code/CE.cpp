@@ -1,3 +1,4 @@
+//遍历桌面句柄
 #undef UNICODE
 #include<stdio.h>
 #include<Windows.h>
@@ -123,6 +124,11 @@ int main(int argc, char* argv[]) {
 			
         } else {
             printf("未找到地址\n");
+			printf("是否继续[Y/N] - \n");
+				chars=getch();
+				if(chars == 78 || chars == 110 ) {
+					break;
+				}
         }
     }
     return 0;
@@ -200,7 +206,7 @@ void ShowList()
 	
 	for (int i = 0; i < g_nListCnt; i++) {
 		filenames[i]=new char[25];
-		snprintf(filenames[i],25,"%#X",g_arrList[i]);
+		snprintf(filenames[i],25,"%X",g_arrList[i]);
 		//printf("%s  ",filenames[i]);
 	}
 	

@@ -20,6 +20,10 @@ for %%i in (a b c d e f g h i j k l m n o p q r s t u v w x y z) do (
 	call set used=%%used:%%i=%%i%%
 )
 if not defined TERMUX-VCC set "TERMUX-VCC=%~n0" & path=%~dp0Compile\Compile-bin;%path%
+if "%PROCESSOR_ARCHITECTURE%"=="x86" path=%~dp0FILE\Compile-bin;%path%
+set "vcc_h=%~dp0"
+if not defined VCC_HOME set VCC_HOME=%vcc_h:~0,-1%
+set vcc_h=
 color 07
 seta -a 180
 sico %~dp0Compile\Home\empty.ico
@@ -49,9 +53,8 @@ doskey tns="%~dp0FILE\Notepad++\notepad++.exe" "%~dp0Compile\Compile-bin\$*.bat"
 doskey news=new.bat $* ^& "%~dp0FILE\Notepad++\notepad++.exe" $*
 set dates=%date:~0,-3%
 echo;
-set /a install_show=%time:~6,2% %% 8
 if exist "%Temp%\%dates:/=-%.install" ( 
-	if %install_show% LSS 1 ( call install -v ) else call vcc -v
+	call vcc -v
 ) else call install -c
 echo;
 prompt %used%@%COMPUTERNAME%[$P]$$$S
@@ -88,13 +91,13 @@ if "%new_version:.=%" GTR "%version:.=%" (
 ) else echo;  - Íê³É -
 exit /b
 
-
 :vcc_version_add
 for /f "tokens=1,2,3 delims=." %%i in ("%~1") do (
 	set tal=%%i
 	set mid=%%j
 	set low=%%k
 )
+
 set /a low+=1
 if %low% GTR 9 set /a mid+=1 & set low=0
 if %mid% GTR 9 set /a tal+=1 & set mid=0

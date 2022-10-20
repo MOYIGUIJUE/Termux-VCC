@@ -1,8 +1,8 @@
 @echo off & setlocal enabledelayedexpansion
 path=%~dp0..\..\FILE\bin;%path%
-if "%1"=="-c" start cmd /c "%~dp0..\Com.bat" %2 %3 &exit /b
-if "%1"=="time_seconds_ms" goto :%1
-for %%i in ("%1") do ( if /i "%%~xi" == ".exe" call :time_seconds_ms 1 %%~ni &exit /b)
+if "%~1"=="-c" start cmd /c "%~dp0..\Com.bat" %2 %3 &exit /b
+if "%~1"=="time_seconds_ms" goto :%1
+for %%i in ("%~1") do ( if /i "%%~xi" == ".exe" call :time_seconds_ms 1 %%~ni &exit /b)
 set "time_start=%~dpnx0"
 if not "%~1" == "" (
 	:main
@@ -21,8 +21,10 @@ if not "%~1" == "" (
 rem --------------------compile--------------------
 :compile
 echos 0x03 ’˝‘⁄±‡“Î[%~nx1]«Î…‘∫Ú...
-echos 0x0e %com% "%~1" -o "%~n1"
-%com% "%~1" -o "%~n1" && echos 0x0a ====±‡“Î≥…π¶==== || echos 0x0c ====±‡“Î ß∞‹====
+echos 0x0e "%com% \"%~1\" -o \"%~n1\""
+pushd %~dp1
+%com% "%~nx1" -o "%~n1" && echos 0x0a ====±‡“Î≥…π¶==== || echos 0x0c ====±‡“Î ß∞‹====
+popd
 goto :eof
 rem ----------------names-----------------
 :names
