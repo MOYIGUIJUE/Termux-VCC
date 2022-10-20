@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include<iostream>
 #include<iomanip>
+//#include <cctype> //判断字符类型需要的头文件
 using namespace std;
 
 
@@ -35,9 +36,23 @@ int main(int argc, char* argv[]) {
     char szFileName[256];
     DWORD pidwin;//声明pid
 	
-    if(argc > 1)
-        hand=(HWND)atoi(argv[1]);
-    else {
+    if(argc == 2) {
+		bool isdig = true;//判断字符
+		char *str=new char[20];
+		str=argv[1];
+		for(int j = 0;j < strlen(str);j++){
+			if(!isdigit(str[j])){ //判断字符是否是数字
+				//printf("%c",str[j]);
+				isdig = false;
+				break;
+			}
+		}
+		if(isdig) hand=(HWND)atoi(argv[1]); 
+		else {
+			printf("输入有误!\n");
+			return 0;
+		}
+    } else {
         printf("Usage: ce [handle] - 十进制 \n");
         printf("       ce [title] - 也可以输入窗口标题:");
 		cin >> szFileName;

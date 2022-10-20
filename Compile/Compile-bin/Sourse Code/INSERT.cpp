@@ -1,6 +1,6 @@
 #include <Windows.h>
 #include <stdio.h>
-using namespace std;
+
 int main(int argc,char *argv[]){
 	if(argc>1){
 		HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);  

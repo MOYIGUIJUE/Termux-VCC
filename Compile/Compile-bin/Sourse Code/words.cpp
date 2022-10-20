@@ -25,7 +25,7 @@ char const* character[] = {"NULL", "SOH", "STX", "ETX ", "EOT ",
 int main(int argc,char *argv[])
 {
 	if(argc<=1){
-		printf("Usage: words [×Ö·û´®] [ÒªÌîÐ´µÄ×Ö·û´®] [×Ö·û´®] \n       char strings[20]; \n       [-key]ASCIIÂë¼üÖµ\n[-asc]´òÓ¡ASCIIÂë±í \n");
+		printf("Usage: words [×Ö·û´®] [ÒªÌîÐ´µÄ×Ö·û´®] [×Ö·û´®] - char strings[20]; \n   or: words [-key] ·µ»Ø°´ÏÂ¼üµÄASCIIÂë¼üÖµ\n   or: words [-asc] ´òÓ¡ASCIIÂë±í \n");
 		return 1;
 	}
 	if(!strcmp(argv[1],"-key")){

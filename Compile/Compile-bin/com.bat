@@ -32,6 +32,7 @@ rem ----------------names-----------------
 		if /i "%~x1" == ".c" (set "com=gcc") Else ( exit /b 404 )
 	)
 	if not exist "%~1" (
+		echo;未找到%1,创建中...
 		call :file-names %1
 	) else (
 		call :compile %1
