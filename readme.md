@@ -1,6 +1,6 @@
 <p align="center">
   <a href="#">
-    <img alt="Termux Vcc" src="https://gitee.com/cctv3058084277/main/image/Termux-VCC.png" width="128">
+    <img alt="Termux Vcc" src="image/Termux-VCC.png" width="128">
   </a>
 </p>
 
