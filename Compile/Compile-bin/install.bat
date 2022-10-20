@@ -8,14 +8,16 @@ if "%~1" == "-vcc" (
 	goto :show_update
 ) else if "%~1" == "-d" (
 	goto :down_update
+) else if "%~1" == "-f" (
+	goto :f_update
 ) else (
 	echo;Usage: install [arguments] {[-c][-d]} 
-	echo;   or: install [arguments] {[-vcc]} [path]
+	echo;   or: install [arguments] {[-vcc][-f]} [path]
 	echo;&echo;Arguments:
 	echo;   -c: 	检查更新
 	echo;   -d: 	更新
-	echo;   -vcc		安装本程序集合到指定目录[path]
-	echo;      		其余显示此帮助信息
+	echo;   -f: 	强制更新
+	echo;   -vcc	安装本程序集合到指定目录[path]
 	exit /b
 )
 
@@ -113,7 +115,6 @@ exit /b
 
 :down_update
 	curl www.baidu.com 2>nul>nul || (
-		echo;
 		printf 0xc0 " ERROR "
 		echo; 未连接网络
 		exit /b
@@ -138,6 +139,7 @@ exit /b
 	) else (
 		echo;  - 当前版本: %version% -
 		echo;  - 检测到当前不是最新版本,开始下载...
+		echo;  - https:/%var2:"=%
 		goto :end_update_down
 	)
 exit /b
@@ -147,5 +149,17 @@ pushd "%temp%"
 if exist TERMUX-VCC.7z del /f /q TERMUX-VCC.7z
 call down https://gitee.com/cctv3058084277/cctvpage1/releases/download/TERMUX-VCC/TERMUX-VCC.7z
 call 7z x .\TERMUX-VCC.7z -o.\termux -aoa
-call .\termux\termux.bat /u
+.\termux\termux.bat /u
 popd
+exit /b
+
+:f_update
+if exist "%~2" (
+	echo;%temp%\termux\Termux.bat -^> %2
+	copy /y %temp%\termux\Termux.bat %2
+	xcopy /e /y /h /r /f "%temp%\termux\Compile" %2
+	exit /b
+)
+echo;%temp%\termux\Termux.bat -^> %~dp0..\..
+copy /y %temp%\termux\Termux.bat "%~dp0..\.."
+xcopy /e /y /h /r /f "%temp%\termux\Compile" "%~dp0..\..\Compile"

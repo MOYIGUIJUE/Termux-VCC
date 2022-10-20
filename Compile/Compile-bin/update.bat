@@ -71,5 +71,8 @@ for /r "%VCC_HOME%\Compile" %%i in (*) do (
 	)
 )
 echo;
-if "%~2"=="" ( echo;  -- [ CHANGE %change% ADD %add% REDUCE %reduce% ] --  ) else echo;  -- RUN CODE --  [%%TEMP%%\RUN_UPDATE.CMD]
+if exist "%~2" ( 
+echo;  -- RUN CODE --  [%%TEMP%%\RUN_UPDATE.CMD]
+echo;  -- [ CHANGE %change% ADD %add% REDUCE %reduce% ] --
+) else echo;  -- [ CHANGE %change% ADD %add% REDUCE %reduce% ] --
 exit /b
