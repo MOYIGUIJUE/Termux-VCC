@@ -16,22 +16,22 @@
 简介
 ---
 
-本集合意在为了方便操作windows，如果你对windows桌面运用，命令行脚本感兴趣，本集合很可能会帮到你。
+本集合意在为了方便操作windows，如果你对命令行脚本感兴趣，本集合很可能会帮到你。
 
 > 想在windows上学习linux上的命令? 想深入了解句柄、内存、命令行本质?想学习shell脚本，各个脚本之间的调用？自己写命令？
 
 如果你被以上问题困扰，本集合可能是您非常想要的。
 
-这是一个通过shell脚本调用运行的集合，也就是说，是以cmd为基础运行，你不仅可以使用cmd自带的命令，也还可以使用本集合提供的命令。
+这是一个通过shell脚本调用运行的集合，也就是说，是以cmd为基础运行的，你不仅可以使用cmd自带的命令，也还可以使用本集合提供的命令。
 
 如果你觉得这个集合不错，不妨加个小星星⭐吧，你的喜欢是对我最大的支持！
 
 功能
 ---
-* Compile-bin目录下是所有的外部命令
-* 宏命令在termux.bat内定义
-* Compile-include目录下收集了体积较小的 Everything 、Tcc、sqlite、spy++、NeatDM 等工具
-* 发行版内的 FILE目录下收集了 notepad++8.1.0、VIM82、Gcc 3.4.0 、开源的 CuteHttpFileServer  和 JiYuTrainer 等工具
+* Compile-bin 目录下是所有的外部命令
+* 宏命令在 Termux.bat 内定义
+* Compile-include 目录下收集了体积较小的 Everything 、Tcc、sqlite、spy++、NeatDM 等工具
+* 发行版内的 FILE 目录下收集了 notepad++8.1.0、VIM82、Gcc 3.4.0 、CuteHttpFileServer  和 JiYuTrainer 等工具
 
 下载
 ---
@@ -81,7 +81,7 @@
 
 | 如果需要编译Server.cpp，您还需要添加编译参数: |
 | :-------------------------------------------- |
-| -lwsock32                                     |
+| **-lwsock32**                                 |
 
 使用的第三方库
 ---
