@@ -51,6 +51,7 @@ doskey fe=explorer "%%cd%%"
 doskey tn="%~dp0FILE\Notepad++\notepad++.exe" %~f0
 doskey tns="%~dp0FILE\Notepad++\notepad++.exe" "%~dp0Compile\Compile-bin\$*.bat" 
 doskey news=new.bat $* ^& "%~dp0FILE\Notepad++\notepad++.exe" $*
+doskey ee=echo;%%errorlevel%%
 set dates=%date:~0,-3%
 echo;
 if exist "%Temp%\%dates:/=-%.install" ( 
