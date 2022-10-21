@@ -5,28 +5,51 @@ set VCC_HOME=%CD%
 popd
 for %%i in (%VCC_HOME%) do set "home=%%~pnxi"
 call vcc -v >nul
-set FILE_CHECK=REM 
+
+REM 准备工作
+set reduce=0
+set add=0
+set change=0
+set REMSS=REM
+if exist "%~2" (
+	set REMSS=
+	set "MD_PATH=%~2"
+	if "!MD_PATH:~-1,1!"=="\" (
+		echo;路径最后不能带\
+		exit /b
+	)
+)
+%REMSS% echo;@echo off >"%temp%\run_update.cmd"
+%REMSS% echo;copy /y "%VCC_HOME%\Termux.bat" "%~2\" >>"%temp%\run_update.cmd"
+
 if "%~1"=="-c" (
 	if not "%~3"=="" set version=%3
 	goto :check
 ) else if "%~1"=="-f" (
-	if not "%~3"=="" set version=%3
-	set FILE_CHECK=
-	goto :check
+	if not exist "%~2" (
+		echo;[ERROR] 路径不存在
+		exit /b
+	)
+	goto CHECK_FILE
 ) else if "%~1"=="-l" (
 	goto :log
 ) else if "%~1"=="-t" (
 	dir /b %temp%\?.?.?.log %temp%\?.?.?.cmd
 ) else (
 	echo;
-	echo;Usage: update [arguments] {[-c][-f]} [path] [version]
+	echo;Usage: update [arguments] [-c] [path] [version]
+	echo;   or: update [arguments] [-f] [path]
 	echo;   or: update [arguments] {[-t][-l]}
-	echo;  
+	echo;
 	echo;Arguments:
 	echo;   -l:  生成本版本文件目录信息
-	echo;   -c:  比较[version]版本信息记录的文件大小、生成更新脚本
+	echo;   -t:  查看临时目录下版本文件   
 	echo;   -f:  比较[path]文件内容、生成更新脚本
-	echo;   -t:  查看临时目录下版本文件
+	echo;   -c:  比较[version]版本信息记录的文件大小、生成更新脚本
+	echo;
+	echo;Others: 
+	echo;        更新脚本位于 %%temp%%\run_update.cmd
+	echo;    
 )
 exit /b
 
@@ -46,22 +69,7 @@ exit /b
 if not exist "%tmp%\%version%.cmd" echo;Not find %version%.cmd & exit /b
 if not exist "%tmp%\%version%.log" echo;Not find %version%.log & exit /b
 
-REM 计数
-set reduce=0
-set add=0
-set adds=0
-set change=0
-set changes=0
-set REMSS=REM
-if exist "%~2" set REMSS=
-
-%FILE_CHECK% %REMSS% echo;  - 对比 %VCC_HOME% 和 %2 [ - ]
-%FILE_CHECK% %REMSS% echo;  - Press any key to continue ...
-%FILE_CHECK% %REMSS% pause >nul
-
 call %tmp%\%version%.cmd
-%REMSS% echo;@echo off >"%temp%\run_update.cmd"
-%REMSS% echo;copy /y "%VCC_HOME%\Termux.bat" "%~2\" >>"%temp%\run_update.cmd"
 
 echo;
 for /f "delims=" %%i in (%tmp%\%version%.log) do (
@@ -78,13 +86,36 @@ for /r "%VCC_HOME%\Compile" %%i in (*) do (
 	if "!name!" NEQ "%%~zi" (
 		if "!name!"=="" ( echo;  + %%i & set /a add+=1 ) else echo;  * %%i & set /a change+=1
 		%REMSS% echo;copy /y "%%~i" "%~2!tmps!" >>"%temp%\run_update.cmd"
-	) else (
-		%FILE_CHECK% %REMSS% if "%home%"=="\" (set "tmps=!tm!") else set "tmps=!tm:%home%=!"
-		%FILE_CHECK% %REMSS% FC "%%i" "%~2!tmps!" 2>nul>nul || ( if !errorlevel! EQU 2 ( echo;  # %~2!tmps! & set /a adds+=1 ) else echo;  @ %%i & set /a changes+=1 )
 	)
 )
+goto :show_result
+
+:CHECK_FILE
+echo;  对比 %VCC_HOME% 和 %2 [ - ]
+echo;  Press any key to continue ...
+pause >nul
+for /r "%2\Compile" %%i in (*) do (
+	set "tm=%%~pnxi"
+	set "tmps=!tm:%~2=!"
+	if not exist "%VCC_HOME%!tmps!" (
+		echo;  - %VCC_HOME%!tmps!
+		set /a reduce+=1
+		echo;del /f /q "%%~i" >>"%temp%\run_update.cmd"
+	)
+)
+
+for /r "%VCC_HOME%\Compile" %%i in (*) do (
+	set "tm=%%~pnxi"
+	if "%home%"=="\" (set "tmps=!tm!") else set "tmps=!tm:%home%=!"
+	FC "%%i" "%~2!tmps!" 2>nul>nul || (
+		if !errorlevel! EQU 2 (
+			echo;  + %~2!tmps!
+			set /a add+=1
+		) else echo;  * %%i & set /a change+=1 
+		echo;copy /y "%%~i" "%~2!tmps!" >>"%temp%\run_update.cmd"
+	)
+)
+
+:show_result
 echo;
-if exist "%~2" (
-echo;  -- [ REDUCE %reduce% CHANGE %change% ADD %add% FCA %adds% FCC %changes% ] --
-) else echo;  -- [ REDUCE %reduce% CHANGE %change% ADD %add% ] --
-exit /b
+echo;  -- [ REDUCE %reduce% CHANGE %change% ADD %add% ] --
