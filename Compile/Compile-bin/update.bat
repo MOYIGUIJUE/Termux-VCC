@@ -48,7 +48,7 @@ if "%~1"=="-c" (
 	echo;   -c:  比较[version]版本信息记录的文件大小、生成更新脚本
 	echo;
 	echo;Others: 
-	echo;        更新脚本位于 %%temp%%\run_update.cmd
+	echo;   更新脚本[%%temp%%\run_update.cmd]
 	echo;    
 )
 exit /b
