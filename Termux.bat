@@ -31,9 +31,9 @@ modes 70 15
 for /f "tokens=2,*" %%i in ('reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" /v "Desktop"') do set "Desk=%%j"
 set LANG=zh_CN
 doskey cat=type $*
-doskey cp=copy $*
+doskey cp=copy /y $*
 doskey clear=Title ^& cls ^& color 07 ^& modes 70 15 ^& echo; ^& install -v
-doskey mv=move $*
+doskey mv=move /y $*
 doskey rv=recycle $*
 doskey pwd=cd
 doskey cds=cd /d $*
@@ -48,6 +48,7 @@ doskey ca=set /a $*
 doskey listf=tasklist ^| findstr /i $*
 doskey kill=taskkill -f -im $*
 doskey fe=explorer "%%cd%%"
+doskey fes=explorer $*
 doskey tn="%~dp0FILE\Notepad++\notepad++.exe" %~f0
 doskey tns="%~dp0FILE\Notepad++\notepad++.exe" "%~dp0Compile\Compile-bin\$*.bat" 
 doskey news=new.bat $* ^& "%~dp0FILE\Notepad++\notepad++.exe" $*

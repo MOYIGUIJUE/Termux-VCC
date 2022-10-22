@@ -1,5 +1,6 @@
 @echo off
 setlocal enabledelayedexpansion
+set judge_project_name_error=REM
 if "%~1"=="-p" (
 	call :judge_java_home %2
 	exit /b
@@ -14,9 +15,9 @@ if "%~1"=="-p" (
 ) else if "%~1"=="" (
 	echo;Usage: %~n0 [drive:][path] [filename]
 	echo;   or: %~n0 [-p] [drive:][path] 
-	echo;   or: %~n0 {[-j][-jc]} [project_name] [package_name]
+	echo;   or: %~n0 {[-j][-jc]} [project_name] [package_name] [main_class]
 	echo;   or: %~n0 [-jr] [project_name] [main_class]
-	echo;   or: %~n0 [-jar] [jar_name] [project_name] [main_class]
+	echo;   or: %~n0 [-jar] [project_name] [jar_name] [main_class]
 	echo;
 	echo;Arguments:
 	echo;   -p:   配置环境变量
@@ -69,7 +70,8 @@ if exist "%~1.class" (
 popd
 exit /b
 
-:java_jar
+:java_jar <-j>
+set project_name=
 if "%~2"=="" (
 	set /p project_name=项目名称: 
 	if "!project_name!"=="" exit /b
@@ -80,67 +82,85 @@ if not exist "%project_name%" (
 	echo;项目不存在，创建中...
 	md %project_name% || ( echo;名称有误 & exit /b )
 )
-
 title %project_name%
-cd /d %project_name%
+cd /d %project_name%..\
 
 if "%~3"=="" (
-	set /p package_name=包名[com.main]:
+	call :creat_package
 ) else set "package_name=%~3"
-if not exist "%package_name:.=\%" (
-	echo;包不存在
-	exit /b
-)
 
 :start_Project
-choice /C 1234 /N /M "[1]编译 [2]新建包 [3]打开项目"
-if %errorlevel% EQU 1 goto :compile_java
-if %errorlevel% EQU 2 goto :creat_package
-if %errorlevel% EQU 3 goto :open_Project
-if %errorlevel% EQU 4 goto :eof
-
-exit /b
+choice /C 1234 /N /M "[1]编译 [2]新建包 [3]打开项目 [4]退出"
+if %errorlevel% EQU 1 call :compile_java -jc %project_name% %project_name%
+if %errorlevel% EQU 2 call :creat_package
+if %errorlevel% EQU 3 call :open_Project
+if %errorlevel% EQU 4 goto :EOF
+goto :start_Project
 
 :open_Project
 set /p project_name=项目路径:
 if exist "%project_name%" ( title %project_name% ) else echo;项目不存在
-goto :start_Project
+exit /b
 
 :creat_package
+set package_name=
 set /p package_name=包名:
+if "%package_name%"=="" exit /b
 if not exist "%package_name:.=\%" md %package_name:.=\%
-set /p main_class=新建主类[main]:
+set /p main_class=新建类[main]:
 (
 echo;package %package_name%;
 echo;public class %main_class% {
 echo;
 echo;}
 )>%package_name:.=\%\%main_class%.java
-goto :start_Project
-
-:compile_java
-echo;javac -cp %project_name%\target %package_name%\*.java -d target
-javac -cp %project_name%\target %package_name%\*.java -d target
-exit /b
-
-:run_compile_java
-echo;java -cp %project_name%\target %main_class%
-java -cp %project_name%\target %main_class%
 exit /b
 
 
-:compile_java_jar
+
+:compile_java <-jc>
+call :judge_project_name %2
+%judge_project_name_error% exit /b
+echo;javac -cp %project_name%\target "%~3\*.java" -d target
+javac -cp "%~3\target %package_name%\*.java" -d target
+exit /b
+
+:run_compile_java <-jr>
+call :judge_project_name %2
+%judge_project_name_error% exit /b
+echo;java -cp %project_name%\target %3
+java -cp %project_name%\target %3
+exit /b
+
+
+:compile_java_jar <-ja>
+call :judge_project_name %2
+%judge_project_name_error% exit /b
+pushd %project_name%
 REM jar -cvf my.jar -C target .
 REM java -cp my.jar com.ch07.demo1.TestSound
 (
-echo;Manifest-Version: 1.0 
-echo;Main-Class: %main_class%
+echo;Manifest-Version: 1.0
+echo;Main-Class: %4
 ) >MANIFEST.MF
-jar -cvfm my.jar MANIFEST.MF -C target .
-java -jar my.jar
+echo;jar -cvfm "%~3.jar" MANIFEST.MF -C target .
+jar -cvfm "%~3.jar" MANIFEST.MF -C target .
+popd
 exit /b
 
-
+:judge_project_name
+set project_name=
+if "%~1"=="" (
+	set /p project_name=项目名称[路径]: 
+	if "!project_name!"=="" exit /b
+) else (
+	set "project_name=%~1"
+)
+if not exist "%project_name%" (
+	echo;项目\路径不存在
+	set judge_project_name_error=
+)
+exit /b
 
 REM :break
 REM set break=
