@@ -12,9 +12,11 @@ int main(int argc, char* argv[])
 		char num[] = "-n";
 		char time[] = "-t";
 		char scale[] = "-a";//½øÖÆ
-		WORD w = atoi(argv[2]);
+		char* stop = new char[20];
+		WORD w = strtol(argv[1], &stop, 16);
+		WORD w1 = strtol(argv[2], &stop, 16);
 		if (!strcmp(num, argv[1])) {
-			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), w);
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), w1);
 			for (int j = 1; j <= atoi(argv[3]); j++) {
 				for (int i = 4; i < argc; i++) {
 					printf("%s", argv[i]);
@@ -24,7 +26,7 @@ int main(int argc, char* argv[])
 			return 0;
 		}
 		if (!strcmp(time, argv[1])) {
-			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), w);
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), w1);
 			string s = argv[4];
 			size_t COUNT = s.length();
 			for (size_t i(0); i < COUNT; i += 1)
@@ -36,7 +38,6 @@ int main(int argc, char* argv[])
 			return 0;
 		}
 		if (!strcmp(scale, argv[1])) {
-			char* stop = new char [20];
 			long ans = strtol(argv[3], &stop, atoi(argv[2]));
 			printf("HEX: %X\n", ans);
 			printf("DEC: %d\n", ans);
