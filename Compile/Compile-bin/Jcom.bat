@@ -112,6 +112,7 @@ set main_class=!main_class:%cds%=!
 choice /M ". -  «∑Ò±‡“Î"
 if errorlevel 2 goto :java_jar
 echo;
+if not exist target md target
 for /r %%i in (*.java) do (
 	if not "%%~pni"=="%main_class_copy%" (
 		echo;  - %%~nxi
