@@ -147,9 +147,9 @@ exit /b
 :end_update_down
 pushd "%temp%"
 if exist TERMUX-VCC.7z del /f /q TERMUX-VCC.7z
-call down https://gitee.com/cctv3058084277/cctvpage1/archive/refs/tags/TERMUX-VCC.zip
-call 7z x .\TERMUX-VCC.zip -o.\termux -aoa
-.\termux\termux.bat /u
+call down https://gitee.com/cctv3058084277/cctvpage1/releases/download/TERMUX-VCC/TERMUX-VCC.7z
+call 7z x .\TERMUX-VCC.7z -o.\termux -aoa
+call .\termux\termux.bat /u
 popd
 exit /b
 
