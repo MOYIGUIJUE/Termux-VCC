@@ -64,6 +64,8 @@ popd
 exit /b
 
 :compile_java_tree
+set FILE_NAME=0
+for /f %%i in ('dir /b') do set /a FILE_NAME+=1
 for /f %%i in ('dir /b') do (
 	cd %%i 2>nul && (
 		printf -n 07 !deep! "©¦   "
@@ -77,14 +79,16 @@ for /f %%i in ('dir /b') do (
 				set main_class=%%~pni
 				set main_class_copy=%%~pni
 				echo;©À©¤ %%i [main class]
-			) || echo;©À©¤ %%i
+			) || echo;©À©¤ %%i 
 		) else echo;©À©¤ %%i
 	)
 )
+
 set /a deep-=1
 if "%cd%"=="%cds%" exit /b
 cd..
 exit /b
+
 REM -----------
 :compile_java <-j>
 	set deep=0
@@ -93,6 +97,7 @@ REM -----------
 	echo;
 	set cds=%cd%
 	set main_class=
+	set FILE_NUM=0
 call :compile_java_tree
 echo;
 if not exist "src\" (

@@ -20,7 +20,7 @@ if exist "%~2" (
 	)
 )
 %REMSS% echo;@echo off >"%temp%\run_update.cmd"
-%REMSS% echo;copy /y "%VCC_HOME%\Termux.bat" "%~2\" >>"%temp%\run_update.cmd"
+%REMSS% FC "%VCC_HOME%\Termux.bat" "%~2\Termux.bat" 2>nul>nul || echo;copy /y "%VCC_HOME%\Termux.bat" "%~2\" >>"%temp%\run_update.cmd"
 
 if "%~1"=="-c" (
 	if not "%~3"=="" set version=%3
@@ -33,19 +33,22 @@ if "%~1"=="-c" (
 	goto CHECK_FILE
 ) else if "%~1"=="-l" (
 	goto :log
+) else if "%~1"=="-r" (
+	goto :run_update
 ) else if "%~1"=="-t" (
 	dir /b %temp%\?.?.?.log %temp%\?.?.?.cmd
 ) else (
 	echo;
 	echo;Usage: update [arguments] [-c] [path] [version]
 	echo;   or: update [arguments] [-f] [path]
-	echo;   or: update [arguments] {[-t][-l]}
+	echo;   or: update [arguments] {[-t][-l][-r]}
 	echo;
 	echo;Arguments:
 	echo;   -l:  生成本版本文件目录信息
 	echo;   -t:  查看临时目录下版本文件   
 	echo;   -f:  比较[path]文件内容、生成更新脚本
 	echo;   -c:  比较[version]版本信息记录的文件大小、生成更新脚本
+	echo;   -r:  运行更新脚本
 	echo;
 	echo;Others: 
 	echo;   更新脚本[%%temp%%\run_update.cmd]
@@ -94,9 +97,10 @@ goto :show_result
 echo;  对比 %VCC_HOME% 和 %2 [ - ]
 echo;  Press any key to continue ...
 pause >nul
+echo;
 for /r "%2\Compile" %%i in (*) do (
-	set "tm=%%~pnxi"
-	set "tmps=!tm:%~2=!"
+	 set "tm=%%~pnxi"
+	if "%~pnx2"=="\" ( set "tmps=!tm!" ) else set "tmps=!tm:%~pnx2=!"
 	if not exist "%VCC_HOME%!tmps!" (
 		echo;  - %VCC_HOME%!tmps!
 		set /a reduce+=1
@@ -119,3 +123,11 @@ for /r "%VCC_HOME%\Compile" %%i in (*) do (
 :show_result
 echo;
 echo;  -- [ REDUCE %reduce% CHANGE %change% ADD %add% ] --
+exit /b
+
+:run_update
+type "%temp%\run_update.cmd"
+echo;
+choice /M ". - 是否更新"
+echo;
+if %errorlevel% EQU 1 "%temp%\run_update.cmd"
