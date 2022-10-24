@@ -19,7 +19,7 @@ set used=%USERNAME%
 for %%i in (a b c d e f g h i j k l m n o p q r s t u v w x y z) do ( 
 	call set used=%%used:%%i=%%i%%
 )
-if not defined TERMUX-VCC set "TERMUX-VCC=%~n0" & path=%~dp0Compile\Compile-bin;%path%
+if not defined TERMUX-VCC set "TERMUX-VCC=%~n0" & path=%~dp0Compile\Compile-bin;%path% & call %~dp0my_path.cmd 2>nul>nul
 if "%PROCESSOR_ARCHITECTURE%"=="x86" path=%~dp0FILE\Compile-bin;%path%
 set "vcc_h=%~dp0"
 if not defined VCC_HOME set VCC_HOME=%vcc_h:~0,-1%
