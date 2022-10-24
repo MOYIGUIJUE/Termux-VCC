@@ -94,8 +94,8 @@ for /r "%VCC_HOME%\Compile" %%i in (*) do (
 goto :show_result
 
 :CHECK_FILE
-echo;  对比 %VCC_HOME% 和 %2 [ - ]
-echo;  Press any key to continue ...
+echo;  - 对比 %VCC_HOME% 和 %2 [ - ]
+echo;  - Press any key to continue ...
 pause >nul
 echo;
 for /r "%2\Compile" %%i in (*) do (
