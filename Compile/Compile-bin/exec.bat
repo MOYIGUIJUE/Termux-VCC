@@ -7,8 +7,8 @@ if "%~1"=="" (
 	exit /b
 )
 title HKCR_REG
-%2mshta vbscript:createobject("shell.application").shellexecute("""%~dpnx0""","%~1 ::",,"runas",1)(window.close)&exit /b
-cd /d %~dp0..\..
+%3mshta vbscript:createobject("shell.application").shellexecute("""%~dpnx0""","%~1 %cd% ::",,"runas",1)(window.close)&exit /b
+cd /d %2
 path=%~dp0;%path%
 set "TERMUX-VCC=%~n0"
 seta -a 180
