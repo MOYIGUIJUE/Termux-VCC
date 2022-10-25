@@ -62,7 +62,7 @@ echo;
 prompt %used%@%COMPUTERNAME%[$P]$+$$$S
 Set /P=[3 q< Nul
 cmd /k %2
-prompt [ %IPv4% $B %version% $B $P ]$_$+$$$S
+prompt %used%@%COMPUTERNAME%[$T$H$H$H]$+$$$S
 cmd /k
 call :showcmd
 exit /b 
