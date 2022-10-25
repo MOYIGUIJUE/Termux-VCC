@@ -59,9 +59,11 @@ if exist "%Temp%\%dates:/=-%.install" (
 	call vcc -v
 ) else call install -c
 echo;
-prompt %used%@%COMPUTERNAME%[$P]$$$S
+prompt %used%@%COMPUTERNAME%[$P]$+$$$S
 Set /P=[3 q< Nul
 cmd /k %2
+prompt [ %IPv4% $B %version% $B $P ]$_$+$$$S
+cmd /k
 call :showcmd
 exit /b 
 :showcmd
