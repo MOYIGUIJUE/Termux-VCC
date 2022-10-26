@@ -38,6 +38,7 @@ echo;
 CmdMenuSel 0708 "  - CONTINUE" "  - HELP" "  - QUIT"
 if %errorlevel% equ 2 goto :helps
 if %errorlevel% equ 3 exit /b
+tasklist | findstr /i tray.exe || start tray "cmd.exe /c %~dp0..\..\Termux.bat" %~dp0..\home\console.ico %~dp0..\home\console.ico
 cls
 echo;  ^< 目录 ^>
 echo;
@@ -123,10 +124,11 @@ exit /b
 echo;  - 第五章 外部命令
 call :showcmd "start cmatrix"
 start cmatrix.exe
-echo;	启动数字雨程序
+echo;  - 启动数字雨程序
 call :showcmd "zms"
-start zms.exe
-echo;	设置为Progman子窗口，嵌入桌面
+sleep 2000
+zms.exe
+echo;  - 设置为Progman子窗口,嵌入桌面
 exit /b
 
 :book_6

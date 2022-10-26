@@ -36,7 +36,7 @@ doskey clear=Title ^& cls ^& color 07 ^& modes 70 15 ^& echo; ^& install -v
 doskey mv=move /y $*
 doskey rv=recycle $*
 doskey pwd=cd
-doskey cds=cd /d $*
+doskey cd=cd /d $*
 doskey ll=ls --color=auto $*
 doskey note="%~dp0FILE\Notepad++\notepad++.exe" $*
 doskey tcc="%~dp0Compile\Compile-include\tcc.exe" $*
@@ -50,7 +50,7 @@ doskey kill=taskkill -f -im $*
 doskey fe=explorer "%%cd%%"
 doskey fes=explorer $*
 doskey tn="%~dp0FILE\Notepad++\notepad++.exe" %~f0
-doskey tns="%~dp0FILE\Notepad++\notepad++.exe" "%~dp0Compile\Compile-bin\$*.bat" 
+doskey bin="%~dp0FILE\Notepad++\notepad++.exe" "%~dp0Compile\Compile-bin\$*.bat" 
 doskey news=new.bat $* ^& "%~dp0FILE\Notepad++\notepad++.exe" $*
 doskey ee=echo;%%errorlevel%%
 set dates=%date:~0,-3%

@@ -178,7 +178,7 @@ static struct tray tray = {
 int main(int argc, char* argv[])
 {
 	if( argc != 4 ){
-		printf("Usage: tray [filename][TRAY_ICON1][TRAY_ICON2]");
+		printf("Usage: tray [filename][TRAY_ICON1][TRAY_ICON2]\n");
 		return 0;
 	}
 	strcpy(filename,argv[1]);
