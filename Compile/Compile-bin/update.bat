@@ -4,6 +4,7 @@ pushd %~dp0..\..
 set VCC_HOME=%CD%
 popd
 for %%i in (%VCC_HOME%) do set "home=%%~pnxi"
+if "%VCC_HOME%"=="\" set "VCC_HOME=%VCC_HOME:~0,-1%"
 call vcc -v >nul
 
 REM 准备工作
