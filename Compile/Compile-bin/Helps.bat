@@ -38,7 +38,6 @@ echo;
 CmdMenuSel 0708 "  - CONTINUE" "  - HELP" "  - QUIT"
 if %errorlevel% equ 2 goto :helps
 if %errorlevel% equ 3 exit /b
-tasklist | findstr /i tray.exe || start tray "cmd.exe /c %~dp0..\..\Termux.bat" %~dp0..\home\console.ico %~dp0..\home\console-off.ico
 cls
 echo;  ^< 目录 ^>
 echo;
@@ -50,8 +49,8 @@ goto :book_%errorlevel%
 gotoxy -l 0 0
 echo;  - 第一章 安装和使用
 echo;
-echo;  - 就这样,再那样
-echo;  - 学会了吧,点击确定
+echo;  - 就这样,再那样,学会了吧,点击确定后
+echo;  - 右下角托盘处会有一个图标,右键点击quit退出
 length "确定"
 call :mouse 40 7 %errorlevel% 7 70 "确定" 1
 if %errorlevel% EQU 1 goto :TimeMain
@@ -259,6 +258,7 @@ echo;
 exit /b
 
 :TimeMain
+tasklist | findstr /i tray.exe || start tray "cmd.exe /c %~dp0..\..\Termux.bat" %~dp0..\home\console.ico %~dp0..\home\console-off.ico
 @Mode Con: Cols=128 Lines=9 & Chcp 437 > Nul & Title Clock & @SetLocal EnableExtensions EnableDelayedExpansion
 	@Call :SetConsoleTextAttribute 0-0-0 58-150-221
 	@Cls
