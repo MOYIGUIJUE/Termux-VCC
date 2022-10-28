@@ -24,8 +24,8 @@
 //#define TRAY_ICON2 "icons.ico"
 #endif
 
-HANDLE g_hProcess; //目标进程的句柄
-HWND g_hwnd;
+HANDLE g_hProcess = NULL; //目标进程的句柄
+HWND g_hwnd = NULL;
 static struct tray tray;
 char filename[256];
 char TRAY_ICON1[256];
@@ -77,6 +77,19 @@ static void toggle_cb(struct tray_menu *item) {
 
 static void hello_cb(struct tray_menu *item) {
   (void)item;
+  //--------
+		HWND hd=GetDesktopWindow();  
+		hd=GetWindow(hd,GW_CHILD);  
+		while(hd!=NULL)  
+		{
+			if (g_hwnd == hd)
+			{
+				printf("  ------- %#X\n",hd);
+				return;
+			}
+			hd=GetNextWindow(hd,GW_HWNDNEXT); 
+		}
+  //--------
   printf("hello cb\n");
 //================
 	char szFileName[256];
@@ -188,6 +201,31 @@ int main(int argc, char* argv[])
 		printf("failed to create tray\n");
 		return 1;
 	}
+	//==============
+	char szFileName[256];
+	strcpy(szFileName,filename);
+    STARTUPINFO si;
+    memset(&si, 0, sizeof(si));
+    PROCESS_INFORMATION pi;
+    BOOL bRet = CreateProcess(
+            NULL,
+            szFileName,
+            NULL,
+            NULL,
+            FALSE,
+            CREATE_NEW_CONSOLE,
+            NULL,
+            NULL,
+            &si,
+            &pi
+    );
+    g_hProcess = pi.hProcess;
+	printf("进程句柄 %#X\n",g_hProcess);
+	printf("进程ID %d\n",pi.dwProcessId);
+	Sleep(1000);
+	g_hwnd=GetWindowHwndByPID(pi.dwProcessId);
+	printf("当前窗口句柄 %X\n",g_hwnd);
+	//===============
 	while (tray_loop(1) == 0) {
 		printf("iteration\n");
 	}

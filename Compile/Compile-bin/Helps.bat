@@ -38,7 +38,7 @@ echo;
 CmdMenuSel 0708 "  - CONTINUE" "  - HELP" "  - QUIT"
 if %errorlevel% equ 2 goto :helps
 if %errorlevel% equ 3 exit /b
-tasklist | findstr /i tray.exe || start tray "cmd.exe /c %~dp0..\..\Termux.bat" %~dp0..\home\console.ico %~dp0..\home\console.ico
+tasklist | findstr /i tray.exe || start tray "cmd.exe /c %~dp0..\..\Termux.bat" %~dp0..\home\console.ico %~dp0..\home\console-off.ico
 cls
 echo;  ^< Ŀ¼ ^>
 echo;
