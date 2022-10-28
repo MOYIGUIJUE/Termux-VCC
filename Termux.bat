@@ -56,7 +56,8 @@ doskey ee=echo;%%errorlevel%%
 set dates=%date:~0,-3%
 echo;
 if exist "%Temp%\%dates:/=-%.install" ( 
-	call vcc -v
+	printfs "  "
+	call fortune
 ) else call install -c
 echo;
 prompt %used%@%COMPUTERNAME%[$P]$+$$$S
